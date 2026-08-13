@@ -35,44 +35,17 @@
   Path = fonts/
 ]
 
-\newfontfamily{\FDIArialFontDefault}{ARIAL.ttf}[
+% Dateiname exakt wie auf der Platte, sonst bricht es auf Linux und
+% Overleaf, wo Gross- und Kleinschreibung unterschieden werden.
+\newfontfamily{\FDIArialFontDefault}{ARIAL.TTF}[
   Path = fonts/
 ]
 
-% Elbische FDI-Schriften
-% Wichtig: Diese Fonts werden NICHT global auf das Dokument angewendet,
-% sondern nur über die FDI-Font-Makros unten verwendet.
-% Renderer=Basic ist bei alten Tengwar-/Symbolfonts oft wichtig.
-
-% Normale FDI-Sprechblasen / Standard-Overlay
-\newfontfamily{\FDIElbArialFont}{tngani.ttf}[
-  Path = fonts/,
-  Renderer = Basic,
-  Scale = 0.78
-]
-
-% Fette FDI-Sprechblasen / Hervorhebungen
-\newfontfamily{\FDIElbArialBOLDFont}{tngani.ttf}[
-  Path = fonts/,
-  Renderer = Basic,
-  Scale = 0.78,
-  FakeBold = 1.8
-]
-
-% FDI-Overlay-Schrift, etwas größer für Comic-Texte
-\newfontfamily{\FDIElbOverlayFont}{tngani.ttf}[
-  Path = fonts/,
-  Renderer = Basic,
-  Scale = 0.82
-]
-
-% FDI-Karolingische-Minuskel-Ersatzschrift
-\newfontfamily{\FDIElbKarolingischeMinuskel}{tngani.ttf}[
-  Path = fonts/,
-  Renderer = Basic,
-  Scale = 0.86,
-  FakeBold = 1.3
-]
+% Sprachspezifische Schriften stehen NICHT hier, sondern im jeweiligen
+% Sprachordner, z.B.
+%   language_files/elb/fonts_elb.tex        <- \newfontfamily und \FDISetLanguageFonts
+%   language_files/elb/fonts_elb/tngani.ttf <- die Schriftdatei
+% Geladen werden sie in der Praeambel mit \FDIInputLanguageFonts.
 
 % ------------------------------------------------------------
 % Public font aliases
@@ -90,27 +63,34 @@
 % Dieser Schalter verändert NICHT \setmainfont, \setsansfont oder \setmonofont.
 % Er betrifft ausschließlich die FDI-Font-Makros:
 % \KarolingischeMinuskel, \FDIOverlayFont, \ArialBOLDFont und \ArialFont.
+%
+% \FDISetLanguageFonts{sprache}{zuweisungen}
+% hinterlegt die Font-Zuweisungen einer Sprache. Aufgerufen wird das
+% in der Datei fonts_XY.tex im jeweiligen Sprachordner. Sprachen ohne
+% eigene Datei benutzen automatisch die Standardschriften.
+
+\makeatletter
+
+\newcommand{\FDISetLanguageFonts}[2]{%
+  \expandafter\def\csname FDIfonts@#1\endcsname{#2}%
+}
 
 \newcommand{\FDISetupLanguageFonts}{%
-  \ifdefstring{\FDILanguage}{elb}{%
-    \typeout{FDI: Language is elb. Switching FDI font macros only.}%
-
-    % Nur FDI-Font-Makros auf elbische Varianten setzen.
-    % Keine globalen Dokumentfonts ändern!
-    \let\KarolingischeMinuskel\FDIElbKarolingischeMinuskel
-    \let\FDIOverlayFont\FDIElbOverlayFont
-    \let\ArialBOLDFont\FDIElbArialBOLDFont
-    \let\ArialFont\FDIElbArialFont
+  % Immer zuerst die Standardschriften setzen ...
+  \let\KarolingischeMinuskel\FDIKarolingischeMinuskelDefault
+  \let\FDIOverlayFont\FDIOverlayFontDefault
+  \let\ArialBOLDFont\FDIArialBOLDFontDefault
+  \let\ArialFont\FDIArialFontDefault
+  % ... und danach die Sprachschriften, falls die Sprache eigene mitbringt.
+  \@ifundefined{FDIfonts@\FDILanguage}{%
+    \typeout{FDI: Language \FDILanguage\space uses the default FDI font macros.}%
   }{%
-    \typeout{FDI: Language is not elb. Using default FDI font macros.}%
-
-    % Normale FDI-Font-Makros setzen.
-    \let\KarolingischeMinuskel\FDIKarolingischeMinuskelDefault
-    \let\FDIOverlayFont\FDIOverlayFontDefault
-    \let\ArialBOLDFont\FDIArialBOLDFontDefault
-    \let\ArialFont\FDIArialFontDefault
+    \typeout{FDI: Language \FDILanguage\space switches FDI font macros only.}%
+    \csname FDIfonts@\FDILanguage\endcsname
   }%
 }
+
+\makeatother
 
 % ------------------------------------------------------------
 % Language folder depending on language
@@ -122,6 +102,52 @@
 \newcommand{\FDILanguageFolder}{%
   language_files/\FDILanguage%
 }
+
+% Ordner mit den sprachspezifischen Schriften, z.B. language_files/elb/fonts_elb
+\newcommand{\FDILanguageFontFolder}{%
+  \FDILanguageFolder/fonts_\FDILanguage%
+}
+
+% ------------------------------------------------------------
+% Available languages
+% ------------------------------------------------------------
+% Eine neue Sprache XY wird hier eingetragen und braucht den Ordner
+% language_files/XY mit XY.tex, pages_XY und optional fonts_XY.tex.
+
+\newcommand{\FDILanguageList}{de,en,la,elb}
+
+% Klarnamen fuer Ueberschriften und Sprungmarken
+\makeatletter
+
+\newcommand{\FDISetLanguageName}[2]{%
+  \expandafter\def\csname FDIlangname@#1\endcsname{#2}%
+}
+
+\newcommand{\FDILanguageName}[1]{%
+  \@ifundefined{FDIlangname@#1}{#1}{\csname FDIlangname@#1\endcsname}%
+}
+
+\FDISetLanguageName{de}{German}
+\FDISetLanguageName{en}{English}
+\FDISetLanguageName{la}{Latin}
+\FDISetLanguageName{elb}{Elvish}
+
+% ------------------------------------------------------------
+% Input language specific fonts
+% ------------------------------------------------------------
+% Gehoert in die Praeambel, weil \newfontfamily nur dort erlaubt ist.
+% Laedt language_files/XY/fonts_XY.tex fuer jede Sprache, die so eine
+% Datei besitzt. Sprachen ohne eigene Schriften werden uebersprungen.
+
+\newcommand{\FDIInputLanguageFonts}{%
+  \@for\FDI@lang:=\FDILanguageList\do{%
+    \IfFileExists{language_files/\FDI@lang/fonts_\FDI@lang.tex}{%
+      \input{language_files/\FDI@lang/fonts_\FDI@lang.tex}%
+    }{}%
+  }%
+}
+
+\makeatother
 
 % ------------------------------------------------------------
 % Input language text file
@@ -209,6 +235,14 @@
     % \edef, damit auch \comic{\FDILanguage} funktioniert
     \edef\FDILanguage{#2}%
     \FDISetupLanguageFonts
+    % Die Sprachdatei setzt am Anfang \title, \subtitle und \shorttitle.
+    % Im Fliesstext duerfen die nichts tun: \maketitle hat \title global
+    % auf \relax gesetzt, der Titel wuerde sonst als Text auf einer
+    % eigenen Seite landen. Die Metadaten des Artikels stammen weiterhin
+    % aus der Sprachdatei, die in der Praeambel geladen wird.
+    \let\title\@gobble
+    \let\subtitle\@gobble
+    \let\shorttitle\@gobble
     \FDIInputLanguageFile
     % Seitenbereich bestimmen
     \edef\FDI@tmp{#1}%
@@ -222,10 +256,152 @@
     \@whilenum\value{FDIcomicpage}<\FDI@lastpage\do{%
       \stepcounter{FDIcomicpage}%
       \expandafter\FDIInputPage\expandafter{\number\value{FDIcomicpage}}%
+      % Ueberschrift und Sprunganker liegen auf der ersten Comicseite,
+      % nur wenn \FDIComicSection sie angefordert hat.
+      \ifnum\value{FDIcomicpage}=\FDI@firstpage\relax
+        \@ifundefined{FDI@comicheadingwanted}{}{\FDI@comicheading}%
+      \fi
     }%
     % letzte Comicseite ausgeben, solange die Sprache noch gesetzt ist
     \clearpage
   \endgroup
+}
+
+\makeatother
+
+% ------------------------------------------------------------
+% Comic with heading and jump target
+% Usage: \FDIComicSection{de}
+%        \FDIComicSection[3-5]{de}
+% ------------------------------------------------------------
+% Gibt den kompletten Comic einer Sprache aus. Ueberschrift,
+% Sprungmarke comic:sprache und PDF-Lesezeichen liegen auf der ersten
+% Comicseite, damit keine fast leere Ueberschriftsseite entsteht.
+% Gedacht fuer den Anhang, angesprungen wird die Marke von \FDIJumpTo.
+
+\newcommand{\FDIComicSectionTitle}[1]{The comic in \FDILanguageName{#1}}
+
+% Position der Ueberschrift auf der Comicseite, gemessen von oben links.
+% Sie liegt im freien Band zwischen der Kopfzeile und der ersten
+% Panel-Nummer, die die Seitendateien bei 2cm setzen.
+\newcommand{\FDIComicHeadingXOffset}{2cm}
+\newcommand{\FDIComicHeadingYOffset}{1.5cm}
+\newcommand{\FDIComicHeadingFont}{\normalfont\small\bfseries}
+
+\makeatletter
+
+% Wird von \comic auf der ersten Comicseite ausgefuehrt.
+\newcommand{\FDI@comicheading}{%
+  % Abschnittsnummer (im Anhang A, B, C ...) und Sprungziel
+  \refstepcounter{section}%
+  \phantomsection
+  \label{comic:\FDILanguage}%
+  \addcontentsline{toc}{section}{%
+    \protect\numberline{\thesection}\FDIComicSectionTitle{\FDILanguage}%
+  }%
+  % sichtbare Ueberschrift im oberen Seitenrand, ueber der Zeichnung
+  \begin{tikzpicture}[remember picture, overlay]
+    \node[
+      anchor=north west,
+      inner sep=0pt,
+      outer sep=0pt
+    ] at ([xshift=\FDIComicHeadingXOffset,yshift=-\FDIComicHeadingYOffset]current page.north west)
+      {\FDIComicHeadingFont\thesection\quad\FDIComicSectionTitle{\FDILanguage}};
+  \end{tikzpicture}%
+}
+
+\newcommand{\FDIComicSection}[2][\FDIComicPageCount]{%
+  \clearpage
+  \pagestyle{inggrid}%
+  \nolinenumbers
+  \begingroup
+    % Signal an \comic: Ueberschrift und Anker auf die erste Comicseite
+    \def\FDI@comicheadingwanted{1}%
+    \comic[#1]{#2}%
+  \endgroup
+  % danach wieder normaler Satzzustand, damit Danksagung und
+  % Literaturverzeichnis am Dokumentende aussehen wie gewohnt
+  \clearpage
+  \pagestyle{inggrid}%
+  \@ifundefined{inggridlinenumbers}{}{\inggridlinenumbers}%
+}
+
+\makeatother
+
+% ------------------------------------------------------------
+% Jump to navigation
+% Usage: \FDIJumpTo{article,en,de,la,elb}
+% ------------------------------------------------------------
+% Zeigt eine Zeile mit Sprunglinks. Der Eintrag article springt zur
+% Einleitung, jeder andere Eintrag zur Sprungmarke comic:sprache,
+% also zu \FDIComicSection bzw. zum \label des Comics im Fliesstext.
+
+\newcommand{\FDIJumpToTitle}{Jump to}
+\newcommand{\FDIJumpToArticleName}{Article}
+\newcommand{\FDIJumpToComicName}[1]{\FDILanguageName{#1} comic}
+\newcommand{\FDIJumpToArticleLabel}{sec:introduction}
+\newcommand{\FDIJumpToSeparator}{\hspace{0.6em}\textbar\hspace{0.6em}}
+
+\makeatletter
+
+\newif\ifFDI@firstjump
+
+\newcommand{\FDI@jumpitem}[1]{%
+  \def\FDI@jumptmp{#1}%
+  \def\FDI@jumparticle{article}%
+  \ifx\FDI@jumptmp\FDI@jumparticle
+    \hyperref[\FDIJumpToArticleLabel]{\FDIJumpToArticleName}%
+  \else
+    \hyperref[comic:#1]{\FDIJumpToComicName{#1}}%
+  \fi
+}
+
+\newcommand{\FDIJumpTo}[1]{%
+  \begingroup
+    \edef\FDI@jumplist{#1}%
+    \FDI@firstjumptrue
+    \noindent\textbf{\FDIJumpToTitle:}%
+    \@for\FDI@jumpkey:=\FDI@jumplist\do{%
+      \ifFDI@firstjump
+        \FDI@firstjumpfalse
+        \hspace{0.6em}%
+      \else
+        \FDIJumpToSeparator
+      \fi
+      \expandafter\FDI@jumpitem\expandafter{\FDI@jumpkey}%
+    }%
+    \par
+  \endgroup
+}
+
+% \FDIJumpToAll
+% Sprungleiste fuer alle Sprachen aus \FDILanguageList:
+% zuerst der Artikel, dann der Comic im Fliesstext (\FDILanguage),
+% danach die uebrigen Sprachen in der Reihenfolge der Liste.
+\newcommand{\FDIJumpToAll}{%
+  \edef\FDI@curlang{\FDILanguage}%
+  \edef\FDI@jumpall{article,\FDILanguage}%
+  \@for\FDI@lang:=\FDILanguageList\do{%
+    \edef\FDI@langtmp{\FDI@lang}%
+    \ifx\FDI@langtmp\FDI@curlang\else
+      \edef\FDI@jumpall{\FDI@jumpall,\FDI@lang}%
+    \fi
+  }%
+  \expandafter\FDIJumpTo\expandafter{\FDI@jumpall}%
+}
+
+% \FDIAppendixComics
+% Gibt alle Sprachen aus \FDILanguageList als eigene Abschnitte mit
+% Ueberschrift und Sprungmarke aus, ausser der Sprache, die bereits
+% im Fliesstext steht.
+\newcommand{\FDIAppendixComics}{%
+  \edef\FDI@curlang{\FDILanguage}%
+  \@for\FDI@lang:=\FDILanguageList\do{%
+    \edef\FDI@langtmp{\FDI@lang}%
+    \ifx\FDI@langtmp\FDI@curlang\else
+      \expandafter\FDIComicSection\expandafter{\FDI@lang}%
+    \fi
+  }%
 }
 
 \makeatother
