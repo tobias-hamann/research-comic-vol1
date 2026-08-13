@@ -1,0 +1,429 @@
+{
+  "$schema": "urn:ajcp:advanced-json-context-profile:1.0",
+  "profile_type": "advanced_json_context_profile",
+  "profile_version": "1.0",
+  "profile_status": "descriptive_blueprint",
+  "source": {
+    "filename": "FDI_deu.png",
+    "format": "PNG",
+    "color_mode": "RGBA",
+    "color_space": "sRGB",
+    "dimensions_px": {
+      "width": 1280,
+      "height": 600
+    },
+    "aspect_ratio": {
+      "numeric": 2.133333,
+      "approximate": "32:15"
+    },
+    "orientation": "landscape",
+    "file_size_bytes": 583403,
+    "dpi": {
+      "x": 95.9866,
+      "y": 95.9866
+    },
+    "visible_content_bbox_px": {
+      "left": 4,
+      "top": 18,
+      "right": 1274,
+      "bottom": 590
+    },
+    "transparency": {
+      "enabled": true,
+      "background_alpha": 0,
+      "transparent_pixels": 259941,
+      "translucent_antialias_pixels": 34274,
+      "opaque_pixels": 473785
+    }
+  },
+  "canvas": {
+    "width_px": 1280,
+    "height_px": 600,
+    "aspect_ratio": "32:15",
+    "orientation": "landscape",
+    "size_policy": "required_exact_dimensions",
+    "allow_alternate_dimensions": false
+  },
+  "intent": {
+    "primary_goal": "faithful visual reconstruction",
+    "asset_type": "transparent educational comic illustration",
+    "subject": "the uppercase initials FDI constructed from colorful interlocking toy bricks",
+    "fidelity_priority": [
+      "letter legibility",
+      "letter placement and proportions",
+      "brick color blocking",
+      "baseplate perspective",
+      "transparent background",
+      "hand-drawn black contour treatment"
+    ]
+  },
+  "visual_summary": {
+    "description": "A wide, front-facing illustration of the uppercase letters F, D, and I assembled from red, yellow, blue, and pale gray interlocking toy construction bricks. The letters stand on a long light-gray studded baseplate. The drawing uses heavy black outlines, subtle irregularities, and lightly shaded brick studs on a fully transparent background.",
+    "visible_text": "FDI",
+    "text_realization": "three-dimensional brick-built letter sculptures rather than printed typography",
+    "content_tags": [
+      "FDI",
+      "uppercase letters",
+      "construction bricks",
+      "toy blocks",
+      "studded baseplate",
+      "educational illustration",
+      "comic line art",
+      "transparent background",
+      "primary colors"
+    ]
+  },
+  "scene": {
+    "environment": "isolated transparent cutout",
+    "ground_surface": "long rectangular studded toy-brick baseplate",
+    "background": {
+      "type": "transparent",
+      "color_rgba": [0, 0, 0, 0],
+      "elements": []
+    },
+    "time_of_day": "not_applicable",
+    "weather": "not_applicable"
+  },
+  "subjects": [
+    {
+      "id": "baseplate",
+      "type": "rectangular construction-brick baseplate",
+      "role": "supporting_ground",
+      "position": "bottom_full_width",
+      "bbox_px_estimate": {
+        "left": 10,
+        "top": 414,
+        "right": 1270,
+        "bottom": 584
+      },
+      "bbox_normalized_estimate": {
+        "x": 0.0078,
+        "y": 0.69,
+        "width": 0.9844,
+        "height": 0.2833
+      },
+      "appearance": {
+        "top_surface": "light cool gray with a dense regular grid of cylindrical studs",
+        "front_face": "muted blue-gray rectangular strip",
+        "side_faces": "slightly darker gray-blue",
+        "outline": "thick black hand-drawn contour",
+        "perspective": "top surface visible as a shallow trapezoid"
+      }
+    },
+    {
+      "id": "letter_f",
+      "type": "brick-built uppercase letter",
+      "glyph": "F",
+      "order": 1,
+      "position": "left",
+      "bbox_px_estimate": {
+        "left": 91,
+        "top": 20,
+        "right": 435,
+        "bottom": 501
+      },
+      "bbox_normalized_estimate": {
+        "x": 0.0711,
+        "y": 0.0333,
+        "width": 0.2688,
+        "height": 0.8017
+      },
+      "structure": {
+        "silhouette": "tall block-capital F with a wide top arm, shorter middle arm, and thick vertical stem",
+        "top_arm": "long red-orange horizontal course with six visible top studs",
+        "upper_stem": "red-orange",
+        "upper_middle_courses": "yellow",
+        "middle_arm": "blue horizontal projection with two prominent top studs",
+        "central_stem_courses": "blue",
+        "lower_stem": "red-orange stacked bricks",
+        "negative_spaces": "transparent openings to the right of the stem beneath the top and middle arms"
+      },
+      "dominant_color_sequence_top_to_bottom": [
+        "red-orange",
+        "yellow",
+        "blue",
+        "red-orange"
+      ],
+      "pose": "upright_on_baseplate"
+    },
+    {
+      "id": "letter_d",
+      "type": "brick-built uppercase letter",
+      "glyph": "D",
+      "order": 2,
+      "position": "center",
+      "bbox_px_estimate": {
+        "left": 488,
+        "top": 20,
+        "right": 935,
+        "bottom": 501
+      },
+      "bbox_normalized_estimate": {
+        "x": 0.3813,
+        "y": 0.0333,
+        "width": 0.3492,
+        "height": 0.8017
+      },
+      "structure": {
+        "silhouette": "large block-capital D with a straight left spine, stepped top and right outer curve, broad bottom foot, and a large transparent inner counter",
+        "left_spine_top": "blue bricks",
+        "left_spine_middle": "pale gray bricks",
+        "left_spine_lower_middle": "red-orange bricks",
+        "left_spine_bottom": "yellow bricks",
+        "top_arch": "blue at upper left transitioning through red-orange stepped bricks toward upper right",
+        "right_curve": "stepped red-orange, yellow, blue, and pale gray bricks",
+        "bottom_arch": "mostly yellow with red-orange inserts",
+        "inner_counter": "large transparent rounded-rectangular opening edged by stepped brick courses",
+        "inner_lower_edge": "small visible pale-gray and yellow studs emphasize the curve"
+      },
+      "dominant_color_sequence_clockwise_from_top_left": [
+        "blue",
+        "red-orange",
+        "yellow",
+        "blue",
+        "pale gray",
+        "red-orange",
+        "yellow"
+      ],
+      "pose": "upright_on_baseplate"
+    },
+    {
+      "id": "letter_i",
+      "type": "brick-built uppercase letter",
+      "glyph": "I",
+      "order": 3,
+      "position": "right",
+      "bbox_px_estimate": {
+        "left": 983,
+        "top": 20,
+        "right": 1167,
+        "bottom": 501
+      },
+      "bbox_normalized_estimate": {
+        "x": 0.768,
+        "y": 0.0333,
+        "width": 0.1438,
+        "height": 0.8017
+      },
+      "structure": {
+        "silhouette": "narrow rectangular block-capital I represented as a straight vertical tower",
+        "top_course": "blue cap with three prominent studs",
+        "upper_courses": "blue then pale gray",
+        "middle_upper_courses": "yellow",
+        "middle_lower_courses": "red-orange",
+        "lower_courses": "yellow",
+        "foot": "slightly projecting pale-yellow bottom brick"
+      },
+      "dominant_color_sequence_top_to_bottom": [
+        "blue",
+        "pale gray",
+        "yellow",
+        "red-orange",
+        "yellow"
+      ],
+      "pose": "upright_on_baseplate"
+    }
+  ],
+  "spatial_relationships": [
+    {
+      "relation": "rests_on",
+      "subject_ids": ["letter_f", "letter_d", "letter_i"],
+      "object_id": "baseplate"
+    },
+    {
+      "relation": "left_to_right_order",
+      "subject_ids": ["letter_f", "letter_d", "letter_i"]
+    },
+    {
+      "relation": "visual_spacing",
+      "description": "F and D are separated by a moderate transparent gap; D and I are separated by a narrower but clear transparent gap."
+    },
+    {
+      "relation": "shared_baseline",
+      "description": "All three letters terminate near the same upper surface of the baseplate."
+    }
+  ],
+  "composition": {
+    "framing": "wide full-object view with minimal outer padding",
+    "camera_angle": "near-frontal with a slight elevated view that reveals top studs and upper brick surfaces",
+    "projection": "stylized weak perspective",
+    "camera_height": "slightly above the vertical center of the letters",
+    "depth_of_field": "uniformly sharp",
+    "focal_length_equivalent": "medium-to-long, with minimal perspective distortion",
+    "horizon": "not visible",
+    "visual_balance": "three large letter masses distributed across the width; the broad F and D balance the narrow I with extra right-side baseplate area",
+    "subject_scale": "letters occupy roughly 80 percent of canvas height",
+    "negative_space": "transparent canvas around the assembly and within the open regions of F and D",
+    "crop": "no subject is cropped"
+  },
+  "style": {
+    "render_type": "2D digital illustration",
+    "visual_language": "comic-style drawing of three-dimensional plastic construction bricks",
+    "linework": {
+      "color": "#000000",
+      "weight": "heavy",
+      "quality": "slightly irregular hand-drawn contour",
+      "usage": "all silhouettes, brick seams, studs, and depth edges"
+    },
+    "surface_rendering": "flat color fills with restrained cel-shading and subtle edge highlights",
+    "geometry": "chunky modular rectangular bricks with cylindrical studs",
+    "realism_level": "stylized, not photorealistic",
+    "mood": [
+      "playful",
+      "educational",
+      "approachable",
+      "graphic"
+    ]
+  },
+  "color_palette": {
+    "background": {
+      "rgba": [0, 0, 0, 0],
+      "role": "fully transparent canvas"
+    },
+    "core_colors": [
+      {
+        "name": "brick red-orange",
+        "hex": "#E65530",
+        "rgb": [230, 85, 48],
+        "role": "major letter courses"
+      },
+      {
+        "name": "brick yellow",
+        "hex": "#FFD026",
+        "rgb": [255, 208, 38],
+        "role": "major letter courses"
+      },
+      {
+        "name": "brick blue",
+        "hex": "#387BBE",
+        "rgb": [56, 123, 190],
+        "role": "major letter courses"
+      },
+      {
+        "name": "baseplate blue-gray",
+        "hex": "#94A5AB",
+        "rgb": [148, 165, 171],
+        "role": "baseplate front and side faces"
+      },
+      {
+        "name": "pale cool gray",
+        "hex": "#B5C5CA",
+        "rgb": [181, 197, 202],
+        "role": "letter courses, studs, and baseplate top"
+      },
+      {
+        "name": "contour black",
+        "hex": "#000000",
+        "rgb": [0, 0, 0],
+        "role": "outlines and seams"
+      }
+    ],
+    "approximate_nontransparent_coverage_percent": {
+      "light_cool_grays_combined": 26.86,
+      "red_orange": 16.51,
+      "black_and_near_black_outlines": 21.81,
+      "yellow": 14.76,
+      "blue": 12.85,
+      "minor_shading_and_highlight_tones": 7.21
+    },
+    "saturation": "high on primary brick colors; low on gray elements",
+    "contrast": "high due to black outlines and saturated fills"
+  },
+  "materials": {
+    "bricks": {
+      "material": "smooth molded plastic",
+      "finish": "semi-gloss",
+      "edge_shape": "slightly rounded rectangular edges",
+      "stud_shape": "short cylindrical studs with elliptical top faces under perspective",
+      "surface_detail": "clean and simplified; no logos or molded text"
+    },
+    "baseplate": {
+      "material": "smooth molded plastic",
+      "finish": "matte-to-semi-gloss",
+      "surface_detail": "regular stud grid"
+    }
+  },
+  "lighting": {
+    "setup": "simple diffuse illustration lighting",
+    "key_direction": "upper left/front",
+    "quality": "soft and even",
+    "highlights": "small muted highlights on the upper faces of studs",
+    "shadows": "minimal local cel-shading; no cast shadow on a background",
+    "exposure": "bright and balanced"
+  },
+  "rendering": {
+    "edge_treatment": "antialiased black contours with occasional sketch-like irregularity",
+    "texture": "very subtle painterly or scanned-line variation",
+    "detail_level": "medium-high",
+    "sharpness": "crisp graphic edges",
+    "output_background": "transparent",
+    "recommended_output": {
+      "format": "PNG",
+      "width_px": 1280,
+      "height_px": 600,
+      "color_mode": "RGBA",
+      "preserve_alpha": true
+    }
+  },
+  "constraints": {
+    "must_include": [
+      "exactly three uppercase brick-built letters in the order F, D, I",
+      "one long light-gray studded baseplate",
+      "red-orange, yellow, blue, and pale-gray brick courses",
+      "thick black outlines around every brick, seam, stud, and silhouette",
+      "large transparent inner counter in D",
+      "transparent negative spaces in F",
+      "transparent outer background"
+    ],
+    "must_preserve": [
+      "exact output dimensions of 1280 by 600 pixels",
+      "32:15 aspect ratio",
+      "left-center-right letter arrangement",
+      "shared baseline",
+      "near-frontal slightly elevated camera angle",
+      "relative widths: F broad, D broadest, I narrow",
+      "top-visible brick studs",
+      "clean comic illustration style"
+    ],
+    "exact_output_dimensions_px": {
+      "width": 1280,
+      "height": 600
+    },
+    "do_not_add_elements": true,
+    "do_not_remove_elements": true,
+    "avoid": [
+      "additional letters or numbers",
+      "printed text or captions",
+      "logos or brand marks on studs",
+      "people, hands, scenery, floor, wall, or sky",
+      "photorealistic rendering",
+      "soft-focus blur",
+      "dramatic shadows",
+      "reflections outside the bricks",
+      "solid black background",
+      "cropping of the baseplate or letters",
+      "rounded balloon typography",
+      "misreading the D as O or zero"
+    ]
+  },
+  "generation_directive": {
+    "instruction": "Generate an image strictly from this AJCP as an RGBA PNG measuring exactly 1280 by 600 pixels. Reconstruct the composition as a transparent PNG. Do not add, remove, rename, or reorder elements. Treat FDI as physical sculptures assembled from individually outlined interlocking toy bricks, not as printed text.",
+    "priority_order": [
+      "correct FDI glyph silhouettes",
+      "exact 1280 by 600 pixel canvas",
+      "correct spatial layout",
+      "correct color blocking",
+      "transparent background and internal negative spaces",
+      "brick and stud geometry",
+      "hand-drawn black contour style"
+    ]
+  },
+  "analysis_notes": {
+    "schema_note": "AJCP is a loosely structured prompting convention rather than an official standardized schema; this profile uses a reproducibility-oriented descriptive structure.",
+    "measurement_note": "Pixel dimensions, file properties, alpha counts, and core solid colors were measured from the source image. Subject bounding boxes and geometric descriptions are visual estimates.",
+    "uncertainty": [
+      "Individual brick dimensions and stud counts vary due to perspective and stylized drawing.",
+      "Minor highlight and shadow hues are represented as tonal variations of the listed core colors."
+    ]
+  }
+}

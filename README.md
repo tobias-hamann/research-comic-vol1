@@ -59,7 +59,8 @@ and boustrophedon writing systems have not yet been implemented or tested.
 Creating a new language edition deliberately combines LLM-assisted preparation
 with human review and manual layout work. The canonical order is:
 
-1. translate `CODE.tex`, including **all** abbreviations;
+1. translate `ENG.tex` to a new `CODE.tex`, auditing **all** abbreviations and
+   changing only those that are language-dependent;
 2. create an Advanced JSON Context Profile (AJCP) for the localized brick image;
 3. generate the localized image from the AJCP and the reference image;
 4. fine-tune `pages_CODE/` manually.
@@ -71,6 +72,44 @@ project uses the [German source AJCP](language_files/deu/FDI_deu_AJCP.json) as
 the visual blueprint and the
 [English AJCP](language_files/eng/FDI_eng_AJCP.json) and
 [Latin AJCP](language_files/lat/FDI_lat_AJCP.json) as localized examples.
+
+### Protected and translatable content
+
+This policy applies to every new language edition and overrides any general
+instruction to translate all reader-visible text.
+
+**Must not be changed:**
+
+- Fixed abbreviations `PDF`, `DO`, `PID`, `DFG`, `GWK`, and `FAIR`. These exact
+  tokens remain unchanged in every language. A translated surrounding phrase
+  does not create a new abbreviation; for example, `DO` must not become `OD`.
+- Established identifiers and names such as `DOI`, `ISBN`, `QR`, `URN`,
+  `ORCID`, `Handle`/`HANDLE`, `NFDI`, `NFDI4ING`, `VLB`, `RWTH`, and `C.A.R.L.`
+- Proper names in the source, including names of people, historical persons,
+  places, organizations, institutions, projects, products, journals,
+  publishers, events, and exhibitions. Preserve their exact spelling and do
+  not translate, Latinize, inflect, or attach target-language suffixes. For
+  example, keep `Karl der Große`, `Aachen`, `Comiciade`, `DataCite`,
+  `Granus Verlag`, and `ing.grid` exactly as written in the source.
+- LaTeX commands and arguments that identify content, including all
+  `\FDISetText` coordinates, `\FDIUseText` references, command names, citation
+  keys, labels, URLs, handles, DOI values, ISBN values, filenames, paths, and
+  other machine-readable identifiers.
+
+**May and normally should be changed:**
+
+- Dialogue, captions, explanatory prose, ordinary common nouns, grammar, and
+  sound effects, while preserving the LaTeX structure.
+- Language-dependent common-noun terms and their abbreviations when they are
+  not on the protected list. The central example is
+  `Forschungsdateninfrastruktur (FDI)`: English uses
+  `Research Data Infrastructure (RDI)` and Latin uses
+  `infrastructura datorum scientificorum (IDS)`.
+- Line breaks and other language-dependent typography during the later manual
+  layout stage.
+
+If a token could be either a proper name or ordinary prose, leave it unchanged
+and flag it for human review. Never silently translate an uncertain name.
 
 ### 1. Translate `CODE.tex`
 
@@ -91,42 +130,54 @@ Inputs:
 
 Requirements:
 1. Preserve the complete LaTeX structure. Do not change any \FDISetText page,
-   panel, or text identifiers, command names, brace structure, URLs, DOI values,
-   or other machine-readable identifiers.
-2. Translate every reader-visible text. Preserve intentional LaTeX commands
-   such as \\, \enquote, \hspace, and formatting commands.
+   panel, or text identifiers, \FDIUseText references, command names, brace
+   structure, citation keys, labels, URLs, handles, DOI and ISBN values,
+   filenames, paths, or other machine-readable identifiers.
+2. Translate reader-visible prose subject to the protected-content rules below.
+   Preserve intentional LaTeX commands such as \\, \enquote, \hspace, and
+   formatting commands.
 3. Before translating, inventory every abbreviation, acronym, initialism, and
    corresponding expanded term in the entire file. This includes occurrences
    without an explicit expansion and occurrences repeated on different pages.
-4. Decide separately for every inventoried item whether it is:
-   a. a language-independent identifier, official name, brand, or established
-      international abbreviation that must remain unchanged; or
-   b. a language-dependent abbreviation that must be recreated from the
-      translated term and the target-language word order.
-   Do not preserve an abbreviation merely because it appeared in the source.
-5. Replace every language-dependent abbreviation consistently in every
-   occurrence. For example, German "Forschungsdateninfrastruktur (FDI)" becomes
+4. The abbreviations PDF, DO, PID, DFG, GWK, and FAIR are protected and must
+   remain character-for-character unchanged in every occurrence. Never derive
+   a replacement abbreviation for them from a translated phrase. In particular,
+   DO must not become OD and PID must not become IP.
+5. Also preserve established identifiers and names such as DOI, ISBN, QR, URN,
+   ORCID, Handle/HANDLE, NFDI, NFDI4ING, VLB, RWTH, and C.A.R.L. exactly. This
+   protected list overrides target-language word order and grammatical form.
+6. Preserve every proper name exactly as written in the source. This includes
+   people, historical persons, places, organizations, institutions, projects,
+   products, journals, publishers, events, and exhibitions. Do not translate,
+   Latinize, inflect, respell, or attach target-language suffixes to a proper
+   name. Examples include Karl der Große, Karl der Kleine, Alfred, Évariste,
+   Tobias, Aachen, Verdun, Comiciade, DataCite, Granus Verlag, NFDI4ING, and
+   ing.grid. If uncertain whether something is a proper name, preserve it and
+   flag it for human review.
+7. Replace every unprotected, language-dependent abbreviation consistently in
+   every occurrence. For example, German "Forschungsdateninfrastruktur (FDI)" becomes
    English "Research Data Infrastructure (RDI)" and Latin
    "infrastructura datorum scientificorum (IDS)".
-6. Check all-capital tokens and short forms individually, including FAIR, FDI,
-   RDI, DOI, DO, PID, ISBN, QR, URN, ORCID, VLB, NFDI, and NFDI4ING. This list is
-   illustrative, not exhaustive. Preserve an item only after deciding that its
-   conventional target-language form is genuinely unchanged.
-7. Keep each abbreviation consistent with its translated expansion, including
-   word order, grammatical form, repeated mentions, captions, examples, and
-   explanatory footnotes.
-8. Use natural, idiomatic target-language prose. Do not translate proper names,
-   registered organization names, persistent identifiers, or literal data
-   values unless a recognized localized form exists.
-9. Save-compatible output must be UTF-8 and compile with LuaLaTeX.
+8. Check every all-capital token and short form individually. Classify it as
+   "protected" or "language-dependent" before editing it. Do not infer a new
+   short form for anything on the protected list.
+9. Keep each unprotected abbreviation consistent with its translated expansion
+   in every repeated mention, caption, example, and explanatory footnote.
+10. Use natural, idiomatic target-language prose without altering protected
+    content. Do not treat a recognized localized or historical form as
+    permission to replace the exact source proper name.
+11. Save-compatible output must be UTF-8 and compile with LuaLaTeX.
 
 Perform a final consistency pass over the complete translation. Specifically
-search for source-language words and source-language abbreviations that may have
-survived accidentally.
+verify that every protected token and proper name still matches the source
+character-for-character, then search for unprotected source-language prose and
+language-dependent abbreviations that may have survived accidentally.
 
 Output exactly two sections:
 1. "Acronym audit": a table with source form, source expansion, classification
-   (fixed or translated), target expansion, target abbreviation, and reason.
+   (`protected` or `language-dependent`), target expansion, target abbreviation,
+   and reason. The protected entries PDF, DO, PID, DFG, GWK, and FAIR must appear
+   in this table even if their expansions are not present in the source.
 2. "Complete CODE.tex": the complete translated LaTeX file in one code block,
    with all decisions from the audit applied. Do not omit unchanged lines.
 ```
@@ -170,30 +221,34 @@ Requirements:
    research data infrastructure and its exact translated abbreviation. Do not
    invent a second translation and do not copy FDI or RDI unless CODE.tex
    actually uses it.
-3. Record the target language code, language name, translated term,
+3. Do not reinterpret or alter protected abbreviations, proper names,
+   identifiers, filenames, paths, or citation keys from CODE.tex. PDF, DO, PID,
+   DFG, GWK, and FAIR are fixed project-wide. Only the language-dependent
+   abbreviation for research data infrastructure determines the brick letters.
+4. Record the target language code, language name, translated term,
    abbreviation, derivation, and CODE.tex source under localization.
-4. Update every language-, word-, acronym-, glyph-, filename-, subject-, and
+5. Update every language-, word-, acronym-, glyph-, filename-, subject-, and
    geometry-dependent value throughout the entire JSON. The new abbreviation
    may require different letters, silhouettes, counters, widths, spacing, and
    brick arrangements.
-5. Preserve the visual identity of the reference image: interlocking toy bricks,
+6. Preserve the visual identity of the reference image: interlocking toy bricks,
    black hand-drawn contours, established colors, baseplate, perspective,
    transparent background, and overall comic style.
-6. Describe one subject entry for each target letter in the correct order. Each
+7. Describe one subject entry for each target letter in the correct order. Each
    subject must use the correct glyph and a geometrically plausible description
    of that glyph constructed from bricks.
-7. Put the exact target abbreviation in visible_text, semantic_expansion,
+8. Put the exact target abbreviation in visible_text, semantic_expansion,
    content_tags, constraints, must_include, must_preserve, avoid, and the
    generation directive wherever those fields discuss visible lettering.
-8. Add explicit negative constraints against the source abbreviation and every
+9. Add explicit negative constraints against the source abbreviation and every
    stale alternative found in the structural reference.
-9. Distinguish measured source-image properties from requested output
+10. Distinguish measured source-image properties from requested output
    properties. Do not fabricate hashes, pixel counts, bounding boxes, file
    sizes, or DPI values. If they cannot be measured from the attachment, use
    null and explain the uncertainty in analysis_notes.
-10. Preserve a fully transparent RGBA background and specify exact output pixel
+11. Preserve a fully transparent RGBA background and specify exact output pixel
     dimensions and aspect ratio consistently in every relevant field.
-11. Remove obsolete project-configuration fields or LaTeX macro mappings. The
+12. Remove obsolete project-configuration fields or LaTeX macro mappings. The
     abbreviation is already written directly and consistently in CODE.tex.
 
 Before answering, perform a global consistency audit over every JSON string:
