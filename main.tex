@@ -24,21 +24,21 @@
 % ├── fonts                <-- needed fonts
 % ├── comic_files          <-- everything that is the same in all languages
 % │   ├── BLANKO_1-12_v1.0.0.pdf   <- blank comic pages, the drawings
-% │   └── pages_functions.tex      <- comic macros, e.g. \comic{de}
+% │   └── pages_functions.tex      <- comic macros, e.g. \comic{deu}
 % ├── inggrid.cls          <-- the documentclass
 % ├── language_files       <-- one folder per comic language
-% │   ├── de                   <- everything of the German version
-% │   │   ├── de.tex               <- all comic texts in German
-% │   │   ├── FDI_de.png           <- language dependent images
-% │   │   ├── inggrid_Dashboard_de.png
-% │   │   └── pages_de             <- text placement of the German pages
+% │   ├── deu                  <- everything of the German version
+% │   │   ├── deu.tex              <- all comic texts in German
+% │   │   ├── FDI_deu.png          <- language dependent images
+% │   │   ├── inggrid_Dashboard_deu.png
+% │   │   └── pages_deu            <- text placement of the German pages
 % │   │       ├── page_1.tex           <- one file per comic page
 % │   │       └── ...
-% │   ├── elb                  <- Elvish version, same structure, plus
-% │   │   ├── fonts_elb.tex        <- language specific font declarations
-% │   │   └── fonts_elb            <- language specific font files
-% │   ├── en                   <- English version, same structure
-% │   └── la                   <- Latin version, same structure
+% │   ├── qya                  <- Quenya (Elvish) version, same structure, plus
+% │   │   ├── fonts_qya.tex        <- language specific font declarations
+% │   │   └── fonts_qya            <- language specific font files
+% │   ├── eng                  <- English version, same structure
+% │   └── lat                  <- Latin version, same structure
 % ├── License              <-- the license file
 % ├── logos                <-- needed logos
 % ├── main.tex             <-- this file, content
@@ -79,17 +79,17 @@
 % ------------------------------------------------------------
 % FDI language switch
 % ------------------------------------------------------------
-\newcommand{\FDILanguage}{en}
+\newcommand{\FDILanguage}{eng}
 % Available:
-% de
-% en
-% la
-% elb
+% deu (German)
+% eng (English)
+% lat (Latin)
+% qya (Quenya)
 
 \input{comic_files/pages_functions}
 
 % Sprachspezifische Schriften aus den Sprachordnern laden,
-% z.B. language_files/elb/fonts_elb.tex. Muss in die Praeambel.
+% z.B. language_files/qya/fonts_qya.tex. Muss in die Praeambel.
 \FDIInputLanguageFonts
 
 \FDISetupLanguageFonts
@@ -186,7 +186,7 @@
 
 % Sprungleiste: zuerst der Artikel, dann der Comic im Fliesstext,
 % danach die weiteren Sprachfassungen aus dem Anhang.
-% Manuell steuerbar mit \FDIJumpTo{article,en,de,la,elb}
+% Manuell steuerbar mit \FDIJumpTo{article,eng,deu,lat,qya}
 \FDIJumpToAll
 
 \section{Introduction}
@@ -229,10 +229,11 @@ At RWTH Aachen University, comics journalism has recently been embraced as a mea
 
 % \comic{sprache}
 % gibt alle Comicseiten der gewaehlten Sprache direkt hintereinander aus
-% sprache = Name des Ordners in language_files, z.B. de, en, la, elb
-% Beispiel: \comic{de}
-% Optional laesst sich die Seitenzahl begrenzen: \comic[3]{de}
-% Mehrere Sprachen nacheinander sind moeglich, z.B. \comic{de}\comic{en}
+% sprache = ISO-639-3-Code des Ordners in language_files,
+% z.B. deu, eng, lat, qya
+% Beispiel: \comic{deu}
+% Optional laesst sich die Seitenzahl begrenzen: \comic[3]{deu}
+% Mehrere Sprachen nacheinander sind moeglich, z.B. \comic{deu}\comic{eng}
 
 % Einzelne Seiten koennen weiterhin mit \FDIInputPage{seite} in der
 % Dokumentsprache \FDILanguage ausgegeben werden.
@@ -286,7 +287,7 @@ He asked Alfred to create a blank PDF version of the comic, containing only the 
 With this blank version, a LaTeX document could be created.
 In this document, special pages were declared. 
 These pages form full page TikZ\footnote{TikZ is a recursive acronym for "TikZ ist kein Zeichenprogramm", which is German for "TikZ is not a drawing program".} images where the blank comic pages form the background of the page.
-Then, the original German text written by Alfred was placed on top of the blank background PDF as TikZ nodes (see the \hyperref[comic:de]{German version in the appendix}).
+Then, the original German text written by Alfred was placed on top of the blank background PDF as TikZ nodes (see the \hyperref[comic:deu]{German version in the appendix}).
 These nodes can be styled in different ways, allowing for different fonts and font sizes as well as special text forms e.g. curved or rotated texts.
 The nodes can be freely placed on the page and allow for precise text placement of the comic text.
 Furthermore, manual line breaks can be placed in the language file.
@@ -299,23 +300,24 @@ The AI was asked to exactly keep the style of the image but change the original 
 The original \enquote{FDI} was also removed from the blank comic version so that the background would not interfere with the overlay image that is language dependant.
 
 In a similar manner, the language files can automatically be translated using \ac{ai}.
-To prove this concept, we let \ac{ai} translate the comic into \hyperref[comic:la]{Latin}, \hyperref[comic:elb]{Elvish}, and \hyperref[comic:dra]{Draconic}.
+To prove this concept, we let \ac{ai} translate the comic into \hyperref[comic:lat]{Latin}, \hyperref[comic:qya]{Elvish}, and \hyperref[comic:vss]{Draconic}.
 In that manner, all dextrograde languages, i.e. languages that are read from left to right, can be displayed in the comic.
-Elvish and draconic furthermore prove, that langugages with non-latin letters can be displayed as well.
+The Elvish edition furthermore demonstrates that languages using non-Latin letters can be displayed as well; the rendered Draconic edition is still being prepared.
 Sinistrograde (right to left writing) or boustrophedon (linewise changing of writing direction) writing was not yet implemented nor tested.
 
 The source code can be found on \href{https://github.com/tobias-hamann/research-comic-vol1}{GitHub}\footnote{\url{https://github.com/tobias-hamann/research-comic-vol1}} \cite{Hamann_A_FAIR_Comic_2026}.
-Every language \verb|XY| is kept in its own folder \verb|language_files/XY|, which holds the text file \verb|XY.tex|, the corresponding folder \verb|pages_XY| and all language dependent images.
-If additional fonts are needed, they are contained in the subfolder \verb|fonts_XY|.
+Every language \verb|CODE| is kept in its own folder \verb|language_files/CODE|, which holds the text file \verb|CODE.tex|, the corresponding folder \verb|pages_CODE| and all language dependent images. Here, \verb|CODE| is the lowercase three-letter identifier from ISO 639 Set 3 (formerly ISO 639-3) \cite{iso_639_2023}, as used by the Zenodo language vocabulary. 
+The Draconic version uses the project-local placeholder \verb|vss|, derived from the Draconic name \emph{Vs'shtak}; this identifier is neither registered in ISO 639 nor in Zenodo.
+If additional fonts are needed, they are contained in the subfolder \verb|fonts_CODE|.
 As a wrapper, the file \verb|comic_files\pages_functions.tex| is processing these folders.
-Every \verb|language_files/XY/XY.tex| contains all text lines ordered by their appearance on the pages in the corresponding language \verb|XY|, which allows for a translation of texts independently from their appearance in the document.
+Every \verb|language_files/CODE/CODE.tex| contains all text lines ordered by their appearance on the pages in the corresponding language, which allows for a translation of texts independently from their appearance in the document.
 Also, manual line breaks can be added here as needed to account for the styling and weighting of texts within speach bubbles.
-The \verb|pages_XY| files handle the positioning and scaling of texts for each language \verb|XY| individually, which accounts for different lengths of the same contents in different languages.
-The language is chosen in the \verb|\comic{XY}| comand. 
-It outputs all comic pages in the language \verb|XY| one after another, e.g. \verb|\comic{en}| generates the English version of the comic.
+The \verb|pages_CODE| files handle the positioning and scaling of texts for each language individually, which accounts for different lengths of the same contents in different languages.
+The language is chosen in the \verb|\comic{CODE}| command.
+It outputs all comic pages in the selected language one after another, e.g. \verb|\comic{eng}| generates the English version of the comic.
 Since each call is self-contained, several language versions can also be printed one after another within the same document.
-The primary comic language and the language-specific title, subtitle, and short title are selected in \verb|main.tex| with \verb|\newcommand{\FDILanguage}{en}|. The article body and the remaining metadata are maintained separately.
-As of writing, the original \hyperref[comic:ger]{German} version and this translated \hyperref[comic:eng]{English} version exist along the \hyperref[comic:la]{Latin}, \hyperref[comic:elb]{Elvish}, and \hyperref[comic:dra]{Draconic} versions.
+The primary comic language and the language-specific title, subtitle, and short title are selected in \verb|main.tex| with \verb|\newcommand{\FDILanguage}{eng}|. The article body and the remaining metadata are maintained separately.
+As of writing, the original \hyperref[comic:deu]{German} version and this translated \hyperref[comic:eng]{English} version exist along the \hyperref[comic:lat]{Latin}, \hyperref[comic:qya]{Elvish}, and \hyperref[comic:vss]{Draconic} versions.
 
 
 \section{Discussion}
@@ -346,16 +348,18 @@ We conclude our discussion by comparing the FAIR comic to related forms of comic
 % der Sprache, die schon im Fliesstext steht. Jede Fassung bekommt eine
 % Ueberschrift und die Sprungmarke comic:sprache.
 % Reihenfolge und Auswahl stehen in \FDILanguageList in
-% comic_files/pages_functions.tex, aktuell: de, en, la, elb.
-% Einzeln geht auch: \FDIComicSection{de} oder \FDIComicSection[3-5]{de}
+% comic_files/pages_functions.tex, aktuell: deu, eng, lat, qya.
+% Einzeln geht auch: \FDIComicSection{deu} oder \FDIComicSection[3-5]{deu}
 %
 \appendix
 \FDIAppendixComics
 
-% Placeholder for the planned Draconic translation. It deliberately remains
+% Placeholder for the planned Draconic translation (Vs'shtak). The
+% project-local code vss is not an assigned ISO-639 or Zenodo identifier and
+% deliberately remains
 % outside \FDILanguageList until the language and page files are available.
-\section{The comic in Draconic (planned)}
-\label{comic:dra}
+\section{The comic in Vs'shtak (Draconic, planned)}
+\label{comic:vss}
 \emph{The rendered Draconic edition is being prepared and will be added in a future version.}
 
 %

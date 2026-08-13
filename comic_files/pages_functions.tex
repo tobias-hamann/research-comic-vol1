@@ -43,8 +43,8 @@
 
 % Sprachspezifische Schriften stehen NICHT hier, sondern im jeweiligen
 % Sprachordner, z.B.
-%   language_files/elb/fonts_elb.tex        <- \newfontfamily und \FDISetLanguageFonts
-%   language_files/elb/fonts_elb/tngani.ttf <- die Schriftdatei
+%   language_files/qya/fonts_qya.tex        <- \newfontfamily und \FDISetLanguageFonts
+%   language_files/qya/fonts_qya/tngani_qya.ttf <- die Schriftdatei
 % Geladen werden sie in der Praeambel mit \FDIInputLanguageFonts.
 
 % ------------------------------------------------------------
@@ -66,7 +66,7 @@
 %
 % \FDISetLanguageFonts{sprache}{zuweisungen}
 % hinterlegt die Font-Zuweisungen einer Sprache. Aufgerufen wird das
-% in der Datei fonts_XY.tex im jeweiligen Sprachordner. Sprachen ohne
+% in der Datei fonts_CODE.tex im jeweiligen Sprachordner. Sprachen ohne
 % eigene Datei benutzen automatisch die Standardschriften.
 
 \makeatletter
@@ -94,7 +94,7 @@
 
 % ------------------------------------------------------------
 % Language folder depending on language
-% Usage result: language_files/de, language_files/en, ...
+% Usage result: language_files/deu, language_files/eng, ...
 % Enthaelt die Sprachdatei, den zugehoerigen pages-Ordner und
 % alle sprachabhaengigen Bilder.
 % ------------------------------------------------------------
@@ -103,7 +103,7 @@
   language_files/\FDILanguage%
 }
 
-% Ordner mit den sprachspezifischen Schriften, z.B. language_files/elb/fonts_elb
+% Ordner mit den sprachspezifischen Schriften, z.B. language_files/qya/fonts_qya
 \newcommand{\FDILanguageFontFolder}{%
   \FDILanguageFolder/fonts_\FDILanguage%
 }
@@ -111,10 +111,11 @@
 % ------------------------------------------------------------
 % Available languages
 % ------------------------------------------------------------
-% Eine neue Sprache XY wird hier eingetragen und braucht den Ordner
-% language_files/XY mit XY.tex, pages_XY und optional fonts_XY.tex.
+% Eine neue Sprache CODE wird hier eingetragen und braucht den Ordner
+% language_files/CODE mit CODE.tex, pages_CODE und optional fonts_CODE.tex.
+% CODE ist ein kleingeschriebener ISO-639-3-Code aus dem Zenodo-Sprachvokabular.
 
-\newcommand{\FDILanguageList}{de,en,la,elb}
+\newcommand{\FDILanguageList}{deu,eng,lat,qya}
 
 % Klarnamen fuer Ueberschriften und Sprungmarken
 \makeatletter
@@ -127,16 +128,18 @@
   \@ifundefined{FDIlangname@#1}{#1}{\csname FDIlangname@#1\endcsname}%
 }
 
-\FDISetLanguageName{de}{German}
-\FDISetLanguageName{en}{English}
-\FDISetLanguageName{la}{Latin}
-\FDISetLanguageName{elb}{Elvish}
+\FDISetLanguageName{deu}{German}
+\FDISetLanguageName{eng}{English}
+\FDISetLanguageName{lat}{Latin}
+\FDISetLanguageName{qya}{Quenya}
+% Project-local placeholder; vss is not registered in ISO 639 or Zenodo.
+\FDISetLanguageName{vss}{Vs'shtak (Draconic)}
 
 % ------------------------------------------------------------
 % Input language specific fonts
 % ------------------------------------------------------------
 % Gehoert in die Praeambel, weil \newfontfamily nur dort erlaubt ist.
-% Laedt language_files/XY/fonts_XY.tex fuer jede Sprache, die so eine
+% Laedt language_files/CODE/fonts_CODE.tex fuer jede Sprache, die so eine
 % Datei besitzt. Sprachen ohne eigene Schriften werden uebersprungen.
 
 \newcommand{\FDIInputLanguageFonts}{%
@@ -151,7 +154,7 @@
 
 % ------------------------------------------------------------
 % Input language text file
-% Loads: language_files/de/de.tex, language_files/en/en.tex, ...
+% Loads: language_files/deu/deu.tex, language_files/eng/eng.tex, ...
 % ------------------------------------------------------------
 
 \newcommand{\FDIInputLanguageFile}{%
@@ -166,7 +169,7 @@
 
 % ------------------------------------------------------------
 % Set page folder depending on language
-% Usage result: language_files/de/pages_de, language_files/en/pages_en, ...
+% Usage result: language_files/deu/pages_deu, language_files/eng/pages_eng, ...
 % ------------------------------------------------------------
 
 \newcommand{\FDIPageFolder}{%
@@ -176,7 +179,7 @@
 % ------------------------------------------------------------
 % Input page by number
 % Usage: \FDIInputPage{1}
-% Loads: language_files/de/pages_de/page_1.tex, ...
+% Loads: language_files/deu/pages_deu/page_1.tex, ...
 % ------------------------------------------------------------
 
 \newcommand{\FDIInputPage}[1]{%
@@ -191,10 +194,10 @@
 
 % ------------------------------------------------------------
 % Whole comic in one language
-% Usage: \comic{de}        alle Comicseiten auf Deutsch
-%        \comic[3]{en}     nur die ersten 3 Seiten, also Seite 1 bis 3
-%        \comic[3-5]{en}   Seite 3 bis 5
-%        \comic[7-7]{en}   nur Seite 7
+% Usage: \comic{deu}        alle Comicseiten auf Deutsch
+%        \comic[3]{eng}     nur die ersten 3 Seiten, also Seite 1 bis 3
+%        \comic[3-5]{eng}   Seite 3 bis 5
+%        \comic[7-7]{eng}   nur Seite 7
 % ------------------------------------------------------------
 % Gibt alle Comicseiten der Sprache #2 direkt hintereinander aus.
 % Sprache, Fonts und Texte gelten nur innerhalb von \comic. Nach
@@ -203,8 +206,8 @@
 % Praeambel geladenen Sprachdatei.
 % Dadurch koennen auch mehrere Sprachen nacheinander ausgegeben
 % werden, z.B.:
-%   \comic{de}
-%   \comic{en}
+%   \comic{deu}
+%   \comic{eng}
 
 % Anzahl der Comicseiten pro Sprache
 \newcommand{\FDIComicPageCount}{12}
@@ -271,8 +274,8 @@
 
 % ------------------------------------------------------------
 % Comic with heading and jump target
-% Usage: \FDIComicSection{de}
-%        \FDIComicSection[3-5]{de}
+% Usage: \FDIComicSection{deu}
+%        \FDIComicSection[3-5]{deu}
 % ------------------------------------------------------------
 % Gibt den kompletten Comic einer Sprache aus. Ueberschrift,
 % Sprungmarke comic:sprache und PDF-Lesezeichen liegen auf der ersten
@@ -330,7 +333,7 @@
 
 % ------------------------------------------------------------
 % Jump to navigation
-% Usage: \FDIJumpTo{article,en,de,la,elb}
+% Usage: \FDIJumpTo{article,eng,deu,lat,qya}
 % ------------------------------------------------------------
 % Zeigt eine Zeile mit Sprunglinks. Der Eintrag article springt zur
 % Einleitung, jeder andere Eintrag zur Sprungmarke comic:sprache,
