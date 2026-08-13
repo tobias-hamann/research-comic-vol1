@@ -54,6 +54,213 @@ language-dependent FDI/RDI image variants also demonstrate how translated
 artwork can be overlaid without modifying the shared background. Right-to-left
 and boustrophedon writing systems have not yet been implemented or tested.
 
+## Workflow for a new language edition
+
+Creating a new language edition deliberately combines LLM-assisted preparation
+with human review and manual layout work. The canonical order is:
+
+1. translate `CODE.tex`, including **all** abbreviations;
+2. create an Advanced JSON Context Profile (AJCP) for the localized brick image;
+3. generate the localized image from the AJCP and the reference image;
+4. fine-tune `pages_CODE/` manually.
+
+Translation, AJCP creation, and image generation are performed interactively by
+a maintainer. They are **not** run in GitHub Actions. AJCP is a loosely
+structured prompting convention rather than a formal standardized schema. This
+project uses the [German source AJCP](language_files/deu/FDI_deu_AJCP.json) as
+the visual blueprint and the
+[English AJCP](language_files/eng/FDI_eng_AJCP.json) and
+[Latin AJCP](language_files/lat/FDI_lat_AJCP.json) as localized examples.
+
+### 1. Translate `CODE.tex`
+
+Copy an existing language file to `language_files/CODE/CODE.tex`, attach it to
+an LLM, and replace the placeholders in the following prompt. The acronym audit
+is essential: abbreviations must be treated as part of the translation rather
+than copied mechanically from the source language.
+
+```text
+You are an expert literary and technical translator and an experienced LaTeX
+editor. Translate the attached comic language file completely.
+
+Inputs:
+- Source language: <SOURCE_LANGUAGE>
+- Target language: <TARGET_LANGUAGE>
+- Target ISO 639 Set 3 code: <CODE>
+- Source file: <SOURCE_CODE.tex>
+
+Requirements:
+1. Preserve the complete LaTeX structure. Do not change any \FDISetText page,
+   panel, or text identifiers, command names, brace structure, URLs, DOI values,
+   or other machine-readable identifiers.
+2. Translate every reader-visible text. Preserve intentional LaTeX commands
+   such as \\, \enquote, \hspace, and formatting commands.
+3. Before translating, inventory every abbreviation, acronym, initialism, and
+   corresponding expanded term in the entire file. This includes occurrences
+   without an explicit expansion and occurrences repeated on different pages.
+4. Decide separately for every inventoried item whether it is:
+   a. a language-independent identifier, official name, brand, or established
+      international abbreviation that must remain unchanged; or
+   b. a language-dependent abbreviation that must be recreated from the
+      translated term and the target-language word order.
+   Do not preserve an abbreviation merely because it appeared in the source.
+5. Replace every language-dependent abbreviation consistently in every
+   occurrence. For example, German "Forschungsdateninfrastruktur (FDI)" becomes
+   English "Research Data Infrastructure (RDI)" and Latin
+   "infrastructura datorum scientificorum (IDS)".
+6. Check all-capital tokens and short forms individually, including FAIR, FDI,
+   RDI, DOI, DO, PID, ISBN, QR, URN, ORCID, VLB, NFDI, and NFDI4ING. This list is
+   illustrative, not exhaustive. Preserve an item only after deciding that its
+   conventional target-language form is genuinely unchanged.
+7. Keep each abbreviation consistent with its translated expansion, including
+   word order, grammatical form, repeated mentions, captions, examples, and
+   explanatory footnotes.
+8. Use natural, idiomatic target-language prose. Do not translate proper names,
+   registered organization names, persistent identifiers, or literal data
+   values unless a recognized localized form exists.
+9. Save-compatible output must be UTF-8 and compile with LuaLaTeX.
+
+Perform a final consistency pass over the complete translation. Specifically
+search for source-language words and source-language abbreviations that may have
+survived accidentally.
+
+Output exactly two sections:
+1. "Acronym audit": a table with source form, source expansion, classification
+   (fixed or translated), target expansion, target abbreviation, and reason.
+2. "Complete CODE.tex": the complete translated LaTeX file in one code block,
+   with all decisions from the audit applied. Do not omit unchanged lines.
+```
+
+Review both the acronym audit and the translated file. Save only the contents
+of the `Complete CODE.tex` block as `language_files/CODE/CODE.tex`.
+
+### 2. Create the AJCP
+
+Attach the translated `CODE.tex`, the German source image,
+[`FDI_deu_AJCP.json`](language_files/deu/FDI_deu_AJCP.json), and
+[`FDI_eng_AJCP.json`](language_files/eng/FDI_eng_AJCP.json), and
+[`FDI_lat_AJCP.json`](language_files/lat/FDI_lat_AJCP.json) to an LLM. The
+German profile describes the source artwork; the English and Latin profiles
+demonstrate how that source is localized. Their language-specific letters and
+descriptions must not leak into the new profile.
+
+```text
+Create an Advanced JSON Context Profile (AJCP) for a localized version of the
+attached brick-letter image.
+
+Inputs:
+- Target language: <TARGET_LANGUAGE>
+- Target ISO 639 Set 3 code: <CODE>
+- Translated language file: <CODE.tex>
+- Source/reference image: language_files/deu/FDI_deu.png
+- Source visual AJCP: language_files/deu/FDI_deu_AJCP.json
+- Localized AJCP examples: language_files/eng/FDI_eng_AJCP.json and
+  language_files/lat/FDI_lat_AJCP.json
+- Required output filename: FDI_<CODE>_AJCP.json
+- Required generated image filename: FDI_<CODE>.png
+
+Requirements:
+1. Use FDI_deu_AJCP.json as the authoritative visual analysis of the source
+   image and the English and Latin AJCP files as localization patterns. Retain
+   their descriptive depth and relevant sections, including source,
+   localization, canvas, intent, visual_summary, scene, subjects,
+   spatial_relationships, composition, style, color_palette, materials,
+   lighting, rendering, constraints, generation_directive, and analysis_notes.
+2. Read the translated CODE.tex and identify the exact translated term for
+   research data infrastructure and its exact translated abbreviation. Do not
+   invent a second translation and do not copy FDI or RDI unless CODE.tex
+   actually uses it.
+3. Record the target language code, language name, translated term,
+   abbreviation, derivation, and CODE.tex source under localization.
+4. Update every language-, word-, acronym-, glyph-, filename-, subject-, and
+   geometry-dependent value throughout the entire JSON. The new abbreviation
+   may require different letters, silhouettes, counters, widths, spacing, and
+   brick arrangements.
+5. Preserve the visual identity of the reference image: interlocking toy bricks,
+   black hand-drawn contours, established colors, baseplate, perspective,
+   transparent background, and overall comic style.
+6. Describe one subject entry for each target letter in the correct order. Each
+   subject must use the correct glyph and a geometrically plausible description
+   of that glyph constructed from bricks.
+7. Put the exact target abbreviation in visible_text, semantic_expansion,
+   content_tags, constraints, must_include, must_preserve, avoid, and the
+   generation directive wherever those fields discuss visible lettering.
+8. Add explicit negative constraints against the source abbreviation and every
+   stale alternative found in the structural reference.
+9. Distinguish measured source-image properties from requested output
+   properties. Do not fabricate hashes, pixel counts, bounding boxes, file
+   sizes, or DPI values. If they cannot be measured from the attachment, use
+   null and explain the uncertainty in analysis_notes.
+10. Preserve a fully transparent RGBA background and specify exact output pixel
+    dimensions and aspect ratio consistently in every relevant field.
+11. Remove obsolete project-configuration fields or LaTeX macro mappings. The
+    abbreviation is already written directly and consistently in CODE.tex.
+
+Before answering, perform a global consistency audit over every JSON string:
+- the language code and filenames are the target ones;
+- the visible abbreviation is identical everywhere;
+- subject IDs, glyphs, order, and geometric descriptions match every target
+  letter;
+- no description refers to a source letter that is absent from the target;
+- canvas dimensions and aspect ratios agree;
+- must_include, must_preserve, avoid, and generation_directive do not contradict
+  one another;
+- the JSON parses without comments or trailing commas.
+
+Return only the complete valid JSON object, without Markdown fences or
+explanatory text.
+```
+
+Save the reviewed result as `language_files/CODE/FDI_CODE_AJCP.json`.
+
+### 3. Generate the localized image
+
+Attach the reviewed AJCP and its reference image to an image-generation model.
+Use the following prompt without restating the target letters manually; the
+reviewed AJCP must remain the authoritative source.
+
+```text
+Generate one localized image from the attached AJCP and reference image.
+
+Treat the AJCP as the authoritative generation specification. Read the target
+language, visible abbreviation, ordered glyphs, canvas dimensions, alpha
+requirements, composition, style, palette, subject geometry, constraints,
+negative constraints, and generation_directive directly from it.
+
+Reconstruct the target abbreviation as physical uppercase sculptures assembled
+from individually outlined interlocking toy bricks. Preserve the reference
+image's baseplate, perspective, color blocking, black hand-drawn contours,
+studs, cel-shaded illustration style, spacing logic, and transparent outer and
+inner negative spaces. Adapt letter geometry only where required by the target
+glyphs.
+
+The visible letters must exactly match the AJCP abbreviation, in the specified
+order, with no additional letters, printed caption, logo, scenery, floor, wall,
+or background. Do not reproduce a source-language letter merely because it is
+present in the reference image.
+
+Return exactly one RGBA PNG at the exact dimensions specified by the AJCP. Keep
+the full baseplate and every letter inside the canvas. Before returning the
+image, verify the glyph sequence, letter count, dimensions, aspect ratio, and
+transparent background against the AJCP.
+```
+
+Save the selected image as `language_files/CODE/FDI_CODE.png` and inspect the
+lettering, dimensions, transparency, and style manually.
+
+### 4. Fine-tune `pages_CODE/`
+
+Copy or create `language_files/CODE/pages_CODE/`. Render the edition and adjust
+TikZ nodes, line breaks, font sizes, rotations, curves, and image placement
+until every page fits the artwork. Then build locally:
+
+```bash
+latexmk -lualatex -interaction=nonstopmode -halt-on-error main.tex
+```
+
+CI performs only this deterministic LaTeX build. It neither calls an LLM nor
+creates, modifies, or replaces translations, AJCP files, or image assets.
+
 ## Language structure
 
 Language directories and their associated text, page, image, and font files
@@ -90,6 +297,7 @@ lowercase ISO 639 Set 3 identifier:
 language_files/CODE/
 ├── CODE.tex              # text strings in reading order
 ├── pages_CODE/           # TikZ placement and styling for each page
+├── FDI_CODE_AJCP.json    # reviewed context for localized image generation
 ├── FDI_CODE.png, ...     # translated or language-dependent artwork
 └── fonts_CODE.tex        # optional language-specific font setup
 ```
@@ -128,10 +336,13 @@ appendix edition receives a heading, PDF bookmark, and internal jump target.
 The navigation bar generated by `\FDIJumpToAll` links the article and all comic
 editions.
 
-To add another language, create its directory under `language_files/`, add the
-text and page-placement files, provide any language-dependent images or fonts,
-and register its identifier and display name in
+To add another language, follow the
+[workflow for a new language edition](#workflow-for-a-new-language-edition),
+then register its identifier and display name in
 [`comic_files/pages_functions.tex`](comic_files/pages_functions.tex).
+The translated `CODE.tex` stores its reviewed, language-appropriate
+abbreviations directly; the accompanying AJCP must use exactly the same
+localized infrastructure abbreviation for the image.
 
 ## Repository layout
 
