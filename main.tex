@@ -22,24 +22,29 @@
 % │   └── image-a.pdf          <- example image
 % ├── final.def            <-- custom title page and metadata fields
 % ├── fonts                <-- needed fonts
+% ├── comic_files          <-- everything that is the same in all languages
+% │   ├── BLANKO_1-12_v1.0.0.pdf   <- blank comic pages, the drawings
+% │   └── pages_functions.tex      <- comic macros, e.g. \comic{de}
 % ├── inggrid.cls          <-- the documentclass
 % ├── language_files       <-- one folder per comic language
 % │   ├── de                   <- everything of the German version
 % │   │   ├── de.tex               <- all comic texts in German
-% │   │   ├── FDI_de.png           <- language dependent image
+% │   │   ├── FDI_de.png           <- language dependent images
+% │   │   ├── inggrid_Dashboard_de.png
 % │   │   └── pages_de             <- text placement of the German pages
 % │   │       ├── page_1.tex           <- one file per comic page
 % │   │       └── ...
+% │   ├── elb                  <- Elvish version, same structure, plus
+% │   │   ├── fonts_elb.tex        <- language specific font declarations
+% │   │   └── fonts_elb            <- language specific font files
 % │   ├── en                   <- English version, same structure
-% │   ├── la                   <- Latin version, same structure
-% │   └── elb                  <- Elvish version, same structure
+% │   └── la                   <- Latin version, same structure
 % ├── License              <-- the license file
 % ├── logos                <-- needed logos
 % ├── main.tex             <-- this file, content
 % ├── metadata             <-- metadata of article
 % │   └── article.tex          <- example article metadata (changed only by editors)
 % │   └── authors.tex          <- example author data
-% ├── pages_functions.tex  <-- comic macros, e.g. \comic{de}
 % ├── README.md            <-- instructions
 % ├── references.bib       <-- the bibliography
 % ├── scikgtex.lua         <-- script for managing scikgtex metadata
@@ -81,7 +86,11 @@
 % la
 % elb
 
-\input{pages_functions}
+\input{comic_files/pages_functions}
+
+% Sprachspezifische Schriften aus den Sprachordnern laden,
+% z.B. language_files/elb/fonts_elb.tex. Muss in die Praeambel.
+\FDIInputLanguageFonts
 
 \FDISetupLanguageFonts
 \FDIInputLanguageFile
@@ -175,6 +184,11 @@
 
 \input{acronyms}
 
+% Sprungleiste: zuerst der Artikel, dann der Comic im Fliesstext,
+% danach die weiteren Sprachfassungen aus dem Anhang.
+% Manuell steuerbar mit \FDIJumpTo{article,en,de,la,elb}
+\FDIJumpToAll
+
 \section{Introduction}
 \label{sec:introduction}
 Inviting an outsider to observe and take part in scientific practice has a methodological history that can be traced back to the ethnographic approach of Bruno Latour and Steve Woolgar’s \textit{Laboratory Life} \cite{latour_laboratory_1979, latour_laboratory_1986}. \textit{Laboratory Life} is a foundational work in science and technology studies. The book includes a floor plan of the research laboratories, offices, and meeting rooms in which Latour worked alongside the researchers. It also reproduces photographs of the working environment and, in some cases, of the researchers. Latour and Woolgar thus document interactions with and among the researchers in a spatially situated manner. They report on the verbal content of these interactions and the vocabulary used. Their main focus is the researchers’ investment in the iterative production process that brings about the principal outcome of scientific work: peer-reviewed publications. Crucially, Latour and Woolgar also provide transcripts and occasionally accompany them with in-line commentary. The in-line commentary is used to describe aspects of spatially situated interaction that are not captured in the transcripts themselves, including deictic gestures---gestures that establish spatial reference within a shared environment. A key constraint of in-line commentary, however, is that it competes for space with the transcript itself: as descriptions of embodied and spatially situated action become more detailed, the transcript becomes increasingly fragmented and more difficult to read. To address this problem, multimodal forms of transcription typically move such commentary into a separate column at the page margins (see, for example, \cite{edwards_common_1987}). This layout allows verbal interaction and descriptions of embodied action to be presented simultaneously without interrupting the flow of the transcript. Moreover, this layout permits the integration of graphical representations alongside the transcript, which constitutes a comparatively recent development in conversation analytic research (see, for example, \cite{hormeyer_einsatz_2015}).
@@ -185,9 +199,8 @@ At RWTH Aachen University, comics journalism has recently been embraced as a mea
 
 \section{Result}
 \subsection{A FAIR Comic on Research Data Infrastructure}
-
-\vspace*{0.35\textheight}
-
+% Sprungmarke des Comics im Fliesstext, passt sich \FDILanguage an
+\label{comic:\FDILanguage}
 
 \noindent
 \fbox{%
@@ -322,6 +335,20 @@ We conclude our discussion by comparing the FAIR comic to related forms of comic
 %\conclusion{ Add conclusion.}
 %
 %
+
+%
+%
+% Appendix: alle weiteren Sprachfassungen des Comics
+%
+% \FDIAppendixComics gibt jede Sprache aus \FDILanguageList aus, ausser
+% der Sprache, die schon im Fliesstext steht. Jede Fassung bekommt eine
+% Ueberschrift und die Sprungmarke comic:sprache.
+% Reihenfolge und Auswahl stehen in \FDILanguageList in
+% comic_files/pages_functions.tex, aktuell: de, en, la, elb.
+% Einzeln geht auch: \FDIComicSection{de} oder \FDIComicSection[3-5]{de}
+%
+\appendix
+\FDIAppendixComics
 
 %
 %
