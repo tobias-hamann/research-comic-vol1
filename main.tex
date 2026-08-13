@@ -1,0 +1,332 @@
+% !TEX program = lualatex
+% !BIB program = biber
+%                                                __
+%  __                                     __    /\ \
+% /\_\    ___      __          __   _ __ /\_\   \_\ \
+% \/\ \ /' _ `\  /'_ `\      /'_ `\/\`'__\/\ \  /'_` \
+%  \ \ \/\ \/\ \/\ \L\ \  __/\ \L\ \ \ \/ \ \ \/\ \L\ \
+%   \ \_\ \_\ \_\ \____ \/\_\ \____ \ \_\  \ \_\ \___,_\
+%    \/_/\/_/\/_/\/___L\ \/_/\/___L\ \/_/   \/_/\/__,_ /
+%                  /\____/     /\____/
+%                  \_/__/      \_/__/
+%
+%                        journal ing.grid
+%
+%
+% Template for authors
+%
+% Structure of this template:
+% .
+% ├── acknowledgements.tex <-- acknowledgements, funding information
+% ├── figures              <-- images and pictures
+% │   └── image-a.pdf          <- example image
+% ├── final.def            <-- custom title page and metadata fields
+% ├── fonts                <-- needed fonts
+% ├── inggrid.cls          <-- the documentclass
+% ├── language_files       <-- one folder per comic language
+% │   ├── de                   <- everything of the German version
+% │   │   ├── de.tex               <- all comic texts in German
+% │   │   ├── FDI_de.png           <- language dependent image
+% │   │   └── pages_de             <- text placement of the German pages
+% │   │       ├── page_1.tex           <- one file per comic page
+% │   │       └── ...
+% │   ├── en                   <- English version, same structure
+% │   ├── la                   <- Latin version, same structure
+% │   └── elb                  <- Elvish version, same structure
+% ├── License              <-- the license file
+% ├── logos                <-- needed logos
+% ├── main.tex             <-- this file, content
+% ├── metadata             <-- metadata of article
+% │   └── article.tex          <- example article metadata (changed only by editors)
+% │   └── authors.tex          <- example author data
+% ├── pages_functions.tex  <-- comic macros, e.g. \comic{de}
+% ├── README.md            <-- instructions
+% ├── references.bib       <-- the bibliography
+% ├── scikgtex.lua         <-- script for managing scikgtex metadata
+% └── scikgtex.sty         <-- provides commands for research contribution annotations
+%
+%
+\documentclass{inggrid}
+
+%
+%
+% The documentclass already loads a number of packages, amongst others:
+% - amsmath,amssym
+% - xcolor, graphicx
+% - babel, csquotes
+% - biblatex
+% - fontspec, microtype
+% - booktabs, longtable
+% - listings
+%
+% -----------------------------------------------
+\usepackage{graphicx}
+\usepackage{tikz}
+\usetikzlibrary{decorations.text}
+\usetikzlibrary{shapes.geometric}
+\usepackage{eso-pic}
+\usepackage{fontspec}
+\usepackage{transparent}
+\usepackage[nolist,nohyperlinks]{acronym}
+\definecolor{FDIBrown}{RGB}{96,45,1}
+
+
+% ------------------------------------------------------------
+% FDI language switch
+% ------------------------------------------------------------
+\newcommand{\FDILanguage}{en}
+% Available:
+% de
+% en
+% la
+% elb
+
+\input{pages_functions}
+
+\FDISetupLanguageFonts
+\FDIInputLanguageFile
+
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%\title{Unnecessarily Complicated Research Title}
+%\subtitle{Part 1: A FAIR comic}
+%\shorttitle{A FAIR comic}
+%
+%
+% \title and \shorttitle are mandatory, \subtitle can be omitted by just leaving the string empty (please do not comment out the subtitle line)
+%
+%
+
+\articletype{Research Comic}
+%
+%
+% Select "Research Article" for manuscript submissions, "Software Descriptor" for software submissions, and "Dataset Descriptor" for dataset submissions.
+%
+%
+
+\articleclass{preprint}
+%
+%
+% To be changed by the editor:
+% Enter "letter", "final" or "preprint" to determine the typesetting mode
+%
+%
+
+%\useScikgtex
+%
+%
+% To be changed by author:
+% Uncomment "\scikgtexannoted" if Scikgtex annotations are used
+%
+%
+
+\datesubmitted{2026-05-30}
+%
+% State the date when you have submitted the article as a preprint.
+%
+%
+% The information on authors and
+% affiliations have to be provided in the file: authors.tex
+\corresponding{\printcorrespondingauthor}
+%
+%
+% Thanks and acknowledgements  and funding
+% information have to be saved in: acknowledgements.tex
+%
+%
+
+\keywords{Comic, Inggrid}
+%
+%
+% 4-6 meaningful keywords that describe the paper
+
+
+
+\dataavailability{Data can be found here:
+\href{http://doi.org/10.5281/zenodo.19468332                                 }{http://doi.org/10.5281/zenodo.19468332}} 
+\softwareavailability{-}
+
+\addbibresource{references.bib}
+%
+%
+% Save all your references in this Bib(La)TeX file
+%
+%
+
+\pagestyle{inggrid}
+
+\begin{document}
+\maketitle
+\begin{abstract}
+    Comics journalism constitutes a graphic form of literary journalism. According to John S. Bak and Christopher Craig \cite{bak_comics_2026}, comics journalism and literary journalism share key features: they both read like fiction but are based on immersive research, eyewitness accounts, and verifiable facts scrutinized as closely as possible. RWTH Aachen University has recently embraced comics journalism as a means of communicating ongoing research at the Chair of AI Methodology within the Faculty of Computer Science \cite{neuwald_deus_2026}. To enable close observation and immersive documentation of scientific practice, comic artist Alfred Neuwald was invited to work alongside the researchers. The resulting collaboration established the general framework for this project. Here we present the first result of a modified artist-in-residence concept implemented by the German National Research Data Infrastructure for Engineering Sciences (NFDI4ING).
+\end{abstract}
+
+\inggridlinenumbers
+
+% Optional: normale Seite 1 ohne PDF-Hintergrund
+\null
+
+% Titel-Seite
+
+% Disclaimer box on first FDI page
+\thispagestyle{inggrid}
+
+\input{acronyms}
+
+\section{Introduction}
+\label{sec:introduction}
+Inviting an outsider to observe and take part in scientific practice has a methodological history that can be traced back to the ethnographic approach of Bruno Latour and Steve Woolgar’s \textit{Laboratory Life} \cite{latour_laboratory_1979, latour_laboratory_1986}. \textit{Laboratory Life} is a foundational work in science and technology studies. The book includes a floor plan of the research laboratories, offices, and meeting rooms in which Latour worked alongside the researchers. It also reproduces photographs of the working environment and, in some cases, of the researchers. Latour and Woolgar thus document interactions with and among the researchers in a spatially situated manner. They report on the verbal content of these interactions and the vocabulary used. Their main focus is the researchers’ investment in the iterative production process that brings about the principal outcome of scientific work: peer-reviewed publications. Crucially, Latour and Woolgar also provide transcripts and occasionally accompany them with in-line commentary. The in-line commentary is used to describe aspects of spatially situated interaction that are not captured in the transcripts themselves, including deictic gestures---gestures that establish spatial reference within a shared environment. A key constraint of in-line commentary, however, is that it competes for space with the transcript itself: as descriptions of embodied and spatially situated action become more detailed, the transcript becomes increasingly fragmented and more difficult to read. To address this problem, multimodal forms of transcription typically move such commentary into a separate column at the page margins (see, for example, \cite{edwards_common_1987}). This layout allows verbal interaction and descriptions of embodied action to be presented simultaneously without interrupting the flow of the transcript. Moreover, this layout permits the integration of graphical representations alongside the transcript, which constitutes a comparatively recent development in conversation analytic research (see, for example, \cite{hormeyer_einsatz_2015}).
+
+Comics represent embodied speech. They do so by depicting speakers and listeners within their environment together with spoken utterances, deictic gestures, and, in some cases, internal thoughts represented through thought balloons. As a graphic medium, comics are therefore particularly well suited to documenting multimodal interaction in situated research environments. Comics, however, usually transport readers into the realm of imagination rather than documented fact. Comics journalism---together with its European and Japanese counterparts, \textit{BD reportage} and documentary manga---differs precisely in this respect \cite{bak_comics_2026, bak_mangix_2024}.
+
+At RWTH Aachen University, comics journalism has recently been embraced as a means of communicating ongoing research at the Chair of AI Methodology within the Faculty of Computer Science \cite{neuwald_deus_2026}. The collaboration between researchers and comic artist Alfred Neuwald established the general framework for the present project. By combining ethnographic observation with the multimodal representational capacities of comics, we explore comics journalism as a method for documenting situated research practices within the administrative office of the German National Research Data Infrastructure for Engineering Sciences (NFDI4ING).
+
+\section{Result}
+\subsection{A FAIR Comic on Research Data Infrastructure}
+
+\vspace*{0.35\textheight}
+
+
+\noindent
+\fbox{%
+  \begin{minipage}{\dimexpr\textwidth-2\fboxsep-2\fboxrule\relax}
+    \textbf{Dear Reviewers, please note:} The line numbers in the following pages refer to comic panels, not to individual text lines.
+  \end{minipage}%
+}
+
+\clearpage
+\nolinenumbers
+
+% Anleitung:
+
+% \FDIText{x}{y}{breite}{text}
+% x      = Abstand vom linken Seitenrand
+% y      = Abstand vom oberen Seitenrand
+% breite = Breite der Textbox
+% text   = Inhalt der Textbox
+% Beispiel: \FDIText{2cm}{3cm}{6cm}{Nordsee}
+
+% \FDIUseText{seite}{panel}{text}
+% seite = Nummer der PDF-Seite
+% panel = Nummer des Panels auf dieser Seite
+% text  = Nummer des Textes in diesem Panel
+% Beispiel: \FDIUseText{1}{1}{1}
+
+% \comic{sprache}
+% gibt alle Comicseiten der gewaehlten Sprache direkt hintereinander aus
+% sprache = Name des Ordners in language_files, z.B. de, en, la, elb
+% Beispiel: \comic{de}
+% Optional laesst sich die Seitenzahl begrenzen: \comic[3]{de}
+% Mehrere Sprachen nacheinander sind moeglich, z.B. \comic{de}\comic{en}
+
+% Einzelne Seiten koennen weiterhin mit \FDIInputPage{seite} in der
+% Dokumentsprache \FDILanguage ausgegeben werden.
+
+\comic{\FDILanguage}
+
+\clearpage
+\pagestyle{inggrid}
+\inggridlinenumbers
+
+\section{Materials and Method}
+\subsection{Project Development and Collaboration}
+Évariste Demandt first contacted Alfred Neuwald in July 2025 and met with him shortly thereafter. During this initial meeting, he learned about Alfred's ongoing collaboration with the Chair of AI Methodology. As this collaboration was expected to continue for several more months, Alfred's availability for additional commitments was limited. Nevertheless, both parties agreed to remain in contact and continue exchanging ideas. 
+Évariste suggested that Alfred might participate as a guest observer in the 2025 Conference on Research Data Infrastructure (CoRDI 2025), and Tobias Hamann subsequently extended a formal invitation. 
+CoRDI 2025 took place at RWTH Aachen University from 26 to 28 August 2025 \cite{nfdi_ev_cordi_nodate}. 
+Alfred participated in the
+%first day of the 
+conference, including the evening event at the \ac{wzl}.
+He used the opportunity to familiarize himself with the field of research data infrastructure and with the people involved.
+
+Following the conference, Évariste convened a meeting between Alfred and representatives of NFDI4ING, IT Center and \ac{wzl}, as well as a representative of the Chair of Society and Technology at RWTH Aachen University. It quickly became apparent that we lacked the resources to replicate Alfred's ongoing collaboration with the Chair of AI Methodology, a project that enabled Alfred to work full-time with the researchers. As a result, we began exploring alternative formats for collaboration. Recognizing Alfred's ability to ask questions, Évariste concluded that a format centered on regular conversations would best accommodate the budget constraints. A weekly \textit{jour fixe} was therefore scheduled, during which Alfred visited NFDI4ING's administrative office at the IT Center.
+
+Alfred began work on the FAIR comic in February 2026. He photographed Évariste and, later, Tobias as reference material for the comic, which he created outside RWTH Aachen University at his atelier. The collaboration followed a meeting-only format: no emails, phone calls, or messages were exchanged between meetings in order to keep the workload manageable. This meant that Alfred always came in well prepared with questions and, later, drafts. Meetings were open-ended and typically exceeded one hour. Alfred's questions sometimes revealed gaps in shared understanding of \ac{rdm} or exposed issues that could not be resolved immediately. In such instances, the questions were adjourned and additional expertise was sought from specialists. This occurred twice during the project: once with support from NFDI4ING's Task Area Federated Interactive Data Space and once with support from the Chief Technical Officer of the IT Center.
+
+During the weekly meetings, learning was reciprocal. Alfred shared his extensive knowledge of comic culture, referring to documentary works such as Art Spiegelman's \textit{Maus} \cite{spiegelman_maus_1986}, Marjane Satrapi’s \textit{Persepolis} \cite{satrapi_persepolis_2003}, and Guy Delisle's \textit{Pyongyang} \cite{delisle_pyongyang_2003}. Delisle's work, in particular, received special attention as an outstanding example of observer commentary. Alfred admired Delisle's ability to document a social world and occasionally drew parallels between his own encounters with researchers and Delisle's experiences working in North Korea.
+
+\subsection{Documentary Basis and Narrative Framing}
+This is a work of literary journalism, which means that it is grounded in Alfred's research. The FAIR comic conveys his first-hand observations, conversations, and photographic documentation gathered during the weekly meetings at the administrative office of NFDI4ING at the IT Center of RWTH Aachen University. Among the materials that informed Alfred's work was a leaflet published by the Landesinitiative NFDI der Digitalen Hochschule NRW and the AG FDM Awareness \cite{landesinitiative_nfdi_der_digitalen_hochschule_nrw_nachnutzbare_2019}. Copies were available in the administrative office, and the leaflet became a recurring point of reference in conversations between Évariste and Alfred and, later, between Évariste, Tobias, and Alfred. The influence on the FAIR comic can be seen both in the range of subjects covered and in the canned-food metaphor, which originates on page 12 of the leaflet. Another material used by Afred was a slide desk from NFDI4ING's Task Area Federated Interactive Data Space with a schematic representation of the different layers that constitute a FAIR Digital Object.
+
+A point of contention was whether fictional elements should be included at all. At the outset of the project, Évariste was unfamiliar with the distinction between fictional comics and comics journalism and proposed narrative devices drawn from fictional comics. Alfred generally resisted such proposals. The need to reconcile them with the request to begin the story in 843 AD ultimately led to the inclusion of a few fictional elements on the first three pages, which are examined below. Before turning to these elements, however, we first explain Évariste's request to begin the story in 843 AD.
+
+At the time of writing, Aachen has presented the International Charlemagne Prize for seventy-six years. First awarded on 14 March 1950, the prize honours individuals who have made outstanding contributions to peace, unity, and cooperation in Europe \cite{stiftung_internationaler_karlspreis_zu_aachen_start_nodate}. Its creation coincided with a formative decade of European integration. The decade witnessed the establishment of the European Coal and Steel Community (ECSC) through the Treaty of Paris (1951; in force from 1952) and, later, of the European Economic Community (EEC) and the European Atomic Energy Community (EURATOM) through the Treaties of Rome (1957; in force from 1958). Less frequently noted is that the combined territory of the six states that founded the ECSC, the EEC, and EURATOM overlaps substantially with the core regions of the Carolingian Empire. This overlap is noteworthy because Aachen is closely associated with Charlemagne, who established a palace complex (Pfalz) there and made the city a center of Carolingian rule. Aachen therefore occupies a distinctive place in both the symbolic landscape of post-war European integration and the historical geography of the Carolingian world.
+
+The Carolingian connection is also visible at RWTH Aachen University. It is reflected, among other things, in the acronym C.A.R.L., the name of a representative university building that served as the venue for CoRDI 2025 \cite{nfdi_ev_cordi_nodate}. Moreover, the local host of CoRDI 2025, Robert Schmitt of NFDI4ING, referred explicitly to the Carolingians in his opening remarks of the CoRDI. Against this backdrop of Carolingian references, Évariste was reminded of a familiar narrative convention in comics: the use of an introductory map, as found, for example, on the front endpapers of \textit{Astérix} albums \cite{goscinny_asterix_1961}. This convention inspired the idea of opening the FAIR comic with a map of the Carolingian Empire.
+
+The first three pages of the FAIR comic are dedicated to establishing context and continuity (cf. chapter five in \cite{edwards_common_1987}) within the broader geographical and cultural landscape of NFDI4ING. They are also intended to entertain readers and draw them toward the more technical aspects of research data infrastructure. To this end, a small number of fictional elements were introduced, including reconstructions of what Charlemagne and his descendants might have said and done up to the partition of the empire under the Treaty of Verdun in 843 AD. In designing and drawing the first three pages, Alfred used expertise he had acquired in the course of an earlier project \cite{neuwald_karl_2014}. The map of the Carolingian Empire, specifically, is based on a historical map distributed through Alamy \cite{noauthor_europe843_nodate}. On a more technical note, most of the details of the historical map were omitted in order to emphasize selected features, while a few others were added. Among these is the empire's eastern frontier, which is marked on the map by the added detail \textit{limes sorabicus}. The territories beyond this frontier were subject to varying degrees of Carolingian rule and correspond broadly to the toponomastic boundary between regions characterized by Germanic and Slavic place-name strata \cite{jelic_ethnonym_2019}. Another addition is the city of Darmstadt, home to Technische Universität Darmstadt, applicant institution of NFDI4ING during its second funding period \cite{noauthor_dfg_nodate}.
+
+As soon as the FAIR comic shifts from the Carolingian past to present-day Aachen and C.A.R.L., the staged setting of the meeting between Alfred and Évariste, the colour palette switches to indicate a different register: conversation. The ensuing dialogue depicts discussions that took place over the course of almost five months of weekly meetings involving Alfred and either Évariste alone or Évariste and Tobias together. The FAIR comic organizes these discussions thematically and condenses them into nine pages.
+
+\subsection{Manuscript Preparation and Translation}
+The process of outlining, designing and refining the comic was conducted in German.
+% German served as a lingua franca in the creation of the comic.
+As such, the first draft was written in German. 
+As we approached the publication of the comic within ing.grid, the comic had to be translated into English language.
+However, to make the comic more accessible, we considered different language versions as quite relevant.
+One possibility of achieving this multilingual solution, Alfred would have to redraw all texts within the comic in a new language.
+This would have led to long review loops as well as a big overhead for Alfred.
+
+Tobias instead came up with a different, more automated version.
+He asked Alfred to create a blank PDF version of the comic, containing only the persons, maps etc. but no text.
+With this blank version, a LaTeX document could be created.
+In this document, special pages were declared. 
+These pages form full page TikZ\footnote{TikZ is a recursive acronym for "TikZ ist kein Zeichenprogramm", which is German for "TikZ is not a drawing program".} images where the blank comic pages form the background of the page.
+Then, the original German text written by Alfred was placed on top of the blank background PDF as TikZ nodes.
+These nodes can be styled in different ways, allowing for different fonts and font sizes as well as special text forms e.g. curved or rotated texts.
+The nodes can be freely placed on the page and allow for precise text placement of the comic text.
+Furthermore, manual line breaks can be placed in the language file.
+In that way, the text can manually be adjusted to enhance styling and balance of the text as seen fit by the artist.
+
+Yet, another problem arose.
+The image of three-dimensional toy bricks forming the letters \enquote{FDI} for the German \enquote{Forschungsdateninfrastruktur} on the first page also had to be translated.
+For this, different language versions of the image were generated by artificial intelligence, namely OpenAI's ChatGPT 5.5 version.
+The AI was asked to exactly keep the style of the image but change the original hand-sketched \enquote{FDI} to \enquote{RDI}.
+The original \enquote{FDI} was also removed from the blank comic version so that the background would not interfere with the overlay image that is language dependant.
+
+In a similar manner, the language files can automatically be translated using \ac{ai}.
+To proof this concept, we let \ac{ai} translate the comic into latin and elvish.
+In that manner, all dextrograde languages, i.e. languages that are read from left to right, can be displayed in the comic.
+Elvish furthermore proves, that langugages with non-latin letters can be displayed as well.
+Sinistrograde (right to left writing) or boustrophedon (linewise changing of writing direction) writing was not yet implemented nor tested.
+
+The source code can be found on \href{https://github.com/tobias-hamann/research-comic-vol1}{GitHub}.
+Every language \verb|XY| is kept in its own folder \verb|language_files/XY|, which holds the text file \verb|XY.tex|, the corresponding folder \verb|pages_XY| and all language dependent images.
+As a wrapper, the file \verb|pages_functions.tex| is processing these folders.
+Every \verb|language_files/XY/XY.tex| contains all text lines ordered by their appearance on the pages in the corresponding language \verb|XY|, which allows for a translation of texts independently from their appearance in the document.
+Also, manual line breaks can be added here as needed.
+The \verb|pages_XY| files handle the positioning and scaling of texts for each language \verb|XY| individually, which accounts for different lengths of the same contents in different languages.
+The language is chosen in the \verb|main.tex|: the command \verb|\comic{XY}| outputs all comic pages in the language \verb|XY| one after another, e.g. \verb|\comic{en}| generates the English version of the comic.
+Since each call is self-contained, several language versions can also be printed one after another within the same document.
+The language of the surrounding article, i.e. title and metadata, is set separately with \verb|\newcommand{\FDILanguage}{en}|.
+As of writing, the original German version and this translated English version exist.
+
+
+\section{Discussion}
+\subsection{Dialogue as a Documentary and Didactic Form}
+The conversational format of the FAIR comic has a philosophical pedigree reaching back to the dialogues of Plato (\textit{circa} 424/3--348/7 BC \cite{debra_people_2002}). Parallels include the use of historical interlocutors \cite{debra_people_2002} and a characteristic division of labour: Socrates asks questions, while his interlocutors formulate and defend answers. Like Socrates, Alfred frequently advances the discussion through questions. One of the most arresting things about the Platonic dialogues is that most of them have survived for more than two millennia and continue to be widely read and discussed today. We contend that such an unusually long period of transmission should be taken as an indication of the longevity not only of their content but also of their form. References to Plato continue to appear in contemporary culture and education. Examples include Jay-Z, Kanye West, Frank Ocean, and The-Dream's song "No Church in the Wild", which invokes the \textit{Euthyphron} dilemma \cite{jay-z_no_2011, kanye_west_jay-z_2012}; Helme Heine's children’s book \textit{Tante Nudel, Onkel Ruhe und Herr Schlau}, which adapts the \textit{Politeia} \cite{heine_tante_1997}; Höfner and Süßbier's didactic comic \textit{Das verrückte Mathe-Comic-Buch}, which includes a re-telling of the \textit{Menon} \cite{hofner_verruckte_2012}; as well as James Orr's lecture series \textit{Plato} \cite{peterson_academy_dr_2026}. This continued presence suggests not only the enduring relevance of the subject matter, but also the effectiveness and remarkable adaptability of the dialogical format through which that subject matter is explored. As Orr points out in the opening lecture of his series, "once you know all of the sides, you understand your own" \parencite[at 55:09]{peterson_academy_dr_2026}. The FAIR comic similarly relies on dialogue as a means of exploring and communicating complex, albeit technological, matters. We hope that readers interested in research data infrastructure will be profitably entertained by the result.
+
+We have introduced the FAIR comic by reference to the documentary practices of ethnographic research \cite{latour_laboratory_1979, latour_laboratory_1986}, and discourse and conversation analysis \cite{edwards_common_1987, hormeyer_einsatz_2015}. More specifically, we have situated comic culture within a continuum of practices concerned with documenting deixis and embodied speech (see \ref{sec:introduction}). We have argued that, as a graphic medium, comics are particularly well suited to documenting multimodal interaction in situated research environments. In this sense, the FAIR comic may itself be understood as a documentary form of speech. If we have now reached back to the dialogues of Plato, it is still in an attempt to reflect on the structure of the FAIR comic and, more generally, on what helps readers understand the spoken word \cite{ong_orality_1982}.
+
+
+\subsection{The FAIR Comic between Research and Science Comics}
+We conclude our discussion by comparing the FAIR comic to related forms of comic culture, such as comics about researchers in research institutions (see, for example, Jorge Cham's \textit{PHD Comics} or Eppendorf’s \textit{Lab Life}; \cite{cham_phd_1997, noauthor_lab_nodate}), as well as science communication comics that explain fields of research (see, for example, Larry Gonick's \textit{Cartoon Guide} series or Matteo Farinella's \textit{Neurocomic}; \cite{gonick_cartoon_1983-1, gonick_cartoon_1983, farinelli_neurocomic_2013}). The FAIR comic sits comfortably between these two broader lineages and follows a journalistic ethos. What we seek to achieve is not adequately captured by saying that the FAIR comic is about research practice, nor even that it is researched, but rather that it is explicit about the process of learning---or coming to understand. To put our claim in direct speech: "This is what we discussed while trying to establish a mutual understanding of research data infrastructure."
+
+
+%
+%
+% Part of SciKGTex - uncomment below if using scikgtex package
+%
+%\result{ Add results.}
+%\conclusion{ Add conclusion.}
+%
+%
+
+%
+%
+% Acknowledgements, contributions & roles, and references
+% will be set automatically at the end of the document
+%
+%
+\end{document}

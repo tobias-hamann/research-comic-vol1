@@ -1,0 +1,566 @@
+% ------------------------------------------------------------
+% FDI setup
+% ------------------------------------------------------------
+
+\pagestyle{empty}
+\setlength{\parindent}{0pt}
+
+\newcounter{fdipage}
+
+% ------------------------------------------------------------
+% Comic folder and blank comic pages
+% ------------------------------------------------------------
+% Enthaelt diese Datei und das Blanko-PDF, also alles, was fuer
+% alle Sprachen gleich ist. Bei einer neuen Blanko-Version nur
+% \FDIBlankoFile anpassen.
+
+\newcommand{\FDIComicFolder}{comic_files}
+\newcommand{\FDIBlankoFile}{\FDIComicFolder/BLANKO_1-12_v1.0.0.pdf}
+
+% ------------------------------------------------------------
+% Fonts setup depending on language
+% ------------------------------------------------------------
+
+% Normale Fonts
+\newfontfamily{\FDIKarolingischeMinuskelDefault}{Karolingische_Minuskel.ttf}[
+  Path = fonts/,
+  FakeBold = 2
+]
+
+\newfontfamily{\FDIOverlayFontDefault}{KOMTXT__.ttf}[
+  Path = fonts/
+]
+
+\newfontfamily{\FDIArialBOLDFontDefault}{ArialCEMTBlack.ttf}[
+  Path = fonts/
+]
+
+\newfontfamily{\FDIArialFontDefault}{ARIAL.ttf}[
+  Path = fonts/
+]
+
+% Elbische FDI-Schriften
+% Wichtig: Diese Fonts werden NICHT global auf das Dokument angewendet,
+% sondern nur über die FDI-Font-Makros unten verwendet.
+% Renderer=Basic ist bei alten Tengwar-/Symbolfonts oft wichtig.
+
+% Normale FDI-Sprechblasen / Standard-Overlay
+\newfontfamily{\FDIElbArialFont}{tngani.ttf}[
+  Path = fonts/,
+  Renderer = Basic,
+  Scale = 0.78
+]
+
+% Fette FDI-Sprechblasen / Hervorhebungen
+\newfontfamily{\FDIElbArialBOLDFont}{tngani.ttf}[
+  Path = fonts/,
+  Renderer = Basic,
+  Scale = 0.78,
+  FakeBold = 1.8
+]
+
+% FDI-Overlay-Schrift, etwas größer für Comic-Texte
+\newfontfamily{\FDIElbOverlayFont}{tngani.ttf}[
+  Path = fonts/,
+  Renderer = Basic,
+  Scale = 0.82
+]
+
+% FDI-Karolingische-Minuskel-Ersatzschrift
+\newfontfamily{\FDIElbKarolingischeMinuskel}{tngani.ttf}[
+  Path = fonts/,
+  Renderer = Basic,
+  Scale = 0.86,
+  FakeBold = 1.3
+]
+
+% ------------------------------------------------------------
+% Public font aliases
+% ------------------------------------------------------------
+
+\providecommand{\KarolingischeMinuskel}{}
+\providecommand{\FDIOverlayFont}{}
+\providecommand{\ArialBOLDFont}{}
+\providecommand{\ArialFont}{}
+
+% ------------------------------------------------------------
+% Apply FDI font aliases depending on language
+% ------------------------------------------------------------
+% Wichtig:
+% Dieser Schalter verändert NICHT \setmainfont, \setsansfont oder \setmonofont.
+% Er betrifft ausschließlich die FDI-Font-Makros:
+% \KarolingischeMinuskel, \FDIOverlayFont, \ArialBOLDFont und \ArialFont.
+
+\newcommand{\FDISetupLanguageFonts}{%
+  \ifdefstring{\FDILanguage}{elb}{%
+    \typeout{FDI: Language is elb. Switching FDI font macros only.}%
+
+    % Nur FDI-Font-Makros auf elbische Varianten setzen.
+    % Keine globalen Dokumentfonts ändern!
+    \let\KarolingischeMinuskel\FDIElbKarolingischeMinuskel
+    \let\FDIOverlayFont\FDIElbOverlayFont
+    \let\ArialBOLDFont\FDIElbArialBOLDFont
+    \let\ArialFont\FDIElbArialFont
+  }{%
+    \typeout{FDI: Language is not elb. Using default FDI font macros.}%
+
+    % Normale FDI-Font-Makros setzen.
+    \let\KarolingischeMinuskel\FDIKarolingischeMinuskelDefault
+    \let\FDIOverlayFont\FDIOverlayFontDefault
+    \let\ArialBOLDFont\FDIArialBOLDFontDefault
+    \let\ArialFont\FDIArialFontDefault
+  }%
+}
+
+% ------------------------------------------------------------
+% Language folder depending on language
+% Usage result: language_files/de, language_files/en, ...
+% Enthaelt die Sprachdatei, den zugehoerigen pages-Ordner und
+% alle sprachabhaengigen Bilder.
+% ------------------------------------------------------------
+
+\newcommand{\FDILanguageFolder}{%
+  language_files/\FDILanguage%
+}
+
+% ------------------------------------------------------------
+% Input language text file
+% Loads: language_files/de/de.tex, language_files/en/en.tex, ...
+% ------------------------------------------------------------
+
+\newcommand{\FDIInputLanguageFile}{%
+  \IfFileExists{\FDILanguageFolder/\FDILanguage.tex}{%
+    \input{\FDILanguageFolder/\FDILanguage.tex}%
+  }{%
+    \PackageError{FDI}{Language file '\FDILanguageFolder/\FDILanguage.tex' not found}{%
+      Check \string\FDILanguage\space and create the corresponding file.%
+    }%
+  }%
+}
+
+% ------------------------------------------------------------
+% Set page folder depending on language
+% Usage result: language_files/de/pages_de, language_files/en/pages_en, ...
+% ------------------------------------------------------------
+
+\newcommand{\FDIPageFolder}{%
+  \FDILanguageFolder/pages_\FDILanguage%
+}
+
+% ------------------------------------------------------------
+% Input page by number
+% Usage: \FDIInputPage{1}
+% Loads: language_files/de/pages_de/page_1.tex, ...
+% ------------------------------------------------------------
+
+\newcommand{\FDIInputPage}[1]{%
+  \IfFileExists{\FDIPageFolder/page_#1.tex}{%
+    \input{\FDIPageFolder/page_#1.tex}%
+  }{%
+    \PackageError{FDI}{Page file '\FDIPageFolder/page_#1.tex' not found}{%
+      Check \string\FDILanguage\space and create the corresponding page file.%
+    }%
+  }%
+}
+
+% ------------------------------------------------------------
+% Whole comic in one language
+% Usage: \comic{de}        alle Comicseiten auf Deutsch
+%        \comic[3]{en}     nur die ersten 3 Seiten, also Seite 1 bis 3
+%        \comic[3-5]{en}   Seite 3 bis 5
+%        \comic[7-7]{en}   nur Seite 7
+% ------------------------------------------------------------
+% Gibt alle Comicseiten der Sprache #2 direkt hintereinander aus.
+% Sprache, Fonts und Texte gelten nur innerhalb von \comic. Nach
+% \comic gelten wieder die Einstellungen des Dokuments, also
+% \FDILanguage sowie \title/\subtitle/\shorttitle aus der in der
+% Praeambel geladenen Sprachdatei.
+% Dadurch koennen auch mehrere Sprachen nacheinander ausgegeben
+% werden, z.B.:
+%   \comic{de}
+%   \comic{en}
+
+% Anzahl der Comicseiten pro Sprache
+\newcommand{\FDIComicPageCount}{12}
+
+\makeatletter
+
+\newcounter{FDIcomicpage}
+
+% Optionales Argument von \comic auswerten.
+% Aufruf immer mit angehaengtem --\FDI@stop, dadurch gilt:
+%   "5"    ->  #1=5  #2=leer  ->  Seite 1 bis 5
+%   "3-5"  ->  #1=3  #2=5     ->  Seite 3 bis 5
+\def\FDI@stop{}
+
+\def\FDI@parserange#1-#2-#3\FDI@stop{%
+  \def\FDI@tmp{#2}%
+  \ifx\FDI@tmp\@empty
+    \def\FDI@firstpage{1}%
+    \edef\FDI@lastpage{#1}%
+  \else
+    \edef\FDI@firstpage{#1}%
+    \edef\FDI@lastpage{#2}%
+  \fi
+}
+
+\newcommand{\comic}[2][\FDIComicPageCount]{%
+  \begingroup
+    % \edef, damit auch \comic{\FDILanguage} funktioniert
+    \edef\FDILanguage{#2}%
+    \FDISetupLanguageFonts
+    \FDIInputLanguageFile
+    % Seitenbereich bestimmen
+    \edef\FDI@tmp{#1}%
+    \expandafter\FDI@parserange\FDI@tmp--\FDI@stop
+    % Beide Zaehler auf die Seite vor der ersten gewuenschten Seite setzen.
+    % fdipage waehlt die Seite im Hintergrund-PDF und laeuft deshalb mit,
+    % damit \comic[3-5] auch die Zeichnungen der Seiten 3 bis 5 zeigt.
+    \setcounter{FDIcomicpage}{\FDI@firstpage}%
+    \addtocounter{FDIcomicpage}{-1}%
+    \setcounter{fdipage}{\value{FDIcomicpage}}%
+    \@whilenum\value{FDIcomicpage}<\FDI@lastpage\do{%
+      \stepcounter{FDIcomicpage}%
+      \expandafter\FDIInputPage\expandafter{\number\value{FDIcomicpage}}%
+    }%
+    % letzte Comicseite ausgeben, solange die Sprache noch gesetzt ist
+    \clearpage
+  \endgroup
+}
+
+\makeatother
+
+% ------------------------------------------------------------
+% FDI header/footer offsets
+% ------------------------------------------------------------
+% Positive X-Werte verschieben nach rechts.
+% Negative X-Werte verschieben nach links.
+% Positive Y-Werte verschieben nach oben.
+% Negative Y-Werte verschieben nach unten.
+
+\newlength{\FDIHeaderXOffset}
+\newlength{\FDIHeaderYOffset}
+\newlength{\FDIFooterXOffset}
+\newlength{\FDIFooterYOffset}
+
+\setlength{\FDIHeaderXOffset}{0pt}
+\setlength{\FDIHeaderYOffset}{20pt}
+\setlength{\FDIFooterXOffset}{0pt}
+\setlength{\FDIFooterYOffset}{-35pt}
+
+% ------------------------------------------------------------
+% FDI pagestyle: original inggrid pagestyle with offsets
+% ------------------------------------------------------------
+
+\makeatletter
+
+\let\FDI@original@ps@inggrid\ps@inggrid
+
+\def\ps@inggridfdi{%
+  \FDI@original@ps@inggrid%
+
+  \let\FDI@oddhead\@oddhead%
+  \let\FDI@evenhead\@evenhead%
+  \let\FDI@oddfoot\@oddfoot%
+  \let\FDI@evenfoot\@evenfoot%
+
+  \def\@oddhead{%
+    \hspace*{\FDIHeaderXOffset}%
+    \raisebox{\FDIHeaderYOffset}[0pt][0pt]{\FDI@oddhead}%
+    \hspace*{-\FDIHeaderXOffset}%
+  }%
+
+  \def\@evenhead{%
+    \hspace*{\FDIHeaderXOffset}%
+    \raisebox{\FDIHeaderYOffset}[0pt][0pt]{\FDI@evenhead}%
+    \hspace*{-\FDIHeaderXOffset}%
+  }%
+
+  \def\@oddfoot{%
+    \hspace*{\FDIFooterXOffset}%
+    \raisebox{\FDIFooterYOffset}[0pt][0pt]{\FDI@oddfoot}%
+    \hspace*{-\FDIFooterXOffset}%
+  }%
+
+  \def\@evenfoot{%
+    \hspace*{\FDIFooterXOffset}%
+    \raisebox{\FDIFooterYOffset}[0pt][0pt]{\FDI@evenfoot}%
+    \hspace*{-\FDIFooterXOffset}%
+  }%
+}
+
+\makeatother
+
+
+% ------------------------------------------------------------
+% FDI pages
+% ------------------------------------------------------------
+
+\newcommand{\FDIPage}[1]{%
+  \clearpage
+  \stepcounter{fdipage}%
+  \thispagestyle{inggridfdi}%
+  \AddToShipoutPictureBG*{%
+    \begin{tikzpicture}[remember picture, overlay]
+      \node[anchor=center, inner sep=0pt]
+        at (current page.center) {%
+          \includegraphics[
+            page=\value{fdipage},
+            width=\paperwidth,
+            height=\paperheight
+          ]{\FDIBlankoFile}%
+        };
+    \end{tikzpicture}%
+  }%
+  #1%
+  \null
+}
+
+% ------------------------------------------------------------
+% FDI Texts
+% ------------------------------------------------------------
+% Globale Variable für den Zeilenabstand
+\newlength{\FDITextLineSkip}
+\setlength{\FDITextLineSkip}{12pt}
+
+
+% \FDIStyledText{schriftgröße}{ignored}{text}
+% Achtung: kein äußerer {...}-Block, damit \baselineskip bis zum Absatzende wirkt.
+\newcommand{\FDIStyledText}[3]{%
+  \FDIOverlayFont
+  \fontsize{#1}{\FDITextLineSkip}\selectfont
+  \setlength{\baselineskip}{\FDITextLineSkip}%
+  #3%
+}
+
+% \FDIText{x}{y}{breite}{text}
+\newcommand{\FDIText}[4]{%
+  \node[
+    anchor=north west,
+    inner sep=0pt,
+    outer sep=0pt,
+    minimum width=#3
+  ] at ([xshift=#1,yshift=-#2]current page.north west) {%
+    \begin{minipage}[t]{#3}
+      \centering
+      \setlength{\lineskip}{0pt}%
+      \setlength{\parskip}{0pt}%
+      \FDIOverlayFont
+      #4%
+    \end{minipage}%
+  };
+}
+
+% \FDITextLeft{x}{y}{breite}{text}
+\newcommand{\FDITextLeft}[4]{%
+  \node[
+    anchor=north west,
+    inner sep=0pt,
+    outer sep=0pt,
+    minimum width=#3
+  ] at ([xshift=#1,yshift=-#2]current page.north west) {%
+    \begin{minipage}[t]{#3}
+      \raggedright
+      \setlength{\lineskip}{0pt}%
+      \setlength{\parskip}{0pt}%
+      \FDIOverlayFont
+      #4%
+    \end{minipage}%
+  };
+}
+
+\newcommand{\FDIStyledTextMinuskel}[3]{%
+  {\KarolingischeMinuskel\fontsize{#1}{#2}\selectfont #3}%
+}
+
+% \FDITextLS{x}{y}{breite}{schriftgröße}{zeilenabstand}{text}
+% \FDIText{x}{y}{breite}{schriftgröße}{zeilenabstand}{text}
+\newcommand{\FDITextLS}[6]{%
+  \node[
+    anchor=north west,
+    text width=#3,
+    align=center,
+    font=\FDIOverlayFont,
+    inner sep=0pt,
+    outer sep=0pt,
+    minimum width=#3,
+    font=\FDIOverlayFont\fontsize{#4}{#5}\selectfont
+  ] at ([xshift=#1,yshift=-#2]current page.north west) {#6};
+}
+
+
+
+% \FDIOvalWrapText{x}{y}{breite}{text}
+\newcommand{\FDIOvalText}[4]{%
+  % unsichtbare / randlose Sprechblasenfläche
+  \node[
+    ellipse,
+    draw=none,
+    minimum width=#3,
+    minimum height=1.9cm,
+    inner sep=0pt,
+    outer sep=0pt
+  ] at ([xshift=#1,yshift=-#2]current page.north west) {};
+
+  % Text mit angenäherter ovaler Kontur
+  \node[
+    anchor=center,
+    inner sep=0pt,
+    outer sep=0pt
+  ] at ([xshift=#1,yshift=-#2]current page.north west) {%
+    \begin{minipage}{#3}
+      \centering
+      \FDIOverlayFont
+      \parshape=5
+        0.55cm \dimexpr#3-1.10cm\relax
+        0.25cm \dimexpr#3-0.50cm\relax
+        0.00cm #3
+        0.25cm \dimexpr#3-0.50cm\relax
+        0.55cm \dimexpr#3-1.10cm\relax
+      #4%
+    \end{minipage}%
+  };
+}
+
+% \FDIArcTextOutside{x}{y}{start angle}{end angle}{radius}{text}{style}
+% Text ist von außen lesbar.
+\newcommand{\FDIArcTextOutside}[7]{%
+  \path[
+    decorate,
+    decoration={
+      text along path,
+      text={|#7| #6},
+      text align=center
+    }
+  ]
+  ([xshift=#1,yshift=-#2]current page.north west)
+  arc[start angle=#3,end angle=#4,radius=#5];
+}
+
+% \FDIArcTextInside{x}{y}{start angle}{end angle}{radius}{text}{style}
+% Text ist von innen lesbar.
+\newcommand{\FDIArcTextInside}[7]{%
+  \path[
+    decorate,
+    decoration={
+      text along path,
+      reverse path,
+      text={|#7| #6},
+      text align=center
+    }
+  ]
+  ([xshift=#1,yshift=-#2]current page.north west)
+  arc[start angle=#3,end angle=#4,radius=#5];
+}
+
+% \FDITextRotated{x}{y}{breite}{winkel}{text}
+% winkel: positiver Wert = gegen den Uhrzeigersinn, negativer Wert = im Uhrzeigersinn
+\newcommand{\FDITextRotated}[5]{%
+  \node[
+    anchor=north west,
+    text width=#3,
+    align=center,
+    inner sep=0pt,
+    outer sep=0pt,
+    rotate=#4
+  ] at ([xshift=#1,yshift=-#2]current page.north west) {#5};
+}
+
+% ------------------------------------------------------------
+% FDI Text Posistion Makros
+% ------------------------------------------------------------
+% \def statt \newcommand, damit dieselbe Sprachdatei mehrfach bzw.
+% mehrere Sprachdateien nacheinander geladen werden koennen (siehe \comic).
+\newcommand{\FDISetText}[4]{%
+  \expandafter\def\csname s#1p#2t#3\endcsname{#4}%
+}
+
+\newcommand{\FDIUseText}[3]{%
+  \csname s#1p#2t#3\endcsname
+}
+
+% ------------------------------------------------------------
+% FDI city dots
+% ------------------------------------------------------------
+% \FDICityDot{x}{y}{größe}{füllfarbe}
+% Setzt einen Punkt mit weißer Outline.
+% Alle Werte werden vom oberen linken Seitenrand gemessen.
+% Beispiel: \FDICityDot{7.2cm}{11.4cm}{7pt}{red!85!black}
+
+\newlength{\FDICityDotOutlineWidth}
+\setlength{\FDICityDotOutlineWidth}{1.2pt}
+
+\tikzset{
+  FDICityDotStyle/.style={
+    circle,
+    draw=white,
+    line width=\FDICityDotOutlineWidth,
+    inner sep=0pt,
+    outer sep=0pt
+  }
+}
+
+\newcommand{\FDICityDot}[4]{%
+  \node[
+    FDICityDotStyle,
+    minimum size=#3,
+    fill=#4
+  ] at ([xshift=#1,yshift=-#2]current page.north west) {};
+}
+
+
+% ------------------------------------------------------------
+% FDI movable line numbers / panel numbers
+% Uses original inggrid / lineno counter
+% ------------------------------------------------------------
+
+\makeatletter
+
+% Zentraler Stil der Nummern aus lineno / inggrid
+\newcommand{\FDILineNumberStyle}{%
+  \linenumberfont
+}
+
+% \FDILineNumberBox{x}{y}
+% x = Abstand vom linken Seitenrand
+% y = Abstand vom oberen Seitenrand
+% Nutzt den originalen linenumber-Zähler fortlaufend weiter.
+\newcommand{\FDILineNumberBox}[2]{%
+  \stepcounter{linenumber}%
+  \node[
+    anchor=north west,
+    inner sep=0pt,
+    outer sep=0pt
+  ] at ([xshift=#1,yshift=-#2]current page.north west) {%
+    {\FDILineNumberStyle\thelinenumber}%
+  };%
+}
+
+\makeatother
+
+
+% ------------------------------------------------------------
+% Horizontal lines
+% ------------------------------------------------------------
+
+\newcommand{\FDIHLine}[3]{%
+  \draw[lightgray, line width=0.4pt]
+    ([xshift=#1,yshift=-#3]current page.north west)
+    --
+    ([xshift=#2,yshift=-#3]current page.north west);
+}
+
+
+% ------------------------------------------------------------
+% Point to point lines
+% ------------------------------------------------------------
+
+% \FDILine{x1}{y1}{x2}{y2}
+% zieht eine Linie von Punkt 1 zu Punkt 2
+% alle Werte werden von oben links gemessen
+\newcommand{\FDILine}[4]{%
+  \draw[black, line width=0.4pt]
+    ([xshift=#1,yshift=-#2]current page.north west)
+    --
+    ([xshift=#3,yshift=-#4]current page.north west);
+}

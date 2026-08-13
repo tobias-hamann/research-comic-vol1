@@ -1,0 +1,53 @@
+
+\def\@maketitle{%
+	\newpage \null%
+    \begin{whitebox}
+		\begin{flushleft}%
+			\normalsize\sffamily%
+			{\normalsize\MakeUppercase{\@articletype}\par}
+			\ifx\@articleclass\letter
+			\marginnote{\includegraphics[width=\linewidth]{./logos/inggrid.pdf}}%[.5\baselineskip]
+			\else
+			\ifx\@articleclass\final
+			\marginnote{\includegraphics[width=\linewidth]{./logos/inggrid.pdf}}%[.5\baselineskip]
+			\else
+			\marginnote{\includegraphics[width=\linewidth]{./logos/inggrid-preprints.pdf}}%[.5\baselineskip]
+			\fi
+			\fi
+			{\Large\bfseries \@title \par}%
+			{\normalsize\bfseries\@subtitle\par}%
+			{\vskip 1.5em%
+				\normalsize\printauthors
+				\vskip 1.5em%
+					{\footnotesize\printaffiliations}
+				\vskip 1em%
+			}
+		\end{flushleft}%
+	\end{whitebox}
+	\marginpar{% OpenAccess Logo
+		\vskip 2ex
+		\adjustbox{width=2em}{\textcolor{BurntOrange}{\aiOpenAccess}}%
+		\vskip 2ex
+	}
+    \sideinfofield{Date Submitted}{datesubmitted}
+	\ifx\@articleclass\letter
+	\sideinfofield{Date Published}{datepublished}
+	\sideinfofield{DOI}{doi}
+	\sideinfofield{License}{licenses}
+    \sideinfofield{Keywords}{keywords}
+	\else
+	\ifx\@articleclass\final
+	\sideinfofield{Date Received}{datereceived}
+	\sideinfofield{Date Accepted}{dateaccepted}
+	\sideinfofield{Date Published}{datepublished}
+	\sideinfofield{DOI}{doi}
+	\sideinfo{Reviewers}{\printreviewers}
+	\fi
+    \sideinfofield{License}{licenses}
+    \sideinfofield{Keywords}{keywords}
+    \sideinfofield{Data availability}{dataavailability}
+    \sideinfofield{Software availability}{softwareavailability}
+	\fi
+    \sideinfofield{Corresponding Author}{corresponding}
+    \sideinfos%
+}
