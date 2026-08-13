@@ -306,13 +306,13 @@ The Elvish edition furthermore demonstrates that languages using non-Latin lette
 Sinistrograde (right to left writing) or boustrophedon (linewise changing of writing direction) writing was not yet implemented nor tested.
 
 The source code can be found on \href{https://github.com/tobias-hamann/research-comic-vol1}{GitHub}\footnote{\url{https://github.com/tobias-hamann/research-comic-vol1}} \cite{Hamann_A_FAIR_Comic_2026}.
-Every language \verb|CODE| is kept in its own folder \verb|language_files/CODE|, which holds the text file \verb|CODE.tex|, the corresponding folder \verb|pages_CODE| and all language dependent images. Here, \verb|CODE| is the lowercase three-letter identifier from ISO 639 Set 3 (formerly ISO 639-3) \cite{iso_639_2023}, as used by the Zenodo language vocabulary. 
+Every language \verb|CODE| is kept in its own folder \path{language_files/CODE}, which holds the text file \path{CODE.tex}, the corresponding folder \path{pages_CODE} and all language dependent images. Here, \verb|CODE| is the lowercase three-letter identifier from ISO 639 Set 3 (formerly ISO 639-3) \cite{iso_639_2023}, as used by the Zenodo language vocabulary.
 The Draconic version uses the project-local placeholder \verb|vss|, derived from the Draconic name \emph{Vs'shtak}; this identifier is neither registered in ISO 639 nor in Zenodo.
-If additional fonts are needed, they are contained in the subfolder \verb|fonts_CODE|.
-As a wrapper, the file \verb|comic_files\pages_functions.tex| is processing these folders.
-Every \verb|language_files/CODE/CODE.tex| contains all text lines ordered by their appearance on the pages in the corresponding language, which allows for a translation of texts independently from their appearance in the document.
+If additional fonts are needed, they are contained in the subfolder \path{fonts_CODE}.
+As a wrapper, the file \path{comic_files/pages_functions.tex} is processing these folders.
+Every \path{language_files/CODE/CODE.tex} contains all text lines ordered by their appearance on the pages in the corresponding language, which allows for a translation of texts independently from their appearance in the document.
 Also, manual line breaks can be added here as needed to account for the styling and weighting of texts within speach bubbles.
-The \verb|pages_CODE| files handle the positioning and scaling of texts for each language individually, which accounts for different lengths of the same contents in different languages.
+The \path{pages_CODE} files handle the positioning and scaling of texts for each language individually, which accounts for different lengths of the same contents in different languages.
 The language is chosen in the \verb|\comic{CODE}| command.
 It outputs all comic pages in the selected language one after another, e.g. \verb|\comic{eng}| generates the English version of the comic.
 Since each call is self-contained, several language versions can also be printed one after another within the same document.
