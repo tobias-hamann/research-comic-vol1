@@ -278,7 +278,7 @@ The process of outlining, designing and refining the comic was conducted in Germ
 As such, the first draft was written in German. 
 As we approached the publication of the comic within ing.grid, the comic had to be translated into English language.
 However, to make the comic more accessible, we considered different language versions as quite relevant.
-One possibility of achieving this multilingual solution, Alfred would have to redraw all texts within the comic in a new language.
+One possibility of achieving this multilingual solution would require Alfred to redraw all texts within the comic in a new language.
 This would have led to long review loops as well as a big overhead for Alfred.
 
 Tobias instead came up with a different, more automated version.
@@ -286,7 +286,7 @@ He asked Alfred to create a blank PDF version of the comic, containing only the 
 With this blank version, a LaTeX document could be created.
 In this document, special pages were declared. 
 These pages form full page TikZ\footnote{TikZ is a recursive acronym for "TikZ ist kein Zeichenprogramm", which is German for "TikZ is not a drawing program".} images where the blank comic pages form the background of the page.
-Then, the original German text written by Alfred was placed on top of the blank background PDF as TikZ nodes.
+Then, the original German text written by Alfred was placed on top of the blank background PDF as TikZ nodes (see the \hyperref[comic:de]{German version in the appendix}).
 These nodes can be styled in different ways, allowing for different fonts and font sizes as well as special text forms e.g. curved or rotated texts.
 The nodes can be freely placed on the page and allow for precise text placement of the comic text.
 Furthermore, manual line breaks can be placed in the language file.
@@ -299,21 +299,23 @@ The AI was asked to exactly keep the style of the image but change the original 
 The original \enquote{FDI} was also removed from the blank comic version so that the background would not interfere with the overlay image that is language dependant.
 
 In a similar manner, the language files can automatically be translated using \ac{ai}.
-To proof this concept, we let \ac{ai} translate the comic into latin and elvish.
+To prove this concept, we let \ac{ai} translate the comic into \hyperref[comic:la]{Latin}, \hyperref[comic:elb]{Elvish}, and \hyperref[comic:dra]{Draconic}.
 In that manner, all dextrograde languages, i.e. languages that are read from left to right, can be displayed in the comic.
-Elvish furthermore proves, that langugages with non-latin letters can be displayed as well.
+Elvish and draconic furthermore prove, that langugages with non-latin letters can be displayed as well.
 Sinistrograde (right to left writing) or boustrophedon (linewise changing of writing direction) writing was not yet implemented nor tested.
 
 The source code can be found on \href{https://github.com/tobias-hamann/research-comic-vol1}{GitHub}\footnote{\url{https://github.com/tobias-hamann/research-comic-vol1}} \cite{Hamann_A_FAIR_Comic_2026}.
 Every language \verb|XY| is kept in its own folder \verb|language_files/XY|, which holds the text file \verb|XY.tex|, the corresponding folder \verb|pages_XY| and all language dependent images.
-As a wrapper, the file \verb|pages_functions.tex| is processing these folders.
+If additional fonts are needed, they are contained in the subfolder \verb|fonts_XY|.
+As a wrapper, the file \verb|comic_files\pages_functions.tex| is processing these folders.
 Every \verb|language_files/XY/XY.tex| contains all text lines ordered by their appearance on the pages in the corresponding language \verb|XY|, which allows for a translation of texts independently from their appearance in the document.
-Also, manual line breaks can be added here as needed.
+Also, manual line breaks can be added here as needed to account for the styling and weighting of texts within speach bubbles.
 The \verb|pages_XY| files handle the positioning and scaling of texts for each language \verb|XY| individually, which accounts for different lengths of the same contents in different languages.
-The language is chosen in the \verb|main.tex|: the command \verb|\comic{XY}| outputs all comic pages in the language \verb|XY| one after another, e.g. \verb|\comic{en}| generates the English version of the comic.
+The language is chosen in the \verb|\comic{XY}| comand. 
+It outputs all comic pages in the language \verb|XY| one after another, e.g. \verb|\comic{en}| generates the English version of the comic.
 Since each call is self-contained, several language versions can also be printed one after another within the same document.
-The language of the surrounding article, i.e. title and metadata, is set separately with \verb|\newcommand{\FDILanguage}{en}|.
-As of writing, the original German version and this translated English version exist.
+The primary comic language and the language-specific title, subtitle, and short title are selected in \verb|main.tex| with \verb|\newcommand{\FDILanguage}{en}|. The article body and the remaining metadata are maintained separately.
+As of writing, the original \hyperref[comic:ger]{German} version and this translated \hyperref[comic:eng]{English} version exist along the \hyperref[comic:la]{Latin}, \hyperref[comic:elb]{Elvish}, and \hyperref[comic:dra]{Draconic} versions.
 
 
 \section{Discussion}
@@ -349,6 +351,12 @@ We conclude our discussion by comparing the FAIR comic to related forms of comic
 %
 \appendix
 \FDIAppendixComics
+
+% Placeholder for the planned Draconic translation. It deliberately remains
+% outside \FDILanguageList until the language and page files are available.
+\section{The comic in Draconic (planned)}
+\label{comic:dra}
+\emph{The rendered Draconic edition is being prepared and will be added in a future version.}
 
 %
 %
