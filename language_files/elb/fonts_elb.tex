@@ -1,0 +1,50 @@
+% ------------------------------------------------------------
+% Elbische FDI-Schriften
+% ------------------------------------------------------------
+% Wird von \FDIInputLanguageFonts in der Praeambel geladen.
+% Wichtig: Diese Fonts werden NICHT global auf das Dokument angewendet,
+% sondern nur ueber die FDI-Font-Makros verwendet.
+% Renderer=Basic ist bei alten Tengwar-/Symbolfonts oft wichtig.
+%
+% Der Pfad muss hier ausgeschrieben werden, weil \newfontfamily den
+% Pfad schon beim Laden der Praeambel aufloest und \FDILanguage zu
+% diesem Zeitpunkt noch die Sprache des Artikels ist.
+
+% Normale FDI-Sprechblasen / Standard-Overlay
+\newfontfamily{\FDIElbArialFont}{tngani_elb.ttf}[
+  Path = language_files/elb/fonts_elb/,
+  Renderer = Basic,
+  Scale = 0.78
+]
+
+% Fette FDI-Sprechblasen / Hervorhebungen
+\newfontfamily{\FDIElbArialBOLDFont}{tngani_elb.ttf}[
+  Path = language_files/elb/fonts_elb/,
+  Renderer = Basic,
+  Scale = 0.78,
+  FakeBold = 1.8
+]
+
+% FDI-Overlay-Schrift, etwas groesser fuer Comic-Texte
+\newfontfamily{\FDIElbOverlayFont}{tngani_elb.ttf}[
+  Path = language_files/elb/fonts_elb/,
+  Renderer = Basic,
+  Scale = 0.82
+]
+
+% FDI-Karolingische-Minuskel-Ersatzschrift
+\newfontfamily{\FDIElbKarolingischeMinuskel}{tngani_elb.ttf}[
+  Path = language_files/elb/fonts_elb/,
+  Renderer = Basic,
+  Scale = 0.86,
+  FakeBold = 1.3
+]
+
+% Zuweisung der FDI-Font-Makros fuer diese Sprache.
+% Wird von \FDISetupLanguageFonts ausgefuehrt, sobald elb gesetzt ist.
+\FDISetLanguageFonts{elb}{%
+  \let\KarolingischeMinuskel\FDIElbKarolingischeMinuskel
+  \let\FDIOverlayFont\FDIElbOverlayFont
+  \let\ArialBOLDFont\FDIElbArialBOLDFont
+  \let\ArialFont\FDIElbArialFont
+}
