@@ -1,0 +1,80 @@
+cff-version: 1.2.0
+message: "If you use this software (the LaTeX sources of this research comic), please cite it using the metadata below. If you refer to the comic itself, please cite the article under `preferred-citation`."
+title: "A FAIR Comic about Research Data Infrastructure — LaTeX sources"
+abstract: >-
+  LaTeX source code for the multilingual research comic "A FAIR Comic about
+  Research Data Infrastructure, Part 1: From Charlemagne to ing.grid". The
+  repository provides the ing.grid document class setup, the comic page and
+  text-placement macros, the language files (English, German, Latin, Elvish)
+  and the SciKGTeX annotations used to embed machine-readable research
+  contributions into the PDF.
+type: software
+authors:
+  - family-names: Hamann
+    given-names: Tobias
+    orcid: "https://orcid.org/0000-0002-8021-5524"
+    email: t.hamann@wzl-iqs.rwth-aachen.de
+    affiliation: "Chair for Intelligence in Quality Sensing (IQS), WZL, RWTH Aachen University, Aachen, Germany"
+repository-code: "https://github.com/tobias-hamann/research-comic-vol1"
+license: MIT
+version: 1.0.0
+date-released: "2026-08-13"
+keywords:
+  - research comic
+  - comics journalism
+  - research data infrastructure
+  - FAIR data
+  - NFDI4ING
+  - LaTeX
+  - SciKGTeX
+  - ing.grid
+languages:
+  - eng
+  - deu
+  - lat
+  - qya
+contact:
+  - family-names: Hamann
+    given-names: Tobias
+    email: t.hamann@wzl-iqs.rwth-aachen.de
+    orcid: "https://orcid.org/0000-0002-8021-5524"
+
+preferred-citation:
+  type: article
+  title: "A FAIR Comic about Research Data Infrastructure. Part 1: From Charlemagne to ing.grid"
+  authors:
+    - family-names: Neuwald
+      given-names: Alfred
+      orcid: "https://orcid.org/0009-0001-0152-7504"
+      email: info@alfred-neuwald.de
+      affiliation: "Granus Verlag, Aachen, Germany"
+    - family-names: Hamann
+      given-names: Tobias
+      orcid: "https://orcid.org/0000-0002-8021-5524"
+      email: t.hamann@wzl-iqs.rwth-aachen.de
+      affiliation: "Chair for Intelligence in Quality Sensing (IQS), WZL, RWTH Aachen University, Aachen, Germany"
+    - family-names: Demandt
+      given-names: Évariste
+      orcid: "https://orcid.org/0000-0002-2239-3955"
+      email: demandt@itc.rwth-aachen.de
+      affiliation: "IT Center, RWTH Aachen University, Aachen, Germany"
+  journal: "ing.grid"
+  year: 2026
+  # TODO: replace with the DOI assigned by ing.grid (currently 10.48694/inggrid.xxxxx in metadata/article.tex)
+  # doi: 10.48694/inggrid.xxxxx
+
+references:
+  - type: data
+    title: "Research data accompanying 'A FAIR Comic about Research Data Infrastructure, Part 1'"
+    authors:
+      - family-names: Neuwald
+        given-names: Alfred
+        orcid: "https://orcid.org/0009-0001-0152-7504"
+      - family-names: Hamann
+        given-names: Tobias
+        orcid: "https://orcid.org/0000-0002-8021-5524"
+      - family-names: Demandt
+        given-names: Évariste
+        orcid: "https://orcid.org/0000-0002-2239-3955"
+    doi: 10.5281/zenodo.19468332
+    year: 2026
