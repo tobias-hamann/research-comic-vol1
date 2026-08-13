@@ -1,0 +1,64 @@
+
+\FDIPage{%
+  \begin{tikzpicture}[remember picture, overlay]
+  % Zeilennummern
+    \FDILineNumberBox{0.5cm}{2cm}
+    \FDILineNumberBox{0.5cm}{11cm}
+    \FDILineNumberBox{20cm}{11cm}
+    \FDILineNumberBox{0.5cm}{20cm}
+    \FDILineNumberBox{20cm}{20cm}
+
+    
+    % Panel 1
+    \begin{scope}[
+      rotate around={-1.5:([xshift=4.5cm,yshift=-1.8cm]current page.north west)},
+      xslant=-0.2
+    ]
+      \path[
+        decorate,
+        decoration={
+          text along path,
+          text align=center,
+          text={|\ArialBOLDFont\fontsize{24pt}{38pt}\selectfont| \FDIUseText{8}{1}{1}}
+        }
+      ]
+      ([xshift=-6cm,yshift=2.4cm]current page.north west)
+      arc[start angle=202,end angle=350,radius=11cm];
+    \end{scope}
+    
+    \FDIText{14.8cm}{3.9cm}{3.5cm}{\FDIStyledText{12pt}{8pt}{\FDIUseText{8}{1}{2}}}
+
+    % Panel 2
+    \FDIText{1.1cm}{10.8cm}{9.5cm}{\FDIStyledText{12pt}{8pt}{\FDIUseText{8}{2}{1}}}
+    \FDIText{1.0cm}{12.65cm}{4cm}{\FDIStyledText{12pt}{8pt}{\FDIUseText{8}{2}{2}}}
+    \FDIText{4.5cm}{12.55cm}{3cm}{\FDIStyledText{12pt}{8pt}{\FDIUseText{8}{2}{3}}}
+    \FDIText{4cm}{17.4cm}{4cm}{\FDIStyledText{12pt}{8pt}{\FDIUseText{8}{2}{4}}}
+    \FDIText{1.3cm}{18.3cm}{5cm}{\FDIStyledText{12pt}{8pt}{\FDIUseText{8}{2}{5}}}
+
+    % Panel 3
+    \FDIText{10.9cm}{10.9cm}{8.5cm}{\FDIStyledText{12pt}{8pt}{\FDIUseText{8}{3}{1}}}
+
+    % Panel 4
+    \FDIText{1.9cm}{19.6cm}{7.5cm}{\FDIStyledText{12pt}{8pt}{\FDIUseText{8}{4}{1}}}
+
+    % Panel 5
+    \FDIText{10.9cm}{19.45cm}{8.5cm}{\FDIStyledText{12pt}{8pt}{\FDIUseText{8}{5}{1}}}
+    \begin{scope}[
+      rotate around={-1.5:([xshift=4.5cm,yshift=-1.8cm]current page.north west)},
+      xslant=-0.2
+    ]
+      \path[
+        decorate,
+        decoration={
+          text along path,
+          text align=center,
+          text={|\ArialBOLDFont\fontsize{50pt}{38pt}\selectfont| \FDIUseText{8}{5}{2}}
+        }
+      ]
+      ([xshift=-17.6cm,yshift=-6.3cm]current page.north west)
+      arc[start angle=202,end angle=350,radius=30cm];
+    \end{scope}
+
+    
+  \end{tikzpicture}
+}
