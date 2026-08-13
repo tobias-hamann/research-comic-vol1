@@ -17,7 +17,7 @@ authors:
     affiliation: "Chair for Intelligence in Quality Sensing (IQS), WZL, RWTH Aachen University, Aachen, Germany"
 repository-code: "https://github.com/tobias-hamann/research-comic-vol1"
 license: MIT
-version: 1.0.0
+version: 0.1.0
 date-released: "2026-08-13"
 keywords:
   - research comic
