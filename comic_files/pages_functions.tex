@@ -520,7 +520,8 @@
 \setlength{\FDITextLineSkip}{12pt}
 
 
-% \FDIStyledText{schriftgröße}{ignored}{text}
+% \FDIStyledText{schriftgröße}{legacy-wert (ignoriert)}{text}
+% Der Zeilenabstand kommt für alle Aufrufe aus \FDITextLineSkip.
 % Achtung: kein äußerer {...}-Block, damit \baselineskip bis zum Absatzende wirkt.
 \newcommand{\FDIStyledText}[3]{%
   \FDIOverlayFont
@@ -570,7 +571,6 @@
 }
 
 % \FDITextLS{x}{y}{breite}{schriftgröße}{zeilenabstand}{text}
-% \FDIText{x}{y}{breite}{schriftgröße}{zeilenabstand}{text}
 \newcommand{\FDITextLS}[6]{%
   \node[
     anchor=north west,
@@ -619,7 +619,7 @@
 }
 
 % \FDIArcTextOutside{x}{y}{start angle}{end angle}{radius}{text}{style}
-% Text ist von außen lesbar.
+% x und y bezeichnen den Startpunkt des Bogens. Text ist von außen lesbar.
 \newcommand{\FDIArcTextOutside}[7]{%
   \path[
     decorate,
@@ -634,7 +634,7 @@
 }
 
 % \FDIArcTextInside{x}{y}{start angle}{end angle}{radius}{text}{style}
-% Text ist von innen lesbar.
+% x und y bezeichnen den Startpunkt des Bogens. Text ist von innen lesbar.
 \newcommand{\FDIArcTextInside}[7]{%
   \path[
     decorate,
@@ -678,7 +678,7 @@
 % ------------------------------------------------------------
 % FDI city dots
 % ------------------------------------------------------------
-% \FDICityDot{x}{y}{größe}{füllfarbe}
+% \FDICityDot{x}{y}{mindestdurchmesser}{füllfarbe}
 % Setzt einen Punkt mit weißer Outline.
 % Alle Werte werden vom oberen linken Seitenrand gemessen.
 % Beispiel: \FDICityDot{7.2cm}{11.4cm}{7pt}{red!85!black}

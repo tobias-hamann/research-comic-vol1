@@ -317,18 +317,83 @@ example.
 
 Copy or create `language_files/CODE/pages_CODE/` if not done already.
 
-The FDI placement macros use the upper-left page corner as their origin. The
-first coordinate is the horizontal distance to the right and the second is the
-vertical distance downward. Both values are therefore normally written as
-positive lengths; the macros apply TikZ's negative y-shift internally. For
-example, this text starts 5.3 cm from the left and 22.7 cm from the top:
+#### Coordinate system and units
+
+The layout helpers are defined in
+[`comic_files/pages_functions.tex`](comic_files/pages_functions.tex). Unless a
+macro is documented differently below, they use the upper-left page corner as
+their origin:
+
+- `x = 0cm, y = 0cm` is the upper-left page corner.
+- A positive `x` value moves to the right; a negative value moves to the left.
+- A positive `y` value moves downward; a negative value moves above the top
+  edge. The macros convert this convention to TikZ's negative y-shift
+  internally.
+- Position, width, size, and radius arguments are TeX lengths and need a unit.
+  Page geometry normally uses `cm`; font sizes, baselines, dot sizes, and line
+  widths normally use `pt`.
+- Rotation and arc angles are unitless degree values. Positive rotation is
+  counter-clockwise and negative rotation is clockwise.
+
+For example, this node starts `5.3cm` from the left and `22.7cm` from the top
+and has a width of `11cm`:
 
 ```latex
 \FDIText{5.3cm}{22.7cm}{11cm}{...}
 ```
 
-Use `\FDIImage` for images instead of writing a raw TikZ image node. It follows
-the same positive-x/positive-y convention:
+Do not use raw `xshift`/`yshift` image nodes for normal page layout. Raw TikZ
+coordinates use TikZ's native convention, where positive y points upward. Raw
+TikZ paths used for exceptional curves, arrows, or rotations therefore need to
+be interpreted separately from the FDI helper macros.
+
+#### Required adjustment order
+
+**Changing font size or line spacing is the last option, after every geometric
+and textual layout adjustment has been exhausted.** Smaller type can damage
+readability and inconsistent baselines make the editions look unrelated. Use
+this order for each text element:
+
+1. Verify that the correct `\FDIUseText` entry is used and that the translation
+   contains no avoidable wording or whitespace problems.
+2. Adjust `x` and `y` to place the element in the intended bubble or panel.
+3. Adjust the text-box `width`, image dimensions, anchor, or curve geometry.
+4. Improve wrapping with deliberate `\\` line breaks in `CODE.tex` where
+   needed.
+5. Only if the content still cannot fit, adjust the font size and then the line
+   spacing by the smallest possible amount. Re-render the complete page after
+   either change.
+6. Adjust all images/logos that need to be adjusted. Most often, the NFDI4ING Logos need adjusting.
+
+Most texts are already pretty tightly fit into the bubbles and other places, so for most texts, these adjustments are not neccessary.
+Below, the different macros and their functionality are explained.
+
+#### Page and text lookup macros
+
+- `\FDIPage{page content}` creates the next comic page. It increments the page
+  counter by `1`, selects that numbered page from the shared twelve-page blank
+  PDF, scales it to `\paperwidth` by `\paperheight`, and places the supplied
+  overlay content above it. A `page_N.tex` file normally contains exactly one
+  wrapper of this kind.
+- `\FDISetText{page}{panel}{text}{content}` in `CODE.tex` stores a text under
+  three unitless integer identifiers: comic page number, panel number on that
+  page, and text number within that panel. These identifiers are lookup keys,
+  not positions, and must remain identical in every translation.
+- `\FDIUseText{page}{panel}{text}` retrieves the entry with those same three
+  integer identifiers inside a page layout.
+
+#### Text and image macros
+
+| Macro | Numerical values | Behaviour |
+| --- | --- | --- |
+| `\FDIText{x}{y}{width}{text}` | `x`, `y`, and `width` are lengths, normally in `cm`. | Places a centered text minipage. `x,y` address its north-west corner. |
+| `\FDITextLeft{x}{y}{width}{text}` | `x`, `y`, and `width` are lengths. | Same geometry as `\FDIText`, but left-aligns the text. |
+| `\FDITextLS{x}{y}{width}{font size}{line spacing}{text}` | `x`, `y`, and `width` are lengths; font size and baseline distance normally use `pt`. | Places centered text and makes both typographic values effective for this node. Use only as the final fitting option. |
+| `\FDIOvalText{x}{y}{width}{text}` | `x` and `y` are the lengths to the oval's center; `width` is the full text width. | Wraps centered text to an approximate five-line oval. Unlike `\FDIText`, `x,y` identify the center, not the north-west corner. |
+| `\FDITextRotated{x}{y}{width}{angle}{text}` | `x`, `y`, and `width` are lengths; `angle` is a unitless degree value. | Places a centered text box by its north-west anchor and rotates it. Positive angles rotate counter-clockwise; negative angles rotate clockwise. |
+| `\FDIImage[anchor]{x}{y}{options}{file}` | `x` and `y` are lengths. Numeric `\includegraphics` options can include `width`, `height`, unitless `scale`, degree-valued `angle`, and `trim={left bottom right top}` lengths. | Places an image using the same positive-down y convention. The default anchor is `north west`; `[center]` makes `x,y` refer to its center. Use `clip` with `trim`. |
+
+For example:
 
 ```latex
 \FDIImage{5.3cm}{22.7cm}{
@@ -338,12 +403,34 @@ the same positive-x/positive-y convention:
 }{\FDILanguageFolder/FDI_\FDILanguage.png}
 ```
 
-The complete signature is
-`\FDIImage[anchor]{x}{y}{includegraphics options}{file}`. The optional anchor
-defaults to `north west`; use an explicit value such as `[center]` when the
-coordinates should refer to the image center. Raw TikZ coordinates used for
-special paths, curves, or rotations still follow TikZ's native coordinate
-system unless they call one of the FDI placement macros.
+#### Text styling macros
+
+| Macro | Numerical values | Behaviour |
+| --- | --- | --- |
+| `\FDIStyledText{font size}{legacy value}{text}` | `font size` is effective and normally uses `pt`. The second length is retained for compatibility but is currently ignored. | Selects `\FDIOverlayFont`. The actual baseline distance is the shared `\FDITextLineSkip`, currently `12pt`, regardless of second-argument values such as `8pt` or `19pt` in existing files. Do not edit that second value when fitting text. |
+| `\FDIStyledTextMinuskel{font size}{line spacing}{text}` | Both values are effective lengths, normally in `pt`. | Selects the Carolingian-minuscule font with the requested font size and baseline distance. Change either value only as a final option. |
+
+`\FDITextLS` is the local escape hatch when a node genuinely needs its own
+font size and line spacing. Changing the global `\FDITextLineSkip` affects all
+`\FDIStyledText` calls in every language and must not be used to solve a single
+speech bubble.
+
+#### Curves, dots, panel numbers, and lines
+
+| Macro | Numerical values | Behaviour |
+| --- | --- | --- |
+| `\FDIArcTextOutside{x}{y}{start angle}{end angle}{radius}{text}{style}` | `x,y` locate the arc's start point; `radius` is a length; both angles are unitless degrees. A style commonly contains `\fontsize{font size}{line spacing}`, normally in `pt`. | Draws text along the arc so it is readable from outside. Arc angles use TikZ's native angular convention. |
+| `\FDIArcTextInside{x}{y}{start angle}{end angle}{radius}{text}{style}` | The same five geometric values as `\FDIArcTextOutside`. | Uses the same arc geometry but reverses the text path so it is readable from inside. |
+| `\FDICityDot{x}{y}{minimum diameter}{fill colour}` | `x,y` are the center coordinates; `minimum diameter` is a length, normally in `pt`. | Draws a filled circular marker with a fixed white `1.2pt` outline. |
+| `\FDILineNumberBox{x}{y}` | `x,y` locate the north-west corner. | Increments the shared panel/line-number counter by `1` and prints that number at the position. Call order therefore controls numbering. |
+| `\FDIHLine{x start}{x end}{y}` | All three values are lengths. | Draws a horizontal light-grey line from `(x start,y)` to `(x end,y)` with a fixed width of `0.4pt`. |
+| `\FDILine{x1}{y1}{x2}{y2}` | All four values are lengths. | Draws a black line from the first point to the second with a fixed width of `0.4pt`. |
+
+The oval helper also contains shared fixed geometry: a minimum height of
+`1.9cm` and a five-line contour with left/right insets of `0.55cm`, `0.25cm`,
+`0cm`, `0.25cm`, and `0.55cm`. The corresponding usable widths are reduced by
+`1.10cm`, `0.50cm`, `0cm`, `0.50cm`, and `1.10cm`. Change these values only in
+the shared macro and only if every language should be affected.
 
 Render the edition and adjust node coordinates, line breaks, font sizes,
 rotations, curves, and image placement until every page fits the artwork.
