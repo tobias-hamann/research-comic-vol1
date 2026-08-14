@@ -333,3 +333,4 @@ TSWLatexianTemp*
 
 # SciKGTeX
 *.xmp_metadata.xml
+!main.xmp_metadata.xml
