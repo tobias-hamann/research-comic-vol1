@@ -496,6 +496,23 @@
 }
 
 % ------------------------------------------------------------
+% FDI images
+% ------------------------------------------------------------
+% \FDIImage[anker]{x}{y}{includegraphics-optionen}{datei}
+% Wie bei den Textmakros wird vom oberen linken Seitenrand gemessen:
+% Positive x-Werte verschieben nach rechts, positive y-Werte nach unten.
+% Der optionale Anker ist standardmaessig north west.
+
+\newcommand{\FDIImage}[5][north west]{%
+  \node[
+    anchor=#1,
+    inner sep=0pt
+  ] at ([xshift=#2,yshift=-#3]current page.north west) {%
+    \includegraphics[#4]{#5}%
+  };%
+}
+
+% ------------------------------------------------------------
 % FDI Texts
 % ------------------------------------------------------------
 % Globale Variable für den Zeilenabstand

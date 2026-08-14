@@ -52,32 +52,22 @@
     ([xshift=15.5cm,yshift=-17.5cm]current page.north west);
 
     % QR Code über dem PDF platzieren
-    \node[
-      anchor=north west,
-      inner sep=0pt
-    ] at ([xshift=15.8cm,yshift=-16.8cm]current page.north west) {%
-      \includegraphics[
-        trim={0cm 0cm 0cm 0cm},
-        clip,
-        width=2cm
-      ]{figures/DOI_QR.png}%
-    };
+    \FDIImage{15.8cm}{16.8cm}{
+      trim={0cm 0cm 0cm 0cm},
+      clip,
+      width=2cm
+    }{figures/DOI_QR.png}
 
     % Panel 5
     \FDIText{1.15cm}{19.8cm}{9.5cm}{\FDIStyledText{12pt}{8pt}{\FDIUseText{6}{5}{1}}}
 
     
     % NFDI4ING Logo zugeschnitten über dem PDF platzieren
-        \node[
-          anchor=north west,
-          inner sep=0pt
-        ] at ([xshift=2.3cm,yshift=-20.05cm]current page.north west) {%
-          \includegraphics[
-            trim={0cm 0cm 24cm 0cm},
-            clip,
-            width=0.6cm
-          ]{logos/NFDI4ing_Logo_White_Sidebar_2.png}%
-        };
+        \FDIImage{2.3cm}{20.05cm}{
+          trim={0cm 0cm 24cm 0cm},
+          clip,
+          width=0.6cm
+        }{logos/NFDI4ing_Logo_White_Sidebar_2.png}
     
     \FDITextLeft{1.25cm}{28cm}{9.5cm}{\FDIStyledText{12pt}{8pt}{\FDIUseText{6}{5}{2}}}
 

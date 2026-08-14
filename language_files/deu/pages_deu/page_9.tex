@@ -16,16 +16,11 @@
 
     % Panel 2
     % NFDI4ING Logo zugeschnitten über dem PDF platzieren
-        \node[
-          anchor=north west,
-          inner sep=0pt
-        ] at ([xshift=11.95cm,yshift=-2.3cm]current page.north west) {%
-          \includegraphics[
-            trim={0cm 0cm 24cm 0cm},
-            clip,
-            width=0.6cm
-          ]{logos/NFDI4ing_Logo_White_Sidebar_2.png}%
-        };
+        \FDIImage{11.95cm}{2.3cm}{
+          trim={0cm 0cm 24cm 0cm},
+          clip,
+          width=0.6cm
+        }{logos/NFDI4ing_Logo_White_Sidebar_2.png}
         
     \FDIText{10.8cm}{2.5cm}{8.5cm}{\FDIStyledText{12pt}{8pt}{\FDIUseText{9}{2}{1}}}
 

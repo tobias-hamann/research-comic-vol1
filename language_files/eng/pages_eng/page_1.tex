@@ -9,28 +9,18 @@
 
     
 % NFDI4ING Logo zugeschnitten über dem PDF platzieren
-    \node[
-      anchor=north west,
-      inner sep=0pt
-    ] at ([xshift=14.2cm,yshift=-2.7cm]current page.north west) {%
-      \includegraphics[
-        trim={0cm 0cm 24cm 0cm},
-        clip,
-        width=0.6cm
-      ]{logos/NFDI4ing_Logo_White_Sidebar_2.png}%
-    };
+    \FDIImage{14.2cm}{2.7cm}{
+      trim={0cm 0cm 24cm 0cm},
+      clip,
+      width=0.6cm
+    }{logos/NFDI4ing_Logo_White_Sidebar_2.png}
 
 % FDI Bild
-    \node[
-      anchor=north west,
-      inner sep=0pt
-    ] at ([xshift=5.3cm,yshift=-22.7cm]current page.north west) {%
-      \includegraphics[
-        trim={0cm 0cm 0cm 0cm},
-        clip,
-        width=11cm
-      ]{\FDILanguageFolder/FDI_\FDILanguage.png}%
-    };
+    \FDIImage{5.3cm}{22.7cm}{
+      trim={0cm 0cm 0cm 0cm},
+      clip,
+      width=11cm
+    }{\FDILanguageFolder/FDI_\FDILanguage.png}
   % Text in Bildern
 
     % Top Text
@@ -62,16 +52,11 @@
     \FDIText{8.8cm}{9.4cm}{5cm}{\FDIStyledTextMinuskel{8pt}{8pt}{\FDIUseText{1}{1}{12}}}
     \FDICityDot{11.7cm}{9.25cm}{9pt}{white}
     % NFDI4ING Logo zugeschnitten über dem PDF platzieren
-    \node[
-      anchor=center,
-      inner sep=0pt
-    ] at ([xshift=11.7cm,yshift=-9.25cm]current page.north west) {%
-      \includegraphics[
-        trim={0cm 0cm 24cm 0cm},
-        clip,
-        width=0.3cm
-      ]{logos/NFDI4ing_Logo_White_Sidebar_2.png}%
-    };
+    \FDIImage[center]{11.7cm}{9.25cm}{
+      trim={0cm 0cm 24cm 0cm},
+      clip,
+      width=0.3cm
+    }{logos/NFDI4ing_Logo_White_Sidebar_2.png}
 
     % Luxemburg
     \FDIText{8.3cm}{9.7cm}{5cm}{%
@@ -88,16 +73,11 @@
     % Darmstadt
     \FDIText{10.9cm}{10.6cm}{5cm}{\FDIStyledTextMinuskel{8pt}{8pt}{\FDIUseText{1}{1}{15}}}
     \FDICityDot{12.4cm}{10.4cm}{9pt}{white}
-    \node[
-      anchor=center,
-      inner sep=0pt
-    ] at ([xshift=12.4cm,yshift=-10.4cm]current page.north west) {%
-      \includegraphics[
-        trim={0cm 0cm 24cm 0cm},
-        clip,
-        width=0.3cm
-      ]{logos/NFDI4ing_Logo_White_Sidebar_2.png}%
-    };
+    \FDIImage[center]{12.4cm}{10.4cm}{
+      trim={0cm 0cm 24cm 0cm},
+      clip,
+      width=0.3cm
+    }{logos/NFDI4ing_Logo_White_Sidebar_2.png}
 
     % Strasburg
     \FDIText{10.5cm}{11.5cm}{5cm}{\FDIStyledTextMinuskel{8pt}{8pt}{\FDIUseText{1}{1}{16}}}

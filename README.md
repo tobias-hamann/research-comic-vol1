@@ -315,17 +315,40 @@ example.
 
 ### 6. Fine-tune `pages_CODE/`
 
-Copy or create `language_files/CODE/pages_CODE/` if not done already. 
+Copy or create `language_files/CODE/pages_CODE/` if not done already.
 
+The FDI placement macros use the upper-left page corner as their origin. The
+first coordinate is the horizontal distance to the right and the second is the
+vertical distance downward. Both values are therefore normally written as
+positive lengths; the macros apply TikZ's negative y-shift internally. For
+example, this text starts 5.3 cm from the left and 22.7 cm from the top:
 
+```latex
+\FDIText{5.3cm}{22.7cm}{11cm}{...}
+```
 
-Render the edition and adjust
-TikZ nodes, line breaks, font sizes, rotations, curves, and image placement
-until every page fits the artwork. 
+Use `\FDIImage` for images instead of writing a raw TikZ image node. It follows
+the same positive-x/positive-y convention:
 
+```latex
+\FDIImage{5.3cm}{22.7cm}{
+  trim={0cm 0cm 0cm 0cm},
+  clip,
+  width=11cm
+}{\FDILanguageFolder/FDI_\FDILanguage.png}
+```
 
-Build locally and check result.
-Repeat
+The complete signature is
+`\FDIImage[anchor]{x}{y}{includegraphics options}{file}`. The optional anchor
+defaults to `north west`; use an explicit value such as `[center]` when the
+coordinates should refer to the image center. Raw TikZ coordinates used for
+special paths, curves, or rotations still follow TikZ's native coordinate
+system unless they call one of the FDI placement macros.
+
+Render the edition and adjust node coordinates, line breaks, font sizes,
+rotations, curves, and image placement until every page fits the artwork.
+Build locally, inspect all twelve pages, and repeat this render-and-adjust cycle
+until the complete edition is ready.
 
 ## Language structure
 
