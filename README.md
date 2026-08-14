@@ -104,16 +104,16 @@ uses a language-neutral production workflow:
    files. This allows translators to work on text independently while each
    edition can adjust line breaks, font sizes, rotations, curves, and node
    positions to fit the artwork.
-5. Language-dependent images, such as the FDI/RDI toy-brick lettering on the
+5. Language-dependent images, such as the FDI/RDI/RDL toy-brick lettering on the
    first page, are stored alongside the corresponding language edition.
 
 The original German and publication-oriented English versions are accompanied
-by AI-assisted Latin and Elvish proof-of-concept editions. An AI-assisted
-Draconic (*Vs'shtak*) translation is referenced in the manuscript; its rendered
-appendix edition is currently represented by the project-local placeholder
-`vss`. These editions demonstrate
+by AI-assisted Latin, Elvish, and Draconic (*Vs'shtak*) proof-of-concept
+editions. The Draconic edition uses the project-local identifier `vss`; its
+text and page layouts are included, while its `FDI_vss.png` RDL artwork is
+supplied separately. These editions demonstrate
 support for left-to-right languages and language-specific non-Latin fonts. The
-language-dependent FDI/RDI image variants also demonstrate how translated
+language-dependent FDI/RDI/RDL image variants also demonstrate how translated
 artwork can be overlaid without modifying the shared background. Right-to-left
 and boustrophedon writing systems have not yet been implemented or tested.
 
@@ -437,6 +437,17 @@ rotations, curves, and image placement until every page fits the artwork.
 Build locally, inspect all twelve pages, and repeat this render-and-adjust cycle
 until the complete edition is ready.
 
+### 7. Check the text for consistency.
+
+Some cases are really heavily language dependant.
+E.g. charles is dumb:
+
+![English Charles is dumb](image.png)
+
+The sourrounding texts with the lines work just as intended.
+It would not work if the text was "carolus stultus est" as in latin, where there is no "i" to explain that the "i" does not have a dot yet.
+You will have to be creative in the adjustments of texts to make it all fit properly and make sense throughout the whole document.
+
 ## Language structure
 
 Language directories and their associated text, page, image, and font files
@@ -460,11 +471,13 @@ Authoritative references:
 | `eng` | English | Publication translation and current primary comic language |
 | `lat` | Latin | Translation proof of concept |
 | `qya` | Quenya (Elvish) | Font and script proof of concept |
+| `vss` | Vs'shtak (Draconic) | Translation proof of concept; project-local identifier |
 
-The planned Draconic edition uses `vss`, derived from its Draconic name
-*Vs'shtak*. This is a **project-local placeholder**, not an assigned ISO 639 or
-Zenodo identifier. It is therefore excluded from `\FDILanguageList` and from
-`CITATION.cff` until an appropriate registered identifier is available.
+The Draconic edition uses `vss`, derived from its Draconic name *Vs'shtak*.
+This is a **project-local identifier**, not an assigned ISO 639 or Zenodo
+identifier. It is included in `\FDILanguageList` for document rendering but
+excluded from `CITATION.cff` until an appropriate registered identifier is
+available.
 
 Each language `CODE` has the following structure, where `CODE` is normally its
 lowercase ISO 639 Set 3 identifier:
