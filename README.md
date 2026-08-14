@@ -125,7 +125,7 @@ with human review and manual layout work. The canonical order is:
 1. Copy the `eng` folder and rename it to `CODE` according to your language code. Use small letters.
 2. Translate `ENG.tex` to a new `CODE.tex`, auditing **all** abbreviations and
    changing only those that are language-dependent;
-3. Create `FDI_CODE.png` for the new language;
+3. Create `FDI_CODE.png` for the new language
 4. If needed, import needed fonts into the new `fonts_CODE` folder.
 5. fine-tune `pages_CODE/` manually.
 
@@ -250,136 +250,38 @@ Output exactly two sections:
 Review both the acronym audit and the translated file. Save only the contents
 of the `Complete CODE.tex` block as `language_files/CODE/CODE.tex`.
 
-### 2. Create the AJCP
+### 3. Create `FDI_CODE.png` for the new language
 
-Attach the translated `CODE.tex`, the German source image,
-[`FDI_deu_AJCP.json`](language_files/deu/FDI_deu_AJCP.json), and
-[`FDI_eng_AJCP.json`](language_files/eng/FDI_eng_AJCP.json), and
-[`FDI_lat_AJCP.json`](language_files/lat/FDI_lat_AJCP.json) to an LLM. The
-German profile describes the source artwork; the English and Latin profiles
-demonstrate how that source is localized. Their language-specific letters and
-descriptions must not leak into the new profile.
+Attach the translated `language_files\deu\FDI_deu.png`, the German source image created by Alfred by hand, to an LLM.
+Promt the LLM to `Keep the style exactly as it is in the image, but change the letters to XXX`.
+`XXX` will be the abbreviation your translation of "Research Data Management (RDI)", e.g. in German "ForschungsDatenInfrastruktur" will become `FDI`.  
 
-```text
-Create an Advanced JSON Context Profile (AJCP) for a localized version of the
-attached brick-letter image.
+Inspect the lettering, dimensions, transparency, and style manually.
+Make sure the toy bricks are properly aligned.
 
-Inputs:
-- Target language: <TARGET_LANGUAGE>
-- Target ISO 639 Set 3 code: <CODE>
-- Translated language file: <CODE.tex>
-- Source/reference image: language_files/deu/FDI_deu.png
-- Source visual AJCP: language_files/deu/FDI_deu_AJCP.json
-- Localized AJCP examples: language_files/eng/FDI_eng_AJCP.json and
-  language_files/lat/FDI_lat_AJCP.json
-- Required output filename: FDI_<CODE>_AJCP.json
-- Required generated image filename: FDI_<CODE>.png
+If not, promt the LLM something like `The bricks aren’t lining up properly on the base. Please try again.`.
 
-Requirements:
-1. Use FDI_deu_AJCP.json as the authoritative visual analysis of the source
-   image and the English and Latin AJCP files as localization patterns. Retain
-   their descriptive depth and relevant sections, including source,
-   localization, canvas, intent, visual_summary, scene, subjects,
-   spatial_relationships, composition, style, color_palette, materials,
-   lighting, rendering, constraints, generation_directive, and analysis_notes.
-2. Read the translated CODE.tex and identify the exact translated term for
-   research data infrastructure and its exact translated abbreviation. Do not
-   invent a second translation and do not copy FDI or RDI unless CODE.tex
-   actually uses it.
-3. Do not reinterpret or alter protected abbreviations, proper names,
-   identifiers, filenames, paths, or citation keys from CODE.tex. PDF, DO, PID,
-   DFG, GWK, and FAIR are fixed project-wide. Only the language-dependent
-   abbreviation for research data infrastructure determines the brick letters.
-4. Record the target language code, language name, translated term,
-   abbreviation, derivation, and CODE.tex source under localization.
-5. Update every language-, word-, acronym-, glyph-, filename-, subject-, and
-   geometry-dependent value throughout the entire JSON. The new abbreviation
-   may require different letters, silhouettes, counters, widths, spacing, and
-   brick arrangements.
-6. Preserve the visual identity of the reference image: interlocking toy bricks,
-   black hand-drawn contours, established colors, baseplate, perspective,
-   transparent background, and overall comic style.
-7. Describe one subject entry for each target letter in the correct order. Each
-   subject must use the correct glyph and a geometrically plausible description
-   of that glyph constructed from bricks.
-8. Put the exact target abbreviation in visible_text, semantic_expansion,
-   content_tags, constraints, must_include, must_preserve, avoid, and the
-   generation directive wherever those fields discuss visible lettering.
-9. Add explicit negative constraints against the source abbreviation and every
-   stale alternative found in the structural reference.
-10. Distinguish measured source-image properties from requested output
-   properties. Do not fabricate hashes, pixel counts, bounding boxes, file
-   sizes, or DPI values. If they cannot be measured from the attachment, use
-   null and explain the uncertainty in analysis_notes.
-11. Preserve a fully transparent RGBA background and specify exact output pixel
-    dimensions and aspect ratio consistently in every relevant field.
-12. Remove obsolete project-configuration fields or LaTeX macro mappings. The
-    abbreviation is already written directly and consistently in CODE.tex.
+If the image is fitting, save the selected image as `language_files/CODE/FDI_CODE.png`.
 
-Before answering, perform a global consistency audit over every JSON string:
-- the language code and filenames are the target ones;
-- the visible abbreviation is identical everywhere;
-- subject IDs, glyphs, order, and geometric descriptions match every target
-  letter;
-- no description refers to a source letter that is absent from the target;
-- canvas dimensions and aspect ratios agree;
-- must_include, must_preserve, avoid, and generation_directive do not contradict
-  one another;
-- the JSON parses without comments or trailing commas.
+### 4. Link new language version
 
-Return only the complete valid JSON object, without Markdown fences or
-explanatory text.
-```
 
-Save the reviewed result as `language_files/CODE/FDI_CODE_AJCP.json`.
 
-### 3. Generate the localized image
 
-Attach the reviewed AJCP and its reference image to an image-generation model.
-Use the following prompt without restating the target letters manually; the
-reviewed AJCP must remain the authoritative source.
 
-```text
-Generate one localized image from the attached AJCP and reference image.
+### . Fine-tune `pages_CODE/`
 
-Treat the AJCP as the authoritative generation specification. Read the target
-language, visible abbreviation, ordered glyphs, canvas dimensions, alpha
-requirements, composition, style, palette, subject geometry, constraints,
-negative constraints, and generation_directive directly from it.
+Copy or create `language_files/CODE/pages_CODE/` if not done already. 
 
-Reconstruct the target abbreviation as physical uppercase sculptures assembled
-from individually outlined interlocking toy bricks. Preserve the reference
-image's baseplate, perspective, color blocking, black hand-drawn contours,
-studs, cel-shaded illustration style, spacing logic, and transparent outer and
-inner negative spaces. Adapt letter geometry only where required by the target
-glyphs.
 
-The visible letters must exactly match the AJCP abbreviation, in the specified
-order, with no additional letters, printed caption, logo, scenery, floor, wall,
-or background. Do not reproduce a source-language letter merely because it is
-present in the reference image.
 
-Return exactly one RGBA PNG at the exact dimensions specified by the AJCP. Keep
-the full baseplate and every letter inside the canvas. Before returning the
-image, verify the glyph sequence, letter count, dimensions, aspect ratio, and
-transparent background against the AJCP.
-```
-
-Save the selected image as `language_files/CODE/FDI_CODE.png` and inspect the
-lettering, dimensions, transparency, and style manually.
-
-### 4. Fine-tune `pages_CODE/`
-
-Copy or create `language_files/CODE/pages_CODE/`. Render the edition and adjust
+Render the edition and adjust
 TikZ nodes, line breaks, font sizes, rotations, curves, and image placement
-until every page fits the artwork. Then build locally:
+until every page fits the artwork. 
 
-```bash
-latexmk -lualatex -interaction=nonstopmode -halt-on-error main.tex
-```
 
-CI performs only this deterministic LaTeX build. It neither calls an LLM nor
-creates, modifies, or replaces translations, AJCP files, or image assets.
+Build locally and check result.
+Repeat
 
 ## Language structure
 
