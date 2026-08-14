@@ -16,9 +16,15 @@ authors:
     email: t.hamann@wzl-iqs.rwth-aachen.de
     affiliation: "Chair for Intelligence in Quality Sensing (IQS), WZL, RWTH Aachen University, Aachen, Germany"
 repository-code: "https://github.com/tobias-hamann/research-comic-vol1"
-license: MIT
+# MIT covers the code written for this repository. inggrid.cls and final.def
+# are redistributed under their original LPPL, see LICENSE_1.
+license:
+  - MIT
+  - LPPL-1.3c
 version: 0.1.0
-doi: "10.5281/zenodo.21921316"
+# Concept DOI: always resolves to the latest version on Zenodo.
+# The DOI of this particular version is 10.5281/zenodo.21921316.
+doi: "10.5281/zenodo.21921315"
 date-released: "2026-08-13"
 keywords:
   - research comic
@@ -29,11 +35,7 @@ keywords:
   - LaTeX
   - SciKGTeX
   - ing.grid
-languages:
-  - eng
-  - deu
-  - lat
-  - qya
+  - multilingual
 contact:
   - family-names: Hamann
     given-names: Tobias
