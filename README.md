@@ -126,8 +126,9 @@ with human review and manual layout work. The canonical order is:
 2. Translate `ENG.tex` to a new `CODE.tex`, auditing **all** abbreviations and
    changing only those that are language-dependent;
 3. Create `FDI_CODE.png` for the new language
-4. If needed, import needed fonts into the new `fonts_CODE` folder.
-5. fine-tune `pages_CODE/` manually.
+4. Register the new edition in `comic_files/pages_functions.tex`.
+5. If needed, import needed fonts into the new `fonts_CODE` folder.
+6. Fine-tune `pages_CODE/` manually.
 
 Translation and image generation are performed interactively by
 a maintainer. They are **not** run in GitHub Actions. This
@@ -263,13 +264,56 @@ If not, promt the LLM something like `The bricks aren’t lining up properly on 
 
 If the image is fitting, save the selected image as `language_files/CODE/FDI_CODE.png`.
 
-### 4. Link new language version
+### 4. Link the new language version
 
+Once all required language files exist, register the edition in
+[`comic_files/pages_functions.tex`](comic_files/pages_functions.tex):
 
+1. Add `CODE` to the comma-separated `\FDILanguageList`. The list controls
+   which editions are loaded and also determines their order in the navigation
+   and appendix.
 
+   ```latex
+   \newcommand{\FDILanguageList}{deu,eng,CODE}
+   ```
 
+2. Add the human-readable name used in headings and navigation:
 
-### . Fine-tune `pages_CODE/`
+   ```latex
+   \FDISetLanguageName{CODE}{Language name}
+   ```
+
+The remaining files are found automatically from the language code:
+`\FDIInputLanguageFile` loads `language_files/CODE/CODE.tex`,
+`\FDIInputPage` loads the page files from
+`language_files/CODE/pages_CODE/`, and `\FDIInputLanguageFonts` loads
+`language_files/CODE/fonts_CODE.tex` if that optional file exists. No separate
+input command or language-specific conditional is needed.
+
+No change to [`main.tex`](main.tex) is required if the new language should only
+be added as another appendix edition: `\FDIJumpToAll` and
+`\FDIAppendixComics` process all entries in `\FDILanguageList` automatically.
+To make it the primary comic edition instead, change the language switch near
+the beginning of `main.tex`:
+
+```latex
+\newcommand{\FDILanguage}{CODE}
+```
+
+The primary edition is rendered by `\comic{\FDILanguage}` in the article body
+and skipped in the appendix to prevent duplication. Its `CODE.tex` must also
+provide the language-specific `\title`, `\subtitle`, and `\shorttitle` values
+loaded by `main.tex`.
+
+### 5. Add language-specific fonts (optional)
+
+If the default fonts do not cover the new language, create
+`language_files/CODE/fonts_CODE.tex` and place the font files in
+`language_files/CODE/fonts_CODE/`. Use
+[`language_files/qya/fonts_qya.tex`](language_files/qya/fonts_qya.tex) as an
+example.
+
+### 6. Fine-tune `pages_CODE/`
 
 Copy or create `language_files/CODE/pages_CODE/` if not done already. 
 
