@@ -122,17 +122,19 @@ and boustrophedon writing systems have not yet been implemented or tested.
 Creating a new language edition deliberately combines LLM-assisted preparation
 with human review and manual layout work. The canonical order is:
 
-1. Copy the `eng` folder and rename it to `CODE` according to your language code. Use small letters.
-2. Translate `ENG.tex` to a new `CODE.tex`, auditing **all** abbreviations and
+1. translate `ENG.tex` to a new `CODE.tex`, auditing **all** abbreviations and
    changing only those that are language-dependent;
-3. Create `FDI_CODE.png` for the new language;
-4. If needed, import needed fonts into the new `fonts_CODE` folder.
-5. fine-tune `pages_CODE/` manually.
+2. create an Advanced JSON Context Profile (AJCP) for the localized brick image;
+3. generate the localized image from the AJCP and the reference image;
+4. fine-tune `pages_CODE/` manually.
 
-Translation and image generation are performed interactively by
-a maintainer. They are **not** run in GitHub Actions. This
-project uses the [German source png](language_files/deu/FDI_deu.png) as
-the visual blueprint for the image generation.
+Translation, AJCP creation, and image generation are performed interactively by
+a maintainer. They are **not** run in GitHub Actions. AJCP is a loosely
+structured prompting convention rather than a formal standardized schema. This
+project uses the [German source AJCP](language_files/deu/FDI_deu_AJCP.json) as
+the visual blueprint and the
+[English AJCP](language_files/eng/FDI_eng_AJCP.json) and
+[Latin AJCP](language_files/lat/FDI_lat_AJCP.json) as localized examples.
 
 ### Protected and translatable content
 
@@ -172,11 +174,7 @@ instruction to translate all reader-visible text.
 If a token could be either a proper name or ordinary prose, leave it unchanged
 and flag it for human review. Never silently translate an uncertain name.
 
-### 1. Copy the `eng` folder and rename it to `CODE`
-
-Straight forward. For the naming, use the 
-
-### 2. Translate `CODE.tex`
+### 1. Translate `CODE.tex`
 
 Copy an existing language file to `language_files/CODE/CODE.tex`, attach it to
 an LLM, and replace the placeholders in the following prompt. The acronym audit
@@ -571,10 +569,11 @@ metadata values are verbatim article text by construction.
 
 ### Output and inspection
 
-Every build writes the metadata twice: as the sidecar file
-`main.xmp_metadata.xml` next to the PDF, which is a build artifact and not
-tracked, and as an XMP stream inside `main.pdf`. Inspect the embedded version
-with:
+Every build writes the metadata twice: as the tracked sidecar file
+`main.xmp_metadata.xml` next to the PDF and as an XMP stream inside `main.pdf`.
+Tracking the sidecar preserves the paper UUID across clean clones and CI builds;
+whenever an annotation changes, rebuild and commit the updated XML together
+with the PDF. Inspect the embedded version with:
 
 ```bash
 pdfinfo -meta main.pdf

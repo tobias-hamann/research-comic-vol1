@@ -1,0 +1,81 @@
+
+\FDIPage{%
+  \begin{tikzpicture}[remember picture, overlay]
+  % Zeilennummern
+    \FDILineNumberBox{0.5cm}{2cm}
+    \FDILineNumberBox{20cm}{2cm}
+    \FDILineNumberBox{0.5cm}{11cm}
+    \FDILineNumberBox{20cm}{11cm}
+    \FDILineNumberBox{0.5cm}{20cm}
+    \FDILineNumberBox{20cm}{20cm}
+
+    
+    % Panel 1
+    \FDIText{1.25cm}{2.1cm}{8.5cm}{\FDIStyledText{12pt}{8pt}{\FDIUseText{12}{1}{1}}}
+
+    % Panel 2
+    \FDIText{10.4cm}{2.45cm}{8.5cm}{\FDIStyledText{12pt}{8pt}{\FDIUseText{12}{2}{1}}}
+    
+    \FDIText{10.4cm}{8.3cm}{9.5cm}{\FDIStyledText{12pt}{8pt}{
+        \href{http://hdl.handle.net/2268.2/12918}{
+            {\ArialFont\fontsize{18pt}{8pt}\selectfont
+                \FDIUseText{12}{2}{2}%
+              }% 
+        }
+    }}
+    
+    \FDIText{11.1cm}{9.2cm}{8cm}{\FDIStyledText{12pt}{8pt}{\FDIUseText{12}{2}{3}}}
+
+    % Panel 3
+    \FDIText{4.75cm}{10.55cm}{3cm}{\FDIStyledText{12pt}{8pt}{\FDIUseText{12}{3}{1}}}
+    \FDITextLeft{1.4cm}{28cm}{20cm}{\FDIStyledText{12pt}{8pt}{\FDIUseText{12}{3}{2}}}
+
+    % Panel 4
+    \FDIText{11.5cm}{11.3cm}{3cm}{\FDIStyledText{12pt}{8pt}{\FDIUseText{12}{4}{1}}}
+
+    \FDITextRotated{13.1cm}{13.5cm}{3cm}{-18}{%
+      \FDIStyledText{20pt}{8pt}{\FDIUseText{12}{4}{2}}%
+    }
+    
+
+    % Panel 5
+    \FDIText{1.55cm}{22.5cm}{8.5cm}{\FDIStyledText{12pt}{8pt}{\FDIUseText{12}{5}{1}}}
+
+    
+    % Ing.grid über dem PDF platzieren
+        \node[
+          anchor=north west,
+          inner sep=0pt
+        ] at ([xshift=1.85cm,yshift=-20.3cm]current page.north west) {%
+          \includegraphics[
+            trim={0cm 0.4cm 0cm 0cm},
+            clip,
+            width=7.75cm
+          ]{figures/inggrid_Dashboard.png}%
+        };
+
+    % Pling Blase über dem PDF platzieren
+        \node[
+          anchor=north west,
+          inner sep=0pt
+        ] at ([xshift=6.85cm,yshift=-19.3cm]current page.north west) {%
+          \includegraphics[
+            trim={0cm 0.4cm 0cm 0cm},
+            clip,
+            width=2.75cm
+          ]{figures/PLING.png}%
+        };
+    
+    \FDITextRotated{6.8cm}{20.5cm}{3cm}{8}{
+        \FDIStyledText{12pt}{8pt}{\FDIUseText{12}{5}{2}}
+    }
+
+    % Panel 6
+    \FDIText{13.95cm}{18.75cm}{4cm}{\FDIStyledText{12pt}{8pt}{\FDIUseText{12}{6}{1}}}
+    \FDITextRotated{16.45cm}{26.7cm}{3cm}{-5}{
+        \FDIStyledText{12pt}{8pt}{\FDIUseText{12}{6}{2}}
+    }
+
+    
+  \end{tikzpicture}
+}

@@ -1,0 +1,50 @@
+% ------------------------------------------------------------
+% Quenya-/Elbische FDI-Schriften
+% ------------------------------------------------------------
+% Wird von \FDIInputLanguageFonts in der Praeambel geladen.
+% Wichtig: Diese Fonts werden NICHT global auf das Dokument angewendet,
+% sondern nur ueber die FDI-Font-Makros verwendet.
+% Renderer=Basic ist bei alten Tengwar-/Symbolfonts oft wichtig.
+%
+% Der Pfad muss hier ausgeschrieben werden, weil \newfontfamily den
+% Pfad schon beim Laden der Praeambel aufloest und \FDILanguage zu
+% diesem Zeitpunkt noch die primaere Comic-Sprache ist.
+
+% Normale FDI-Sprechblasen / Standard-Overlay
+\newfontfamily{\FDIQyaArialFont}{tngani_qya.ttf}[
+  Path = language_files/qya/fonts_qya/,
+  Renderer = Basic,
+  Scale = 0.78
+]
+
+% Fette FDI-Sprechblasen / Hervorhebungen
+\newfontfamily{\FDIQyaArialBOLDFont}{tngani_qya.ttf}[
+  Path = language_files/qya/fonts_qya/,
+  Renderer = Basic,
+  Scale = 0.78,
+  FakeBold = 1.8
+]
+
+% FDI-Overlay-Schrift, etwas groesser fuer Comic-Texte
+\newfontfamily{\FDIQyaOverlayFont}{tngani_qya.ttf}[
+  Path = language_files/qya/fonts_qya/,
+  Renderer = Basic,
+  Scale = 0.82
+]
+
+% FDI-Karolingische-Minuskel-Ersatzschrift
+\newfontfamily{\FDIQyaKarolingischeMinuskel}{tngani_qya.ttf}[
+  Path = language_files/qya/fonts_qya/,
+  Renderer = Basic,
+  Scale = 0.86,
+  FakeBold = 1.3
+]
+
+% Zuweisung der FDI-Font-Makros fuer diese Sprache.
+% Wird von \FDISetupLanguageFonts ausgefuehrt, sobald qya gesetzt ist.
+\FDISetLanguageFonts{qya}{%
+  \let\KarolingischeMinuskel\FDIQyaKarolingischeMinuskel
+  \let\FDIOverlayFont\FDIQyaOverlayFont
+  \let\ArialBOLDFont\FDIQyaArialBOLDFont
+  \let\ArialFont\FDIQyaArialFont
+}

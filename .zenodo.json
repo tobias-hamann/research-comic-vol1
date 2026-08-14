@@ -1,0 +1,24 @@
+{
+  "title": "A FAIR Comic about Research Data Infrastructure — LaTeX sources",
+  "upload_type": "software",
+  "license": "mit-license",
+  "creators": [
+    {
+      "name": "Hamann, Tobias",
+      "affiliation": "Chair for Intelligence in Quality Sensing (IQS), WZL, RWTH Aachen University, Aachen, Germany",
+      "orcid": "0000-0002-8021-5524"
+    }
+  ],
+  "keywords": [
+    "research comic",
+    "comics journalism",
+    "research data infrastructure",
+    "FAIR data",
+    "NFDI4ING",
+    "LaTeX",
+    "SciKGTeX",
+    "ing.grid",
+    "multilingual"
+  ],
+  "description": "<p>LaTeX source code for the multilingual research comic &quot;A FAIR Comic about Research Data Infrastructure, Part 1: From Charlemagne to ing.grid&quot;. The repository provides the ing.grid document class setup, the comic page and text-placement macros, the language files (English, German, Latin, Elvish) and the SciKGTeX annotations used to embed machine-readable research contributions into the PDF.</p>\n\n<p><strong>Licensing</strong></p>\n\n<p>The code written for this repository is released under the MIT License. The deposit additionally redistributes third-party components that keep their original licences; the full licence texts are included in the repository (<code>LICENSE</code>, <code>LICENSE_1</code>, <code>fonts/liberation/LICENSE</code>).</p>\n\n<p><strong>Reused components</strong></p>\n\n<ul>\n  <li><strong>ing.grid document class</strong> (<code>inggrid.cls</code>, <code>final.def</code>) — LaTeX Project Public License 1.3c or later. Copyright 2024 Michaela Le&scaron;t&aacute;kov&aacute;, Kevin T. Logan, TU Darmstadt; contributions by Lisabeth George and Yali Wu. Derived from the <a href=\"https://github.com/Journal-of-CLS/JCLS-Template\">JCLS-Template</a> by Dominik Gerstdorfer, used with permission.</li>\n  <li><strong>SciKGTeX</strong> (<code>scikgtex.sty</code>, <code>scikgtex.lua</code>) — MIT License. Copyright 2022 Christof Bless.</li>\n  <li><strong>Liberation Fonts</strong> (<code>fonts/liberation/</code>) — SIL Open Font License 1.1. Digitized data copyright 2010 Google Corporation; copyright 2012 Red Hat, Inc.</li>\n  <li><strong>Komika Text</strong> (<code>fonts/KOMTXT__.ttf</code>) — freeware comic lettering font by Apostrophic Lab; the accompanying release notes are included as <code>fonts/Komika.txt</code>.</li>\n  <li><strong>Comic artwork</strong> (<code>comic_files/</code>, <code>language_files/*/FDI_*.png</code>) — drawn by Alfred Neuwald (Granus Verlag, Aachen) for the accompanying article and reused here as the blank background layer that the LaTeX code letters.</li>\n  <li><strong>NFDI4ING and ing.grid logos</strong> (<code>logos/</code>) — trademarks of their respective organisations, included for identification only and not covered by the MIT License of this repository.</li>\n</ul>\n"
+}
