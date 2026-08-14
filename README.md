@@ -478,7 +478,7 @@ localized infrastructure abbreviation for the image.
 ├── metadata/                   # article and author metadata
 ├── references.bib              # bibliography
 ├── inggrid.cls / final.def     # ing.grid document class and layout
-├── scikgtex.sty / scikgtex.lua # optional machine-readable annotations
+├── scikgtex.sty / scikgtex.lua # vendored SciKGTeX v3.0.0, ORKG annotations
 ├── CITATION.cff                # software citation metadata
 └── .github/workflows/          # automated PDF build
 ```
@@ -497,6 +497,88 @@ The [Build PDF workflow](.github/workflows/build-pdf.yml) runs the same type of
 LuaLaTeX build automatically for pushes to `main`, pull requests, and manual
 workflow dispatches. Successful runs upload the rendered `main.pdf` as the
 `fair-comic-pdf` artifact for 30 days.
+
+## Machine-readable research contributions
+
+The document embeds its central research contributions into the PDF as
+structured XMP metadata using
+[SciKGTeX](https://github.com/Christof93/SciKGTeX). The generated RDF follows
+the vocabulary of the [Open Research Knowledge Graph](https://orkg.org)
+(ORKG), so the statements can be harvested without parsing the article text.
+
+The package is vendored in the repository root as [`scikgtex.sty`](scikgtex.sty)
+and [`scikgtex.lua`](scikgtex.lua), taken unmodified from the upstream
+[v3.0.0](https://github.com/Christof93/SciKGTeX/releases/tag/v3.0.0) release
+(MIT). Upstream did not update the package identification line, so the build
+log reports `scikgtex 2022/11/13 v2.1.1` even though these are the v3.0.0
+files. Annotations are switched on with `\useScikgtex` near the top of
+[`main.tex`](main.tex). `inggrid.cls` loads the package through
+`\AtEndPreamble`, which means the SciKGTeX commands only become available at
+`\begin{document}` and cannot be used in the preamble.
+
+### Contribution properties
+
+Five mandatory properties are annotated. Each one sits at the passage it
+describes, so the metadata value and the printed sentence stay together. In the
+XMP they appear under `http://orkg.org/property/`, addressed by their ORKG
+predicate ID rather than by the command name.
+
+| Command | Location in `main.tex` | XMP tag | ORKG label |
+| --- | --- | --- | --- |
+| `\objective` | last sentence of the introduction | `P15051` | Objective |
+| `\researchproblem*` | abstract | `P32` | research problem |
+| `\method` | abstract | `P1005` | method |
+| `\result` | abstract | `P1006` | result |
+| `\conclusion*` | last paragraph of the discussion | `P15419` | Conclusion |
+
+### Bibliographic properties
+
+Three further annotations describe the paper itself. They print nothing and are
+therefore collected directly after `\begin{document}`:
+
+```latex
+\metatitle*{A FAIR Comic about Research Data Infrastructure, Part 1: From Charlemagne to ing.grid}%
+\metaauthor*{Alfred Neuwald}%
+\metaauthor*{Tobias Hamann}%
+\metaauthor*{Évariste Demandt}%
+\researchfield*{Science and Technology Studies}%
+```
+
+They are written to the XMP as `orkg:hasTitle`, one `orkg:hasAuthor` per
+author, and `orkg:hasResearchField`. SciKGTeX stores all three as plain
+literals and does not resolve them against the ORKG, so the research field uses
+the exact label of an existing ORKG research field (`R373`), and the title
+matches the wording used in [`CITATION.cff`](CITATION.cff).
+
+### Why some annotations use the starred form
+
+`\command{text}` typesets its argument and records it; `\command*{text}` only
+records it and prints nothing.
+
+The starred form is needed wherever the annotated sentence contains inline
+commands. SciKGTeX hands the raw LaTeX tokens to its Lua stripper, which
+rewrites `\cmd{content}` to `content`. A `\cite{key}` therefore reaches the
+metadata as a bare BibTeX key, and several inline commands in one sentence
+additionally leave stray braces behind. `\researchproblem` and `\conclusion`
+are affected: their passages are written as ordinary prose in the body and
+annotated immediately afterwards with a starred command carrying the same
+wording, but without `\cite` and `\textit`.
+
+**When editing those two passages, update the starred annotation as well.** A
+comment at each location says so. `\objective`, `\method`, and `\result`
+contain no inline commands and are annotated directly in place, so their
+metadata values are verbatim article text by construction.
+
+### Output and inspection
+
+Every build writes the metadata twice: as the sidecar file
+`main.xmp_metadata.xml` next to the PDF, which is a build artifact and not
+tracked, and as an XMP stream inside `main.pdf`. Inspect the embedded version
+with:
+
+```bash
+pdfinfo -meta main.pdf
+```
 
 ## Citation and archived releases
 
