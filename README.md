@@ -25,6 +25,69 @@ conversation-driven collaboration, and the technical method used to separate
 the artwork from its multilingual text. The current rendered document is
 available as [main.pdf](main.pdf).
 
+## Installation and Work setup
+
+The following explains two ways of working with this document:
+
+    
+
+
+### Requirements
+
+**TeX system**  
+For compiling .tex-files locally, a TeX-System is required. I recommend [MikTeX](https://miktex.org/).
+Install with
+
+    winget install -e --id MiKTeX.MiKTeX
+
+Afterwards, open MikTex and search for updates.
+
+
+**IDE**  
+For proper .tex-files editing an IDE is needed. I recommend [VSCode](https://code.visualstudio.com/) with [LaTeX Workshop](https://marketplace.visualstudio.com/items?itemName=James-Yu.latex-workshop) installed.
+Install with
+
+    winget install -e --id Microsoft.VisualStudioCode
+
+<details><summary>With VS Code and Latex Workshop</summary>
+**LaTeX integration**
+In VS Code, open the extensions tab in the side menue and search for Latex Workshop.
+Install. Enjoy.
+</details>
+
+<details><summary>With Texstudio</summary>
+## Setup Texstudio
+
+#### Darkmode
+
+- Optionen --> TexStudio konfigurieren --> Allgemein
+- Stil: Adwaita Dark (txs) auswählen
+- Farbschema: Modern - dunkel
+
+#### Line Numbers
+
+- Optionen --> TexStudio konfigurieren 
+- "Erweiterte Optionen" anhaken (ganz unten)
+- --> Editor 
+- Zeilennummern anzeigen: Alle Zeilennummern
+
+</details>
+
+### First steps
+
+When working with a local TeX System and IDE, download or clone this repository to your empty project directory:  
+Clone with tls/https (requires your Gitlab login):  
+`git clone https://github.com/tobias-hamann/research-comic-vol1.git`  
+
+### Install all necessary packages
+
+Compile the main.tex-file with your IDE and consider the resulting PDF for further explanations.
+
+MikTex will ask for packages to be installed.
+Once fully compiled, everything should be set up.
+
+
+
 ## Manuscript preparation and translation
 
 The comic was outlined, discussed, and initially written in German. Redrawing
