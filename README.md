@@ -572,8 +572,7 @@ metadata values are verbatim article text by construction.
 ### Output and inspection
 
 Every build writes the metadata twice: as the sidecar file
-`main.xmp_metadata.xml` next to the PDF, which is a build artifact and not
-tracked, and as an XMP stream inside `main.pdf`. Inspect the embedded version
+`main.xmp_metadata.xml` next to the PDF, which is a build artifact, and as an XMP stream inside `main.pdf`. Inspect the embedded version
 with:
 
 ```bash
