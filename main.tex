@@ -129,13 +129,15 @@
 % To be changed by author:
 % Uncomment "\useScikgtex" if Scikgtex annotations are used.
 % Die fuenf Pflicht-Properties stehen im Text:
-%   \objective*      am Ende des Abstracts   (Sternform, siehe dort)
-%   \researchproblem* am Ende des Abstracts  (Sternform, siehe dort)
-%   \method          im Abstract
-%   \result          im Abstract
-%   \conclusion*     in der Discussion, letzter Absatz (Sternform)
+%   \objective        letzter Satz der Introduction
+%   \researchproblem* am Ende des Abstracts   (Sternform, siehe dort)
+%   \method           im Abstract
+%   \result           im Abstract
+%   \conclusion*      in der Discussion, letzter Absatz (Sternform)
 % Sternform = schreibt nur ins XMP, setzt keinen Text. Noetig ueberall
 % dort, wo der annotierte Satz ein \cite oder \textit enthaelt.
+% Dazu die bibliografischen Properties \metatitle*, \metaauthor* und
+% \researchfield* direkt nach \begin{document}.
 %
 %
 
@@ -175,17 +177,28 @@
 \pagestyle{inggrid}
 
 \begin{document}
+%
+% SciKGTeX: bibliografische Metadaten des Papers. Alles Sternformen, sie
+% setzen keinen Text und stehen deshalb hier gebuendelt. Erst ab
+% \begin{document} verfuegbar, weil inggrid.cls das Paket per
+% \AtEndPreamble laedt. Titel wie in CITATION.cff, Namen wie auf der
+% Titelseite, Forschungsfeld als Label aus der ORKG-Taxonomie (R373).
+\metatitle*{A FAIR Comic about Research Data Infrastructure, Part 1: From Charlemagne to ing.grid}%
+\metaauthor*{Alfred Neuwald}%
+\metaauthor*{Tobias Hamann}%
+\metaauthor*{Évariste Demandt}%
+\researchfield*{Science and Technology Studies}%
+%
 \maketitle
 \begin{abstract}
     Comics journalism constitutes a graphic form of literary journalism. According to John S. Bak and Christopher Craig \cite{bak_comics_2026}, comics journalism and literary journalism share key features: they both read like fiction but are based on immersive research, eyewitness accounts, and verifiable facts scrutinized as closely as possible. RWTH Aachen University has recently embraced comics journalism as a means of communicating ongoing research at the Chair of AI Methodology within the Faculty of Computer Science \cite{neuwald_deus_2026}. \method{To enable close observation and immersive documentation of scientific practice, comic artist Alfred Neuwald was invited to work alongside the researchers. The resulting collaboration established the general framework for this project.} \result{Here we present the first result of a modified artist-in-residence concept implemented by the German National Research Data Infrastructure for Engineering Sciences (NFDI4ING).}%
 %
-% SciKGTeX: \objective und \researchproblem stehen hier als Sternform.
-% Ihr Fliesstext enthaelt ein \cite, und der Lua-Stripper des Pakets macht
-% daraus im XMP den nackten BibTeX-Key. Die Sternform setzt keinen Text,
-% sie schreibt nur in die Metadaten -- der Wert ist also derselbe Satz wie
-% oben, nur ohne das \cite. \method und \result bleiben direkt im Text,
-% weil sie keine Zitate enthalten.
-\objective*{Comics journalism constitutes a graphic form of literary journalism. According to John S. Bak and Christopher Craig, comics journalism and literary journalism share key features: they both read like fiction but are based on immersive research, eyewitness accounts, and verifiable facts scrutinized as closely as possible.}%
+% SciKGTeX: \researchproblem steht hier als Sternform. Sein Fliesstext
+% enthaelt ein \cite, und der Lua-Stripper des Pakets macht daraus im XMP
+% den nackten BibTeX-Key. Die Sternform setzt keinen Text, sie schreibt nur
+% in die Metadaten -- der Wert ist also derselbe Satz wie oben, nur ohne
+% das \cite. \method und \result bleiben direkt im Text, weil sie keine
+% Zitate enthalten. \objective steht am Ende der Introduction.
 \researchproblem*{RWTH Aachen University has recently embraced comics journalism as a means of communicating ongoing research at the Chair of AI Methodology within the Faculty of Computer Science.}%
 \end{abstract}
 
@@ -212,7 +225,7 @@ Inviting an outsider to observe and take part in scientific practice has a metho
 
 Comics represent embodied speech. They do so by depicting speakers and listeners within their environment together with spoken utterances, deictic gestures, and, in some cases, internal thoughts represented through thought balloons. As a graphic medium, comics are therefore particularly well suited to documenting multimodal interaction in situated research environments. Comics, however, usually transport readers into the realm of imagination rather than documented fact. Comics journalism---together with its European and Japanese counterparts, \textit{BD reportage} and documentary manga---differs precisely in this respect \cite{bak_comics_2026, bak_mangix_2024}.
 
-At RWTH Aachen University, comics journalism has recently been embraced as a means of communicating ongoing research at the Chair of AI Methodology within the Faculty of Computer Science \cite{neuwald_deus_2026}. The collaboration between researchers and comic artist Alfred Neuwald established the general framework for the present project. By combining ethnographic observation with the multimodal representational capacities of comics, we explore comics journalism as a method for documenting situated research practices within the administrative office of the German National Research Data Infrastructure for Engineering Sciences (NFDI4ING).
+At RWTH Aachen University, comics journalism has recently been embraced as a means of communicating ongoing research at the Chair of AI Methodology within the Faculty of Computer Science \cite{neuwald_deus_2026}. The collaboration between researchers and comic artist Alfred Neuwald established the general framework for the present project. \objective{By combining ethnographic observation with the multimodal representational capacities of comics, we explore comics journalism as a method for documenting situated research practices within the administrative office of the German National Research Data Infrastructure for Engineering Sciences (NFDI4ING).}
 
 \section{Result}
 \subsection{A FAIR Comic on Research Data Infrastructure}

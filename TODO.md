@@ -1,14 +1,20 @@
 # TODO: SciKGTeX
 
 Stand dieses Branches: `\useScikgtex` ist aktiv, SciKGTeX liegt in **v3.0.0**
-vor. Vier Annotationen gehören zum Abstract (`\objective*`, `\researchproblem*`,
-`\method`, `\result`), `\conclusion*` zum letzten Absatz der Discussion.
+vor. Die fünf Pflicht-Properties stehen bei ihrem jeweiligen Fließtext —
+`\researchproblem*`, `\method` und `\result` beim Abstract, `\objective` am
+Ende der Introduction, `\conclusion*` im letzten Absatz der Discussion. Dazu
+kommen die drei bibliografischen Properties `\metatitle*`, `\metaauthor*` und
+`\researchfield*` direkt nach `\begin{document}`.
 
 Verifiziert am gebauten `main.pdf`: die fünf Properties landen tatsächlich im
 XMP-Block unter `http://orkg.org/property/`, als Contribution
-`contribution_ORKG_default`. Build läuft fehlerfrei durch, 58 Seiten.
+`contribution_ORKG_default`, die bibliografischen Angaben als `orkg:hasTitle`,
+`orkg:hasAuthor` und `orkg:hasResearchField`. Build läuft fehlerfrei durch,
+58 Seiten.
 
-Offen ist noch ein Punkt.
+Alle drei Punkte sind abgearbeitet. Offen ist nur noch eine inhaltliche
+Bestätigung, siehe Punkt 3.
 
 ---
 
@@ -93,33 +99,48 @@ Denkbar wäre stattdessen ein Patch an `remove_any_latex_command` (nicht-gierige
 Muster, `\cite` komplett verwerfen) — sinnvoll nur als Beitrag stromaufwärts,
 damit die vendorierte Kopie byteweise dem Release entspricht.
 
-## 3. Vorschläge für zusätzliche Properties
+## 3. Zusätzliche Properties und passender `\objective`-Text — erledigt
 
-Jetzt umsetzbar, nachdem Punkt 1 erledigt ist. Die drei bibliografischen
-Properties sind Sternformen, setzen also keinen Text und können in die
-Präambel — sie stören das Layout nicht. Damit lässt sich auch der Inhalt des
-`metadata`-Ordners anbinden.
+Die drei bibliografischen Properties sind Sternformen und setzen keinen Text.
+Sie stehen gebündelt direkt nach `\begin{document}` — nicht in der Präambel,
+denn `inggrid.cls` lädt SciKGTeX per `\AtEndPreamble`, die Befehle existieren
+dort also noch nicht.
 
-| Property | Vorschlag | Quelle |
+| Property | Wert | Quelle |
 |---|---|---|
-| `\metatitle*` | A FAIR Comic about Research Data Infrastructure | `language_files/en/en.tex:2` |
-| `\metaauthor*` | Alfred Neuwald, Tobias Hamann, Évariste Demandt | `metadata/authors.tex:63-89` |
-| `\researchfield*` | offen — z. B. Research Data Management oder Science Communication | Autorenentscheidung |
+| `\metatitle*` | A FAIR Comic about Research Data Infrastructure, Part 1: From Charlemagne to ing.grid | `language_files/en/en.tex:2-3`, Wortlaut wie in `CITATION.cff` auf `main` |
+| `\metaauthor*` | Alfred Neuwald / Tobias Hamann / Évariste Demandt (drei Aufrufe) | `metadata/authors.tex:63-89` |
+| `\researchfield*` | Science and Technology Studies | ORKG-Taxonomie, `R373` |
 
-Für `\objective` zwei Kandidaten aus dem vorhandenen Text, beide ohne Zitat,
-damit der Metadatenwert sauber bleibt:
+Landen im XMP als `orkg:hasTitle`, drei `orkg:hasAuthor` und
+`orkg:hasResearchField`. Alle drei sind reine Textliterale — SciKGTeX löst sie
+nicht gegen die ORKG auf, deshalb ist die exakte Schreibweise des Labels
+wichtig, damit die Zuordnung beim Import gelingt.
 
-1. Introduction, letzter Absatz: *„By combining ethnographic observation with
-   the multimodal representational capacities of comics, we explore comics
-   journalism as a method for documenting situated research practices within
-   the administrative office of the German National Research Data
-   Infrastructure for Engineering Sciences (NFDI4ING)."*
-2. Discussion, erster Absatz, Schlusssatz: *„We hope that readers interested in
-   research data infrastructure will be profitably entertained by the result."*
+**Zur Bestätigung durch die Autoren:** Das Forschungsfeld ist eine inhaltliche
+Entscheidung. `R373 Science and Technology Studies` deckt die ethnografische
+Beobachtung wissenschaftlicher Praxis ab, auf die sich der Artikel mit Latour
+ausdrücklich beruft. Ebenfalls in der Taxonomie vorhanden und vertretbar:
+`R296 Journalism Studies` (Comics-Journalismus als Genre), `R278 Information
+Science` (Forschungsdatenmanagement), `R288 Communication Sciences`. Es geht
+nur genau eins, `set_researchfield` überschreibt. Gesucht über
+<https://orkg.org/api/resources?q=...&include=ResearchField>; „Research Data
+Management", „Scholarly Communication" und „Comics" liefern dort nichts.
 
-Empfehlung: Kandidat 1 — er benennt das Vorhaben, nicht die Hoffnung. Der
-aktuelle `\objective`-Wert ist noch der alte `\background`-Text, passt also
-inhaltlich nicht besonders gut zur Property.
+`\objective` trägt jetzt den letzten Satz der Introduction: *„By combining
+ethnographic observation with the multimodal representational capacities of
+comics, we explore comics journalism as a method for documenting situated
+research practices within the administrative office of the German National
+Research Data Infrastructure for Engineering Sciences (NFDI4ING)."* Der Satz
+benennt das Vorhaben, während der bisherige Wert noch der alte
+`\background`-Text war. Er enthält weder `\cite` noch `\textit` und steht
+deshalb als ganz normale Inline-Annotation im Text — keine Dopplung, der
+Metadatenwert ist nachweislich der Satz aus dem Artikel. Die beiden ersten
+Abstract-Sätze sind damit unannotierte Prosa; am Satzbild ändert sich nichts.
+
+Verworfen: der Alternativkandidat *„We hope that readers interested in research
+data infrastructure will be profitably entertained by the result."* aus der
+Discussion — benennt eine Hoffnung, kein Ziel.
 
 ---
 
