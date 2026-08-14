@@ -1,14 +1,14 @@
 # TODO: SciKGTeX
 
 Stand dieses Branches: `\useScikgtex` ist aktiv, SciKGTeX liegt in **v3.0.0**
-vor. Vier Annotationen stehen im Abstract (`\objective`, `\researchproblem`,
-`\method`, `\result`), `\conclusion` im letzten Absatz der Discussion.
+vor. Vier Annotationen gehören zum Abstract (`\objective*`, `\researchproblem*`,
+`\method`, `\result`), `\conclusion*` zum letzten Absatz der Discussion.
 
 Verifiziert am gebauten `main.pdf`: die fünf Properties landen tatsächlich im
 XMP-Block unter `http://orkg.org/property/`, als Contribution
 `contribution_ORKG_default`. Build läuft fehlerfrei durch, 58 Seiten.
 
-Offen sind noch zwei Punkte.
+Offen ist noch ein Punkt.
 
 ---
 
@@ -52,30 +52,46 @@ Das Paket ist ausdrücklich dafür gedacht, in das Projekt kopiert zu werden. Es
 sind aber Dateien, die das ing.grid-Template mitliefert — ggf. der Redaktion
 Bescheid geben, dass hier eine neuere Fassung liegt.
 
-## 2. Zitate landen als nackte BibTeX-Keys in den Metadaten
+## 2. Zitate landen als nackte BibTeX-Keys in den Metadaten — erledigt
 
-`\cite{bak_comics_2026}` innerhalb einer Annotation wird beim Schreiben ins
-XMP zum blanken Key eingedampft. Aktuell steht im PDF:
+Ursache: Die Annotationsbefehle reichen ihr Argument über
+`\luaescapestring{\unexpanded{#2}}` weiter, Lua sieht also die rohen
+LaTeX-Tokens. Der Stripper `remove_any_latex_command` ersetzt `\cmd{inhalt}`
+durch `inhalt` — aus `\cite{bak_comics_2026}` wird der blanke Key. Da das
+Muster `'\\%w+%s*{(.*)}'` gierig bis zur letzten Klammer der Zeichenkette
+greift, zerlegt es bei mehreren Inline-Befehlen zusätzlich die Klammerpaare;
+daher die verwaisten `}` im alten `\conclusion`-Wert. Keine Regression durch
+das Update — die Funktionen `remove_latex_commands`, `remove_any_latex_command`
+und `remove_environments` sind in v3.0.0 byteweise dieselben wie in v1.0.
 
-> `<orkg_property:P15051>` Comics journalism constitutes a graphic form of
-> literary journalism. According to John S. Bak and Christopher Craig
-> **bak_comics_2026**, comics journalism and literary journalism share key
-> features: …
+Auf TeX-Ebene ist dagegen nichts auszurichten: Wegen `\unexpanded` hilft kein
+Makro-Wrapper, jede Lösung müsste im Lua-Stripper ansetzen.
 
-Betrifft `\objective`, `\researchproblem` und `\conclusion`. Kein Fehler, aber
-als veröffentlichter Metadatenwert Rauschen.
+Umgesetzt ist deshalb die Sternform. `\objective*`, `\researchproblem*` und
+`\conclusion*` setzen keinen Text, sie schreiben nur ins XMP. Der Fließtext
+steht als normale Prosa da (Zitate und Kursivierung unverändert an Ort und
+Stelle), die Annotation folgt unmittelbar darauf mit demselben Wortlaut, aber
+ohne `\cite` und ohne `\textit`. `\method` und `\result` enthalten keine
+Zitate und stehen weiterhin als normale Inline-Annotation im Abstract.
 
-Bei `\conclusion` kommt dazu, dass der Wert verwaiste Klammern enthält, weil
-der Stripper mit den verschachtelten `\textit{..}` in den Klammerzusätzen nicht
-zurechtkommt: *„Jorge Cham's PHD Comics} or Eppendorf's Lab Life};
-cham_phd_1997, …"*. Das ist keine Regression durch das Update — die drei
-Funktionen `remove_latex_commands`, `remove_any_latex_command` und
-`remove_environments` sind in v3.0.0 byteweise dieselben wie in v1.0.
+Ergebnis im XMP, alle fünf Werte sauber:
 
-**Entscheidung nötig:** `\cite`-Aufrufe aus den Annotationsklammern
-herausziehen? Das verschiebt sie im Satzbild minimal. Alternativ so lassen.
-Für `\conclusion` wäre zusätzlich zu überlegen, den Klammerzusatz mit den
-`\textit{..}` aus der Annotation herauszuziehen.
+> `<orkg_property:P15419>` … such as comics about researchers in research
+> institutions (see, for example, Jorge Cham's PHD Comics or Eppendorf's Lab
+> Life), as well as science communication comics … about the process of
+> learning—or coming to understand.
+
+Am Satzbild ändert sich nichts: Seite 1 und der Discussion-Absatz sind Zeichen
+für Zeichen wie vorher, das Dokument bleibt bei 58 Seiten.
+
+Preis der Lösung: Die drei Werte stehen doppelt in `main.tex`. Sie liegen
+direkt neben ihrem Fließtext, damit ein Auseinanderlaufen beim Redigieren
+auffällt — ein Kommentar an beiden Stellen weist darauf hin. **Wer den
+Abstract oder den Schlussabsatz ändert, muss die Sternform mitziehen.**
+
+Denkbar wäre stattdessen ein Patch an `remove_any_latex_command` (nicht-gierige
+Muster, `\cite` komplett verwerfen) — sinnvoll nur als Beitrag stromaufwärts,
+damit die vendorierte Kopie byteweise dem Release entspricht.
 
 ## 3. Vorschläge für zusätzliche Properties
 

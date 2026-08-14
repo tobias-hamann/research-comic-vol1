@@ -129,11 +129,13 @@
 % To be changed by author:
 % Uncomment "\useScikgtex" if Scikgtex annotations are used.
 % Die fuenf Pflicht-Properties stehen im Text:
-%   \objective       im Abstract
-%   \researchproblem im Abstract
+%   \objective*      am Ende des Abstracts   (Sternform, siehe dort)
+%   \researchproblem* am Ende des Abstracts  (Sternform, siehe dort)
 %   \method          im Abstract
 %   \result          im Abstract
-%   \conclusion      in der Discussion, letzter Absatz
+%   \conclusion*     in der Discussion, letzter Absatz (Sternform)
+% Sternform = schreibt nur ins XMP, setzt keinen Text. Noetig ueberall
+% dort, wo der annotierte Satz ein \cite oder \textit enthaelt.
 %
 %
 
@@ -175,7 +177,16 @@
 \begin{document}
 \maketitle
 \begin{abstract}
-    \objective{Comics journalism constitutes a graphic form of literary journalism. According to John S. Bak and Christopher Craig \cite{bak_comics_2026}, comics journalism and literary journalism share key features: they both read like fiction but are based on immersive research, eyewitness accounts, and verifiable facts scrutinized as closely as possible.} \researchproblem{RWTH Aachen University has recently embraced comics journalism as a means of communicating ongoing research at the Chair of AI Methodology within the Faculty of Computer Science \cite{neuwald_deus_2026}.} \method{To enable close observation and immersive documentation of scientific practice, comic artist Alfred Neuwald was invited to work alongside the researchers. The resulting collaboration established the general framework for this project.} \result{Here we present the first result of a modified artist-in-residence concept implemented by the German National Research Data Infrastructure for Engineering Sciences (NFDI4ING).}
+    Comics journalism constitutes a graphic form of literary journalism. According to John S. Bak and Christopher Craig \cite{bak_comics_2026}, comics journalism and literary journalism share key features: they both read like fiction but are based on immersive research, eyewitness accounts, and verifiable facts scrutinized as closely as possible. RWTH Aachen University has recently embraced comics journalism as a means of communicating ongoing research at the Chair of AI Methodology within the Faculty of Computer Science \cite{neuwald_deus_2026}. \method{To enable close observation and immersive documentation of scientific practice, comic artist Alfred Neuwald was invited to work alongside the researchers. The resulting collaboration established the general framework for this project.} \result{Here we present the first result of a modified artist-in-residence concept implemented by the German National Research Data Infrastructure for Engineering Sciences (NFDI4ING).}%
+%
+% SciKGTeX: \objective und \researchproblem stehen hier als Sternform.
+% Ihr Fliesstext enthaelt ein \cite, und der Lua-Stripper des Pakets macht
+% daraus im XMP den nackten BibTeX-Key. Die Sternform setzt keinen Text,
+% sie schreibt nur in die Metadaten -- der Wert ist also derselbe Satz wie
+% oben, nur ohne das \cite. \method und \result bleiben direkt im Text,
+% weil sie keine Zitate enthalten.
+\objective*{Comics journalism constitutes a graphic form of literary journalism. According to John S. Bak and Christopher Craig, comics journalism and literary journalism share key features: they both read like fiction but are based on immersive research, eyewitness accounts, and verifiable facts scrutinized as closely as possible.}%
+\researchproblem*{RWTH Aachen University has recently embraced comics journalism as a means of communicating ongoing research at the Chair of AI Methodology within the Faculty of Computer Science.}%
 \end{abstract}
 
 \inggridlinenumbers
@@ -330,15 +341,21 @@ We have introduced the FAIR comic by reference to the documentary practices of e
 
 
 \subsection{The FAIR Comic between Research and Science Comics}
-\conclusion{We conclude furthermore our discussion by comparing the FAIR comic to related forms of comic culture, such as comics about researchers in research institutions (see, for example, Jorge Cham's \textit{PHD Comics} or Eppendorf’s \textit{Lab Life}; \cite{cham_phd_1997, noauthor_lab_nodate}), as well as science communication comics that explain fields of research (see, for example, Larry Gonick's \textit{Cartoon Guide} series or Matteo Farinella's \textit{Neurocomic}; \cite{gonick_cartoon_1983-1, gonick_cartoon_1983, farinelli_neurocomic_2013}). The FAIR comic sits comfortably between these two broader lineages and follows a journalistic ethos. What we seek to achieve is not adequately captured by saying that the FAIR comic is about research practice, nor even that it is researched, but rather that it is explicit about the process of learning---or coming to understand. To put our claim in direct speech: "This is what we discussed while trying to establish a mutual understanding of research data infrastructure."}
+We conclude furthermore our discussion by comparing the FAIR comic to related forms of comic culture, such as comics about researchers in research institutions (see, for example, Jorge Cham's \textit{PHD Comics} or Eppendorf’s \textit{Lab Life}; \cite{cham_phd_1997, noauthor_lab_nodate}), as well as science communication comics that explain fields of research (see, for example, Larry Gonick's \textit{Cartoon Guide} series or Matteo Farinella's \textit{Neurocomic}; \cite{gonick_cartoon_1983-1, gonick_cartoon_1983, farinelli_neurocomic_2013}). The FAIR comic sits comfortably between these two broader lineages and follows a journalistic ethos. What we seek to achieve is not adequately captured by saying that the FAIR comic is about research practice, nor even that it is researched, but rather that it is explicit about the process of learning---or coming to understand. To put our claim in direct speech: "This is what we discussed while trying to establish a mutual understanding of research data infrastructure."%
+%
+% SciKGTeX: \conclusion als Sternform, gleiche Begruendung wie im Abstract.
+% Hier kommen zu den \cite noch die verschachtelten \textit{..} dazu, an
+% denen der Stripper verwaiste Klammern hinterlaesst. Der Wert unten ist
+% der Absatz oben ohne Zitate, ohne Kursivierung, mit echtem Geviertstrich.
+\conclusion*{We conclude furthermore our discussion by comparing the FAIR comic to related forms of comic culture, such as comics about researchers in research institutions (see, for example, Jorge Cham's PHD Comics or Eppendorf’s Lab Life), as well as science communication comics that explain fields of research (see, for example, Larry Gonick's Cartoon Guide series or Matteo Farinella's Neurocomic). The FAIR comic sits comfortably between these two broader lineages and follows a journalistic ethos. What we seek to achieve is not adequately captured by saying that the FAIR comic is about research practice, nor even that it is researched, but rather that it is explicit about the process of learning—or coming to understand. To put our claim in direct speech: "This is what we discussed while trying to establish a mutual understanding of research data infrastructure."}%
 
 
 %
 %
 % Part of SciKGTex
 %
-% Die fuenf Pflicht-Properties sind direkt im Fliesstext gesetzt, siehe
-% die Uebersicht oben bei \useScikgtex. Weitere Properties gehen mit
+% Die fuenf Pflicht-Properties sind beim zugehoerigen Fliesstext gesetzt,
+% siehe die Uebersicht oben bei \useScikgtex. Weitere Properties gehen mit
 % \addmetaproperty{name} und \contribution*{name}{wert}, wobei die
 % Sternform den Wert nur in die Metadaten schreibt, ohne ihn zu setzen.
 %
