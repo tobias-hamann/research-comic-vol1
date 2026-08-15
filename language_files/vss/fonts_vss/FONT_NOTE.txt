@@ -1,0 +1,56 @@
+Iokharic - font required for the Vs'shtak (Draconic) edition
+============================================================
+
+The font files themselves are deliberately NOT part of this repository.
+Their licence forbids redistribution, so they have to be fetched once by
+hand before the `vss` edition can be built.
+
+What is needed
+--------------
+
+Place these four files next to this note, in
+`language_files/vss/fonts_vss/`:
+
+    Iokharic-Regular.otf
+    Iokharic-Bold.otf
+    Iokharic-Italic.otf
+    Iokharic-BoldItalic.otf
+
+Where to get them
+-----------------
+
+Iokharic, by Neale Davidson (Pixel Sagas), version 1.00 of 21 August 2014.
+
+    https://www.pixelsagas.com/            (the author's own site)
+    https://www.dafont.com/iokharic.font   (mirror)
+
+The archive ships the files as `Iokharic.otf`, `Iokharic Bold.otf`,
+`Iokharic Italic.otf` and `Iokharic Bold Italic.otf`. Rename them to the
+hyphenated names listed above; `language_files/vss/fonts_vss.tex` looks
+for exactly those, and the spaces in the original names are a portability
+risk on Overleaf and Linux.
+
+Licence
+-------
+
+Iokharic (c) Neale Davidson, 2014. All rights reserved. Distributed as
+Pixel Sagas shareware under the EULA bundled with the archive as
+`Font License.txt`. The two clauses that matter here:
+
+  - "Pixel Saga's Shareware Fonts are free to use for personal,
+     non-commercial purposes. [...] However, you cannot offer the font
+     for commercial sale, or offer for direct download."
+  - "Pixel Sagas freeware fonts may, however, be embedded for web,
+     publication, or general software use."
+
+Embedding the glyphs in the rendered PDF is therefore covered. Shipping
+the `.otf` files in this repository would be "offering for direct
+download" and is not, which is why they are listed in `.gitignore`.
+
+Note that the comic itself is published under CC BY 4.0, which grants
+downstream users commercial rights that this font licence does not.
+Anyone redistributing or commercially reusing the Vs'shtak edition needs
+a commercial licence from Pixel Sagas (jaynz@pixelsagas.com).
+
+The other language editions are unaffected: `deu`, `eng`, `lat` and `qya`
+build without this font.

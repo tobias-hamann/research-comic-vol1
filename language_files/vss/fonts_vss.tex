@@ -1,0 +1,132 @@
+% ------------------------------------------------------------
+% Vs'shtak-/Draconic-FDI-Schrift
+% ------------------------------------------------------------
+% Wird von \FDIInputLanguageFonts in der Praeambel geladen.
+% Wichtig: Diese Fonts werden NICHT global auf das Dokument angewendet,
+% sondern nur ueber die FDI-Font-Makros verwendet.
+%
+% Iokharic ist das drakonische Alphabet. Es ersetzt hier ausschliesslich
+% die Overlay-Schrift, also Sprechblasen, Kaesten und Bildunterschriften.
+%
+% Bewusst NICHT ersetzt werden:
+%   \KarolingischeMinuskel     Seite 2, Panel 5 und 6 zeigen die historische
+%                              karolingische Minuskel selbst. Sie ist dort
+%                              Inhalt, nicht Typografie, und bleibt unveraendert.
+%                              Das ist in dieser Ausgabe die einzige Stelle.
+%                              Die Karten auf Seite 1 und 3 benutzen dagegen
+%                              direkt \FDIOverlayFont, dort ist die Minuskel
+%                              reine Typografie. Siehe pages_vss/page_1.tex
+%                              und pages_vss/page_3.tex.
+%   \ArialFont, \ArialBOLDFont URLs, DOI, ISBN und Diagrammbeschriftungen
+%                              muessen lesbar und maschinenlesbar bleiben.
+%
+% Die Schriftdateien liegen NICHT im Repository, siehe fonts_vss/FONT_NOTE.txt.
+% Fehlen sie, faellt diese Datei mit einer Warnung auf die Standardschrift
+% zurueck, damit das Dokument trotzdem uebersetzt.
+%
+% ------------------------------------------------------------
+% Warum hier ueberhaupt Lua steht
+% ------------------------------------------------------------
+% Iokharic besitzt echte Glyphen nur fuer a-z, A-Z und 0-9. Saemtliche
+% Satzzeichen, Anfuehrungszeichen, Apostrophe und Umlaute sind im Font auf
+% eine identische Platzhalter-Box gemappt. LaTeX meldet das nicht als
+% "missing character", weil die Glyphen formal vorhanden sind; im PDF stehen
+% dann leere Kaesten. Deshalb zwei Eingriffe:
+%
+%   1. luaotfload.patch_font entfernt die Platzhalter aus der geladenen
+%      Fonttabelle. Damit gelten sie als fehlend und der Fallback-Font
+%      (die Standard-Comicschrift Komika) liefert sie nach. Die Fontdatei
+%      selbst wird dabei nicht angefasst.
+%   2. Der Bindestrich ist ein Sonderfall: LuaTeX baut daraus ein
+%      Discretionary und verwirft das Zeichen bereits, bevor der Fallback
+%      laufen kann. Er bleibt deshalb in der Tabelle stehen und wird
+%      stattdessen im Knotenbaum auf den Fallback-Font umgehaengt.
+%
+% Beide Callbacks pruefen den Dateinamen und wirken daher nur auf Iokharic.
+% Die anderen Sprachausgaben sind unberuehrt.
+%
+% Innerhalb von \directlua stehen bewusst keine Leerzeilen: dieser Block ist
+% ein Makroargument von \IfFileExists, und eine Leerzeile darin wuerde als
+% \par im Lua-Code landen.
+
+\IfFileExists{language_files/vss/fonts_vss/Iokharic-Regular.otf}{%
+\directlua{
+  luaotfload.add_fallback("fdivssfallback", { "[fonts/KOMTXT__.ttf]:mode=node;" })
+  FDIVss = { hyphenfont = {} }
+  % 1. Platzhalterglyphen aus der geladenen Fonttabelle werfen.
+  luatexbase.add_to_callback("luaotfload.patch_font", function(fontdata)
+    if not (fontdata.filename or ""):find("Iokharic", 1, true) then return end
+    local chars = fontdata.characters
+    if not chars then return end
+    local keep = {[0x20] = true, [0x2D] = true}
+    for c = 0x30, 0x39 do keep[c] = true end
+    for c = 0x41, 0x5A do keep[c] = true end
+    for c = 0x61, 0x7A do keep[c] = true end
+    for uni in next, chars do
+      if not keep[uni] then chars[uni] = nil end
+    end
+  end, "fdi.vss.strip")
+  % 2. Bindestriche aus Iokharic auf den Fallback-Font umhaengen.
+  local glyph_id = node.id("glyph")
+  local disc_id  = node.id("disc")
+  local hlist_id = node.id("hlist")
+  local vlist_id = node.id("vlist")
+  % Kein "~=" verwenden: ~ ist in LaTeX aktiv und landet als Backslash im Lua.
+  local function hyphenfont(fid)
+    local cached = FDIVss.hyphenfont[fid]
+    if cached == nil then
+      local f = font.getfont(fid)
+      cached = false
+      if f and (f.filename or ""):find("Iokharic", 1, true) then
+        local lookup = f.fallback_lookup
+        cached = lookup and lookup[0x2D] or false
+      end
+      FDIVss.hyphenfont[fid] = cached
+    end
+    return cached
+  end
+  local function walk(head)
+    local n = head
+    while n do
+      local id = n.id
+      if id == glyph_id then
+        if n.char == 0x2D then
+          local repl = hyphenfont(n.font)
+          if repl then n.font = repl end
+        end
+      elseif id == disc_id then
+        walk(n.pre) walk(n.post) walk(n.replace)
+      elseif id == hlist_id or id == vlist_id then
+        walk(n.head)
+      end
+      n = n.next
+    end
+  end
+  local function fdivssfilter(head)
+    walk(head)
+    return true
+  end
+  luatexbase.add_to_callback("pre_linebreak_filter", fdivssfilter, "fdi.vss.hyphen")
+  luatexbase.add_to_callback("hpack_filter",        fdivssfilter, "fdi.vss.hyphen")
+}
+\newfontfamily{\FDIVssOverlayFont}{Iokharic-Regular.otf}[
+  Path           = language_files/vss/fonts_vss/,
+  BoldFont       = Iokharic-Bold.otf,
+  ItalicFont     = Iokharic-Italic.otf,
+  BoldItalicFont = Iokharic-BoldItalic.otf,
+  Scale          = 1.00,
+  Ligatures      = NoCommon,
+  RawFeature     = {fallback=fdivssfallback}
+]
+% Zuweisung der FDI-Font-Makros fuer diese Sprache.
+% Wird von \FDISetupLanguageFonts ausgefuehrt, sobald vss gesetzt ist.
+\FDISetLanguageFonts{vss}{%
+  \let\FDIOverlayFont\FDIVssOverlayFont
+}%
+}{%
+  \PackageWarningNoLine{FDI}{%
+    Iokharic not found, the vss edition falls back to the default overlay
+    font.\MessageBreak
+    See language_files/vss/fonts_vss/FONT_NOTE.txt%
+  }%
+}

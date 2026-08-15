@@ -334,3 +334,8 @@ TSWLatexianTemp*
 # SciKGTeX
 *.xmp_metadata.xml
 !main.xmp_metadata.xml
+
+# Iokharic (Vs'shtak edition). Pixel Sagas shareware: embedding the glyphs in
+# the PDF is allowed, offering the font files for direct download is not.
+# See language_files/vss/fonts_vss/FONT_NOTE.txt for where to fetch them.
+language_files/vss/fonts_vss/*.otf

@@ -111,8 +111,13 @@ The original German and publication-oriented English versions are accompanied
 by AI-assisted Latin, Elvish, and Draconic (*Vs'shtak*) proof-of-concept
 editions. The Draconic edition uses the project-local identifier `vss`; its
 text and page layouts are included, while its `FDI_vss.png` RDL artwork is
-supplied separately. These editions demonstrate
-support for left-to-right languages and language-specific non-Latin fonts. The
+supplied separately. Its overlay font is Iokharic, the Draconic alphabet, which
+is **not** bundled for licensing reasons and has to be fetched once before that
+edition renders as intended; see
+[`language_files/vss/fonts_vss/FONT_NOTE.txt`](language_files/vss/fonts_vss/FONT_NOTE.txt).
+Without it the build still completes, falling back to the default overlay font
+with a warning. 
+These editions demonstrate support for left-to-right languages and language-specific non-Latin fonts. The
 language-dependent FDI/RDI/RDL image variants also demonstrate how translated
 artwork can be overlaid without modifying the shared background. Right-to-left
 and boustrophedon writing systems have not yet been implemented or tested.
@@ -677,3 +682,8 @@ Use GitHub's **Cite this repository** function or the metadata in
   International](https://creativecommons.org/licenses/by/4.0/)
 - Bundled third-party fonts retain the license notices included in their
   respective directories.
+- The Iokharic font used by the Draconic edition is deliberately **not**
+  bundled. Its licence allows the glyphs to be embedded in the rendered PDF but
+  not the font files to be offered for download, so they are listed in
+  `.gitignore`. Download location and exact terms are in
+  [`language_files/vss/fonts_vss/FONT_NOTE.txt`](language_files/vss/fonts_vss/FONT_NOTE.txt).
