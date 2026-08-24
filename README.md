@@ -76,7 +76,7 @@ Install. Enjoy.
 ### First steps
 
 When working with a local TeX System and IDE, download or clone this repository to your empty project directory:  
-Clone with tls/https (requires your Gitlab login):  
+Clone with tls/https (requires your GitHub login):  
 `git clone https://github.com/tobias-hamann/research-comic-vol1.git`  
 
 ### Install all necessary packages
@@ -180,7 +180,7 @@ and flag it for human review. Never silently translate an uncertain name.
 
 ### 1. Copy the `eng` folder and rename it to `CODE`
 
-Straight forward. For the naming, use the 
+Straight forward. For the naming, use the ISO 639-3 codes, e.g. ENG or DEU.
 
 ### 2. Translate `CODE.tex`
 
@@ -670,7 +670,7 @@ Use GitHub's **Cite this repository** function or the metadata in
   conceptualization, methodology, writing, and visualisation
 - [Tobias Hamann](https://orcid.org/0000-0002-8021-5524):
   conceptualization, methodology, writing, and software
-- [Évariste Demandt](https://orcid.org/0000-0002-2239-3955):
+- [Évariste Demandt](https://orcid.org/0000-0002-5705-0071):
   conceptualization and writing
 
 ## Licenses

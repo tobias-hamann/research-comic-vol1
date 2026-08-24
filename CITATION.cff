@@ -58,7 +58,7 @@ references:
         affiliation: "Chair for Intelligence in Quality Sensing (IQS), WZL, RWTH Aachen University, Aachen, Germany"
       - family-names: Demandt
         given-names: Évariste
-        orcid: "https://orcid.org/0000-0002-2239-3955"
+        orcid: "https://orcid.org/0000-0002-5705-0071"
         email: demandt@itc.rwth-aachen.de
         affiliation: "IT Center, RWTH Aachen University, Aachen, Germany"
     journal: "ing.grid"
@@ -74,6 +74,6 @@ references:
         orcid: "https://orcid.org/0000-0002-8021-5524"
       - family-names: Demandt
         given-names: Évariste
-        orcid: "https://orcid.org/0000-0002-2239-3955"
+        orcid: "https://orcid.org/0000-0002-5705-0071"
     doi: 10.5281/zenodo.19468332
     year: 2026
