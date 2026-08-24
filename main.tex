@@ -311,14 +311,17 @@ These nodes can be positioned freely and styled individually, allowing precise c
 One language-dependent element, however, could not be handled as a textual overlay. 
 Alfred also had to remove the drawing of three-dimensional toy bricks forming the letters \enquote{FDI}, standing for the German \textit{Forschungsdateninfrastruktur}, from the first page. 
 Here, a language-dependent version of the image was required. 
-To address this, different language versions of the image were generated using artificial intelligence (AI), namely OpenAI's ChatGPT 5.5. 
+To address this, different language versions of the image were generated using \ac{ai}, namely OpenAI's ChatGPT 5.5. 
 The \ac{ai} was instructed to preserve the style of the original image while replacing the hand-sketched \enquote{FDI} with \enquote{RDI}.
+Similarly, the language file was translated automatically using \ac{ai}. 
+Still, the files translated using \ac{ai} require manual curation to fit the proper style of speaking in a conversation as shown in the comic.
 
-Similarly, the language file can be translated automatically using \ac{ai}. 
-To test this concept, we had \ac{ai} translate the language file into Latin and J. R. R. Tolkien's Elvish, thereby generating corresponding versions of the FAIR comic.
-Additionally, Draconic was used as a proof-of-concept approach, illustrating the usage of lanugages that utilize non-latin letters. 
-All three versions have a dextrograde (left-to-right) writing direction. 
-The Elvish version, rendered in the Tengwar script, further demonstrates that non-Latin scripts can be accommodated. Sinistrograde (right-to-left) and boustrophedon (alternating writing direction from line to line) writing have not yet been implemented or tested.
+We wanted to take the concept of multilangual rendering further by allowing languages with non-latin letters to be displayed as well.
+Hence, Draconic was used as a proof-of-concept approach, as it is rendered in the Iokharic script.
+The translation was conducted by \ac{ai} and reviewed by human.
+It is based on the draconic language as invented by Stephens et al. \cite{Dragontongue., https://draconic.twilightrealm.com/}.
+So far, all existing language versions have a dextrograde (left-to-right) writing direction. 
+Sinistrograde (right-to-left) and boustrophedon (alternating writing direction from line to line) writing have not yet been implemented or tested.
 
 The source code is available on \href{https://github.com/tobias-hamann/research-comic-vol1}{GitHub}\footnote{\url{https://github.com/tobias-hamann/research-comic-vol1}} \cite{Hamann_A_FAIR_Comic_2026}. 
 Every language \verb|CODE| is kept in its own folder \path{language_files/CODE}, which holds the text file \path{CODE.tex}, the corresponding folder \path{pages_CODE} and all language dependent images. 
