@@ -240,6 +240,8 @@ To address this problem, multimodal forms of transcription typically move such c
 This layout allows verbal interaction and descriptions of embodied action to be presented simultaneously without interrupting the flow of the transcript.
 Moreover, this layout permits the integration of graphical representations alongside the transcript, which constitutes a comparatively recent development in conversation analytic research (see, for example, \cite{hormeyer_einsatz_2015}).
 
+We contend that \textit{Laboratory Life} is a foundational work in science and technology studies for two reasons. On the one hand, Latour and Woolgar apply an exceptional level of scrutiny to the processes through which scientific work is transformed into peer-reviewed publications. On the other hand, their observations demonstrate that there is much more to science than the announcement of successfully generated scientific results. Science emerges from their account as a profoundly human endeavour, shaped by practices and interactions that may not necessarily be qualified as scientific in themselves, but are inherently social. The subtitle of the first edition makes this emphasis explicit: \textit{Laboratory Life: The Social Construction of Scientific Facts} \cite{latour_laboratory_1979}. The later edition famously changed the subtitle to \textit{Laboratory Life: The Construction of Scientific Facts} \cite{latour_laboratory_1986}. In the postscript, Latour and Woolgar explain that, seven years after the first edition, the social character of scientific facts had become sufficiently accepted that they could simply \enquote{ditch the term} \cite{latour_laboratory_1986}. Whatever one makes of this development, we consider the social and embodied dimensions of scientific practice to remain highly relevant, and it is these dimensions that we seek to capture in the form of a comic. 
+
 Comics represent embodied speech. They do so by depicting speakers and listeners within their environment together with spoken utterances, deictic gestures, and, in some cases, internal thoughts represented through thought balloons. As a graphic medium, comics are therefore particularly well suited to documenting multimodal interaction in situated research environments. Comics, however, usually transport readers into the realm of imagination rather than documented fact. Comics journalism---together with its European and Japanese counterparts, \textit{BD reportage} and documentary manga---differs precisely in this respect \cite{bak_comics_2026, bak_mangix_2024}.
 
 At RWTH Aachen University, comics journalism has recently been embraced as a means of communicating ongoing research at the Chair of AI Methodology within the Faculty of Computer Science \cite{neuwald_deus_2026}. The collaboration between researchers and comic artist Alfred Neuwald established the general framework for the present project. \objective{By combining ethnographic observation with the multimodal representational capacities of comics, we explore comics journalism as a method for documenting situated research practices within the administrative office of the German National Research Data Infrastructure for Engineering Sciences (NFDI4ING).}
@@ -333,10 +335,10 @@ The \ac{ai} was instructed to preserve the style of the original image while rep
 Similarly, the language file was translated automatically using \ac{ai}. 
 Still, the files translated using \ac{ai} require manual curation to fit the proper style of speaking in a conversation as shown in the comic.
 
-We wanted to take the concept of multilangual rendering further by allowing languages with non-latin letters to be displayed as well.
-Hence, Draconic was used as a proof-of-concept approach, as it is rendered in the Iokharic script.
-The translation was conducted by \ac{ai} and reviewed by human.
-It is based on the draconic language as invented by Stephens et al. \cite{STEP01, MOSB26}.
+We wanted to take the concept of multilingual rendering further by allowing languages with non-Latin letters to be displayed as well.
+Hence, Draconic was used as a proof of concept, as it is rendered in the Iokharic script. 
+The translation was conducted by \ac{ai} and reviewed by a human.
+It is based on the draconic language as invented by Stephens et al. \cite{STEP01, MOSB26}, and we invite aficionados of \textit{Dungeons \& Dragons} to put the translation to the test.
 So far, all existing language versions have a dextrograde (left-to-right) writing direction. 
 Sinistrograde (right-to-left) and boustrophedon (alternating writing direction from line to line) writing have not yet been implemented or tested.
 
@@ -354,7 +356,8 @@ The language is chosen in the \verb|\comic{CODE}| command.
 It outputs all comic pages in the selected language one after another, e.g. \verb|\comic{eng}| generates the English version of the comic.
 Since each call is self-contained, several language versions can also be printed one after another within the same document.
 The primary comic language and the language-specific title, subtitle, and short title are selected in \verb|main.tex| with \verb|\newcommand{\FDILanguage}{eng}|. The article body and the remaining metadata are maintained separately.
-As of writing, the original \hyperref[comic:deu]{German} version and this translated \hyperref[comic:eng]{English} version exist along the Latin, Elvish, and Draconic versions.
+At the time of writing, the original \hyperref[comic:deu]{German} version
+and the \hyperref[comic:eng]{English} and \hyperref[comic:vss]{Draconic} translations presented here have been human-reviewed, alongside the as-yet unreviewed Latin and Elvish versions.
 
 \section{Discussion}
 \subsection{Dialogue as a Documentary and Didactic Form}
